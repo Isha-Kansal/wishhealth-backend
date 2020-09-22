@@ -1,13 +1,12 @@
 var mysql = require("mysql");
 
-var con = mysql.createConnection({
-  host: "https://uat.wishhealth.in/phpmyadmin/",
-  database: "uatwishdb",
-  user: "readonly",
-  password: "R3@d0n1y",
+var connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "password",
 });
 
-con.connect(function (err) {
+connection.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
 });
