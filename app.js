@@ -1,10 +1,9 @@
 'use strict';
 // const createError = require("http-errors");
 const express = require('express');
-var db = require('./config/mysql');
-// const path = require("path");
+const db = require('./config/mysql');
 // const cookieParser = require("cookie-parser");
-// const logger = require("morgan");
+const logger = require('morgan');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const app = express();
@@ -29,7 +28,7 @@ app.use((req, res, next) => {
 	);
 	next();
 });
-// app.use(logger("dev"));
+app.use(logger('dev'));
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 app.use(expressValidator());

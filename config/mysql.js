@@ -1,6 +1,6 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
 
-var con = mysql.createConnection({
+const con = mysql.createConnection({
 	host: 'https://uat.wishhealth.in/phpmyadmin/',
 	database: 'uatwishdb',
 	user: 'readonly',
