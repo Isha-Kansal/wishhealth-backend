@@ -27,9 +27,12 @@ const config =
 				database: LIVE_DATABASE_NAME,
 				user: LIVE_DATABASE_USER,
 				password: LIVE_DATABASE_PASSWORD,
+				// port: 3306,
+				// queryTimeout: 6000,
+				// connectTimeout: 60000,
 		  };
 
-const con = mysql.createConnection(config);
+const con = mysql.createConnection(JSON.stringify(config));
 
 con.connect((err) => {
 	if (err) {
