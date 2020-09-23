@@ -1,19 +1,30 @@
 const mysql = require('mysql');
 require('dotenv').config();
 
+const {
+	LOCAL_DATABASE_HOST,
+	LOCAL_DATABASE_USER,
+	LOCAL_DATABASE_PASSWORD,
+
+	LIVE_DATABASE_HOST,
+	LIVE_DATABASE_NAME,
+	LIVE_DATABASE_USER,
+	LIVE_DATABASE_PASSWORD,
+} = process.env;
+
 const config =
 	process.env.SERVER_TYPE === 'local'
 		? {
-				host: process.env.LOCAL_DATABASE_HOST,
-				user: process.env.LOCAL_DATABASE_USER,
-				password: process.env.LOCAL_DATABASE_PASSWORD,
-				// database: process.env.LOCAL_DATABASE_NAME,
+				host: LOCAL_DATABASE_HOST,
+				user: LOCAL_DATABASE_USER,
+				password: LOCAL_DATABASE_PASSWORD,
+				// database: LOCAL_DATABASE_NAME,
 		  }
 		: {
-				host: process.env.LIVE_DATABASE_HOST,
-				database: process.env.LIVE_DATABASE_NAME,
-				user: process.env.LIVE_DATABASE_USER,
-				password: process.env.LIVE_DATABASE_PASSWORD,
+				host: LIVE_DATABASE_HOST,
+				database: LIVE_DATABASE_NAME,
+				user: LIVE_DATABASE_USER,
+				password: LIVE_DATABASE_PASSWORD,
 		  };
 
 const con = mysql.createConnection(config);
