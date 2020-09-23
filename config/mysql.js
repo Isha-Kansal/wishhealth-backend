@@ -2,7 +2,7 @@ const mysql = require('mysql');
 require('dotenv').config();
 
 const {
-	SERVER_TYPE,
+	SERVER_ENVIRONMENT,
 
 	LOCAL_DATABASE_HOST,
 	LOCAL_DATABASE_USER,
@@ -15,7 +15,7 @@ const {
 } = process.env;
 
 const config =
-	SERVER_TYPE === 'local'
+	SERVER_ENVIRONMENT === 'local'
 		? {
 				host: LOCAL_DATABASE_HOST,
 				user: LOCAL_DATABASE_USER,
