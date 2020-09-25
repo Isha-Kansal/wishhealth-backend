@@ -17,9 +17,6 @@ const port = process.env.SERVER_PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// view engine setup
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "ejs");
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header(
@@ -35,20 +32,9 @@ app.use(expressValidator());
 // app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, "public")));
 
-// call Authentication function
-// app.use(checkToken);
+app.use(expressValidator());
 
-// app.use("/static", express.static(__dirname + "/client"));
-
-// api routes
-// require("./routes")(app);
-
-// catch 404 and forward to error handler
-// app.use((req, res, next) => {
-//   next(createError(404));
-// });
-
-// error handler
+require("./routes")(app);
 app.use((err, req, res, next) => {
 	console.log('error', err);
 	// set locals, only providing error in development
