@@ -10,6 +10,7 @@ const BookingPayments = db.define(
       defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
+      autoIncrement: true,
     },
     booking_id: {
       type: "INT(11)",

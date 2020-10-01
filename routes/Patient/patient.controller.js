@@ -3,6 +3,7 @@ const PatientDetails = require("../../models/wh_patient_details");
 module.exports = {
   getPatientExistence: async function (req, res) {
     try {
+      console.log(req.body, "reqreqreqreq");
       const patient = await PatientDetails.findOne({
         where: {
           phone: req.body.phone,
