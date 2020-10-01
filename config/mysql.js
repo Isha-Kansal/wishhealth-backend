@@ -37,9 +37,9 @@ const sequelize = new Sequelize(config.database, config.user, config.password, {
   port: config.port,
   dialect: "mysql", // Type of database, because Sequelize also support MySQL
   logging: false, // Change to true if wants to see log of database
-  // dialectOptions: {
-  //   ssl: "EC2",
-  // },
+  dialectOptions: {
+    ssl: "EC2",
+  },
   pool: {
     max: 5,
     min: 0,

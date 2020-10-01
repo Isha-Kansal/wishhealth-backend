@@ -210,8 +210,10 @@ module.exports = {
         reg_proof: req.body.reg_proof ? req.body.reg_proof : "",
         govt_id_proof: req.body.govt_id_proof ? req.body.govt_id_proof : "",
         user_id: doctorId,
-        reg_proof_size: "",
-        govt_id_proof_size: "",
+        reg_proof_size: req.body.reg_proof_size ? req.body.reg_proof_size : "",
+        govt_id_proof_size: req.body.govt_id_proof_size
+          ? req.body.govt_id_proof_size
+          : "",
       };
       await CouncilRegistration.create(obj);
 
