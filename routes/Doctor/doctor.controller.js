@@ -11,6 +11,7 @@ const Council = require("../../models/wh_medical_council");
 const Doctorqualifications = require("../../models/wh_doctor_qualifications");
 const Colleges = require("../../models/wh_colleges");
 const Qualifications = require("../../models/wh_qualifications");
+const md5 = require("md5");
 const { Op } = Sequelize;
 module.exports = {
   updateDoctorDetails: async function (req, res) {
@@ -79,13 +80,36 @@ module.exports = {
       });
     }
   },
+  searchDoctors: async function (req, res) {
+    try {
+      await Doctordetails.update(
+        {
+          password: req.body.password,
+        },
+        {
+          where: {
+            user_id: doctorId,
+          },
+        }
+      );
+      return res.status(200).json({
+        message: "Updated Successfully",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
 
   updatePassword: async function (req, res) {
     try {
       const doctorId = req.params.id;
+      let password = md5(req.body.password);
       await Doctordetails.update(
         {
-          password: req.body.password,
+          password,
         },
         {
           where: {

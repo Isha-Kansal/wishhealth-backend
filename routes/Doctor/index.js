@@ -12,6 +12,7 @@ router.post(
   "/updateDoctorRegistrationDetails/:id",
   controller.updateDoctorRegistrationDetails
 );
+router.post("/searchDoctors", controller.searchDoctors);
 
 router.post("/updatePassword/:id", controller.updatePassword);
 router.get(
