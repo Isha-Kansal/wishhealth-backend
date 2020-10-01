@@ -3,6 +3,7 @@
 // const stripe = require("stripe")(config.stripeKey);
 const Razorpay = require("razorpay");
 const request = require("request");
+const BookingPayments = require("../models/wh_booking_payments");
 const instance = new Razorpay({
   key_id: `rzp_test_5G5VyL9K8BPPNJ`,
   key_secret: `Ynzgwz8hhTezffS3cG1iiDWk`,
@@ -11,8 +12,9 @@ const instance = new Razorpay({
 module.exports = {
   createCharge: function (req, res) {
     try {
+      console.log(req.body, "req.bodyreq.body");
       const options = {
-        amount: 10 * 100, // amount == Rs 10
+        amount: req.body.amount * 100, // amount == Rs 10
         currency: "INR",
         receipt: "receipt#1",
         payment_capture: 0,
@@ -24,9 +26,12 @@ module.exports = {
             message: "Something Went Wrong",
           });
         }
+        console.log(order, "orderorderorder");
+
         return res.status(200).json(order);
       });
     } catch (err) {
+      console.log(err, "errerrerrerr");
       return res.status(500).json({
         message: "Something Went Wrong",
       });
@@ -39,7 +44,7 @@ module.exports = {
           method: "POST",
           url: `https://${instance.key_id}:${instance.key_secret}@api.razorpay.com/v1/payments/${req.params.paymentId}/capture`,
           form: {
-            amount: 10 * 100, // amount == Rs 10 // Same As Order amount
+            amount: req.params.amount * 100, // amount == Rs 10 // Same As Order amount
             currency: "INR",
           },
         },
@@ -52,8 +57,21 @@ module.exports = {
           }
           console.log("Status:", response.statusCode);
           console.log("Headers:", JSON.stringify(response.headers));
-          console.log("Response:", body);
-          return res.status(200).json(body);
+          let data = JSON.parse(body);
+          console.log("Response:", data, data.status);
+          if (data.status === "captured") {
+            let obj = {
+              amount: req.params.amount,
+              payment_id: req.params.paymentId,
+            };
+            await BookingPayments.create(obj);
+            return res.status(200).json({
+              message: "success",
+            });
+          }
+          return res.status(400).json({
+            message: "failure",
+          });
         }
       );
     } catch (err) {

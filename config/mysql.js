@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 require("dotenv").config();
-
+const Sequelize = require("sequelize");
 const {
   SERVER_ENVIRONMENT,
 
@@ -13,7 +13,7 @@ const {
   LIVE_DATABASE_USER,
   LIVE_DATABASE_PASSWORD,
 } = process.env;
-
+const SequelizeAuto = require("sequelize-auto-models");
 const config =
   SERVER_ENVIRONMENT === "local"
     ? {
@@ -27,19 +27,65 @@ const config =
         database: LIVE_DATABASE_NAME,
         user: LIVE_DATABASE_USER,
         password: LIVE_DATABASE_PASSWORD,
-        // port: 3306,
+        port: 3306,
         // queryTimeout: 6000,
         // connectTimeout: 60000,
       };
 
-const con = mysql.createConnection(config);
+const sequelize = new Sequelize(config.database, config.user, config.password, {
+  host: config.host,
+  port: config.port,
+  dialect: "mysql", // Type of database, because Sequelize also support MySQL
+  logging: false, // Change to true if wants to see log of database
+  // dialectOptions: {
+  //   ssl: "EC2",
+  // },
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000,
+  },
+});
+sequelize
+  .authenticate()
+  .then(() => {
+    sequelize.sync();
+    console.log(
+      `Connection has been established successfully to ${config.database}`
+    );
+    return null;
+  })
+  .catch((err) => {
+    console.error(`Unable to connect to the ${config.database}:`, err);
+    return err;
+  });
+let auto = new SequelizeAuto(config.database, config.user, config.password, {
+  host: config.host,
+  dialect: "mysql",
+  directory: false, // prevents the program from writing to disk
+  port: config.port,
+  additional: {
+    timestamps: false,
+    //...
+  },
+  tables: ["wh_booking_payments"],
+  //...
+});
+auto.run(function (err) {
+  if (err) throw err;
 
-con.connect((err) => {
-  if (err) {
-    console.log("Database connection Error: ", err);
-  } else {
-    console.log("Successfully connected to the database.");
-  }
+  console.log(auto.tables, "dhasugdghfgdsgfhs"); // table list
+  console.log(auto.foreignKeys); // foreign key list
 });
 
-let db = mysql.connection;
+module.exports = sequelize;
+// const con = mysql.createConnection(config);
+
+// con.connect((err) => {
+//   if (err) {
+//     console.log("Database connection Error: ", err);
+//   } else {
+//     console.log("Successfully connected to the database.");
+//   }
+// });
+// module.exports = con;

@@ -1,0 +1,50 @@
+const Sequelize = require("sequelize");
+const db = require("../config/mysql");
+const Specialities = require("./wh_specialities");
+
+const Doctorspecialities = db.define(
+  "wh_doctor_specialities",
+  {
+    id: {
+      type: "INT(11)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: true,
+      autoIncrement: true,
+      foreignKey: [Object],
+    },
+    user_id: {
+      type: "INT(11)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    speciality_id: {
+      type: "INT(11)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    created_date: {
+      type: "DATETIME",
+      allowNull: false,
+      defaultValue: new Date(),
+      primaryKey: false,
+    },
+    modified_date: {
+      type: "DATETIME",
+      allowNull: false,
+      defaultValue: new Date(),
+      primaryKey: false,
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
+Specialities.hasMany(Doctorspecialities, { foreignKey: "speciality_id" });
+
+Doctorspecialities.belongsTo(Specialities, {
+  foreignKey: "speciality_id",
+});
+module.exports = Doctorspecialities;
