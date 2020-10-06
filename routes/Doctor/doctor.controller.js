@@ -267,20 +267,23 @@ module.exports = {
   getDoctorRegistrationDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
-      const data = await CouncilRegistration.findOne({
+      let data = await CouncilRegistration.findOne({
         where: {
           user_id: doctorId,
         },
         include: [{ model: Council, attributes: ["name"] }],
       });
+      let finalData = JSON.parse(JSON.stringify(data));
+
       if (!data.wh_medical_council) {
         let obj = {
           name: "Delhi Medical Council",
         };
-        data.wh_medical_council = obj;
+
+        finalData.wh_medical_council = obj;
       }
       return res.status(200).json({
-        data: data ? data : {},
+        data: finalData ? finalData : {},
       });
     } catch (err) {
       console.log(err, "err");
