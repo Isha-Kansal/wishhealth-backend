@@ -8,6 +8,7 @@ router.post(
   "/updateDoctorEducationDetails/:id/:index",
   controller.updateDoctorEducationDetails
 );
+
 router.post(
   "/updateDoctorRegistrationDetails/:id",
   controller.updateDoctorRegistrationDetails

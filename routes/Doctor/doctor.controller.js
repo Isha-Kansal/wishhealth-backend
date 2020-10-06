@@ -196,6 +196,7 @@ module.exports = {
       });
     }
   },
+
   updateDoctorRegistrationDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
@@ -272,6 +273,9 @@ module.exports = {
         },
         include: [{ model: Council, attributes: ["name"] }],
       });
+      if (!data.wh_medical_council) {
+        data.wh_medical_council.name = "Delhi Medical Council";
+      }
       return res.status(200).json({
         data: data ? data : {},
       });
