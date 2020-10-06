@@ -20,7 +20,6 @@ const config =
         host: LOCAL_DATABASE_HOST,
         user: LOCAL_DATABASE_USER,
         password: LOCAL_DATABASE_PASSWORD,
-        // database: LOCAL_DATABASE_NAME,
       }
     : {
         host: LIVE_DATABASE_HOST,
@@ -28,8 +27,6 @@ const config =
         user: LIVE_DATABASE_USER,
         password: LIVE_DATABASE_PASSWORD,
         port: 3306,
-        // queryTimeout: 6000,
-        // connectTimeout: 60000,
       };
 
 const sequelize = new Sequelize(config.database, config.user, config.password, {
@@ -37,9 +34,6 @@ const sequelize = new Sequelize(config.database, config.user, config.password, {
   port: config.port,
   dialect: "mysql", // Type of database, because Sequelize also support MySQL
   logging: false, // Change to true if wants to see log of database
-  // dialectOptions: {
-  //   ssl: "EC2",
-  // },
   pool: {
     max: 5,
     min: 0,
@@ -68,7 +62,7 @@ let auto = new SequelizeAuto(config.database, config.user, config.password, {
     timestamps: false,
     //...
   },
-  tables: ["wh_booking_payments"],
+  tables: ["wh_services"],
   //...
 });
 auto.run(function (err) {
@@ -79,13 +73,3 @@ auto.run(function (err) {
 });
 
 module.exports = sequelize;
-// const con = mysql.createConnection(config);
-
-// con.connect((err) => {
-//   if (err) {
-//     console.log("Database connection Error: ", err);
-//   } else {
-//     console.log("Successfully connected to the database.");
-//   }
-// });
-// module.exports = con;

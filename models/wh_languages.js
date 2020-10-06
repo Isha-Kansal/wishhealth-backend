@@ -11,6 +11,7 @@ const Languages = db.define(
       defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
+      autoIncrement: true,
     },
     name: {
       type: "CHAR(49)",
@@ -29,9 +30,5 @@ const Languages = db.define(
     timestamps: false,
   }
 );
-// Languages.hasMany(Doctorlanguages, {
-//   foreignKey: "language_id",
-//   sourceKey: "id",
-//   as: "language_id",
-// });
+
 module.exports = Languages;

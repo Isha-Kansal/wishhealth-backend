@@ -10,6 +10,7 @@ const Colleges = db.define(
       defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
+      autoIncrement: true,
     },
     college: {
       type: "VARCHAR(100)",

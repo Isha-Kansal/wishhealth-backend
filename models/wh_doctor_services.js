@@ -1,16 +1,14 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
-const Languages = require("./wh_languages");
-const Users = require("./wh_users");
-const Doctorlanguages = db.define(
-  "wh_doctor_languages",
+const Services = require("./wh_services");
+const DoctorServices = db.define(
+  "wh_doctor_services",
   {
     id: {
       type: "INT(11)",
       allowNull: false,
       defaultValue: null,
       primaryKey: true,
-      autoIncrement: true,
       foreignKey: [Object],
       autoIncrement: true,
     },
@@ -20,22 +18,22 @@ const Doctorlanguages = db.define(
       defaultValue: null,
       primaryKey: false,
     },
-    language_id: {
+    service_id: {
       type: "INT(11)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    created_at: {
-      type: "TIMESTAMP",
+    created_date: {
+      type: "DATETIME",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: null,
       primaryKey: false,
     },
-    updated_at: {
-      type: "TIMESTAMP",
+    modified_date: {
+      type: "DATETIME",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: null,
       primaryKey: false,
     },
   },
@@ -43,9 +41,9 @@ const Doctorlanguages = db.define(
     timestamps: false,
   }
 );
-Languages.hasMany(Doctorlanguages, { foreignKey: "language_id" });
+Services.hasOne(DoctorServices, { foreignKey: "service_id" });
 
-Doctorlanguages.belongsTo(Languages, {
-  foreignKey: "language_id",
+DoctorServices.belongsTo(Services, {
+  foreignKey: "service_id",
 });
-module.exports = Doctorlanguages;
+module.exports = DoctorServices;

@@ -3,6 +3,10 @@ const db = require("../config/mysql");
 const Doctordetails = require("./wh_doctor_details");
 const Doctorlanguages = require("./wh_doctor_languages");
 const Doctorspecialities = require("./wh_doctor_specialities");
+const Doctorqualifications = require("./wh_doctor_qualifications");
+const DoctorClinics = require("./wh_doctor_clinics");
+const DoctorClinicTimings = require("./wh_doctor_clinic_timings");
+const DoctorServices = require("./wh_doctor_services");
 const Users = db.define(
   "wh_users",
   {
@@ -12,6 +16,7 @@ const Users = db.define(
       defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
+      autoIncrement: true,
     },
     name: {
       type: "VARCHAR(100)",
@@ -81,4 +86,9 @@ const Users = db.define(
 Users.hasOne(Doctordetails, { foreignKey: "user_id" });
 Users.hasMany(Doctorlanguages, { foreignKey: "user_id" });
 Users.hasMany(Doctorspecialities, { foreignKey: "user_id" });
+Users.hasMany(Doctorqualifications, { foreignKey: "user_id" });
+Users.hasMany(DoctorClinics, { foreignKey: "user_id" });
+
+Users.hasMany(DoctorServices, { foreignKey: "user_id" });
+
 module.exports = Users;

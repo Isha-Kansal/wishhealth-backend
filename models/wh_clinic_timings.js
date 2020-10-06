@@ -1,9 +1,8 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
-const Languages = require("./wh_languages");
-const Users = require("./wh_users");
-const Doctorlanguages = db.define(
-  "wh_doctor_languages",
+
+const ClinicTimings = db.define(
+  "wh_clinic_timings",
   {
     id: {
       type: "INT(11)",
@@ -12,16 +11,39 @@ const Doctorlanguages = db.define(
       primaryKey: true,
       autoIncrement: true,
       foreignKey: [Object],
-      autoIncrement: true,
     },
-    user_id: {
+    clinic_id: {
       type: "INT(11)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    language_id: {
-      type: "INT(11)",
+    day: {
+      type: "INT(5)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    start_time: {
+      type: "VARCHAR(100)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    end_time: {
+      type: "VARCHAR(100)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    break_start_time: {
+      type: "VARCHAR(100)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    break_end_time: {
+      type: "VARCHAR(100)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
@@ -43,9 +65,5 @@ const Doctorlanguages = db.define(
     timestamps: false,
   }
 );
-Languages.hasMany(Doctorlanguages, { foreignKey: "language_id" });
 
-Doctorlanguages.belongsTo(Languages, {
-  foreignKey: "language_id",
-});
-module.exports = Doctorlanguages;
+module.exports = ClinicTimings;

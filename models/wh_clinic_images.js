@@ -1,32 +1,38 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
 
-const Specialities = db.define(
-  "wh_specialities",
+const ClinicImages = db.define(
+  "wh_clinic_images",
   {
-    speciality_id: {
+    id: {
       type: "INT(11)",
       allowNull: false,
       defaultValue: null,
+      autoIncrement: true,
       primaryKey: true,
       foreignKey: [Object],
-      autoIncrement: true,
     },
-    title: {
-      type: "VARCHAR(250)",
+    clinic_id: {
+      type: "INT(11)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    status: {
-      type: "TINYINT(2)",
+    image_url: {
+      type: "VARCHAR(300)",
       allowNull: false,
-      defaultValue: "0",
+      defaultValue: null,
+      primaryKey: false,
+    },
+    feature_image: {
+      type: "ENUM('Y','N')",
+      allowNull: false,
+      defaultValue: "N",
       primaryKey: false,
     },
     creation_date: {
       type: "DATETIME",
-      allowNull: false,
+      allowNull: true,
       defaultValue: null,
       primaryKey: false,
     },
@@ -42,4 +48,4 @@ const Specialities = db.define(
   }
 );
 
-module.exports = Specialities;
+module.exports = ClinicImages;

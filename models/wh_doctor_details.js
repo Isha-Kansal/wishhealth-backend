@@ -10,6 +10,7 @@ const Doctordetails = db.define(
       defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
+      autoIncrement: true,
     },
     user_id: {
       type: "INT(11)",

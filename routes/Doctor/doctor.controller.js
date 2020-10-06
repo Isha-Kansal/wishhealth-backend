@@ -80,28 +80,6 @@ module.exports = {
       });
     }
   },
-  searchDoctors: async function (req, res) {
-    try {
-      await Doctordetails.update(
-        {
-          password: req.body.password,
-        },
-        {
-          where: {
-            user_id: doctorId,
-          },
-        }
-      );
-      return res.status(200).json({
-        message: "Updated Successfully",
-      });
-    } catch (err) {
-      console.log(err, "err");
-      return res.status(500).json({
-        message: "Something Went Wrong",
-      });
-    }
-  },
 
   updatePassword: async function (req, res) {
     try {
@@ -202,6 +180,9 @@ module.exports = {
         college: req.body.college,
         user_id: doctorId,
         index: number,
+        attachment_size: req.body.attachment_size
+          ? req.body.attachment_size
+          : "",
       };
       await Doctorqualifications.create(obj);
 

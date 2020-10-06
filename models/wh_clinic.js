@@ -1,145 +1,136 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
-
-const PatientDetails = db.define(
-  "wh_patient_details",
+const ClinicImages = require("./wh_clinic_images");
+const ClinicTimings = require("./wh_clinic_timings");
+const DoctorClinics = require("./wh_doctor_clinics");
+const DoctorClinicTimings = require("./wh_doctor_clinic_timings");
+const Clinics = db.define(
+  "wh_clinic",
   {
-    id: {
+    clinic_id: {
       type: "INT(11)",
       allowNull: false,
       defaultValue: null,
+      autoIncrement: true,
       primaryKey: true,
       foreignKey: [Object],
-      autoIncrement: true,
-    },
-    user_id: {
-      type: "INT(11)",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    uniqueId: {
-      type: "VARCHAR(50)",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    phone: {
-      type: "CHAR(20)",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    email: {
-      type: "VARCHAR(1150)",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    gender: {
-      type: "VARCHAR(50)",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    dob: {
-      type: "VARCHAR(255)",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    bloodGroup: {
-      type: "TEXT",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    patientProfile: {
-      type: "VARCHAR(100)",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    patient_type: {
-      type: "ENUM('U','G')",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    uniqueId_generated_by: {
-      type: "INT(11)",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
     },
     name: {
-      type: "VARCHAR(50)",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    created_date: {
-      type: "DATETIME",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    modified_date: {
-      type: "DATETIME",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    occupation: {
-      type: "VARCHAR(500)",
+      type: "VARCHAR(250)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
     address: {
-      type: "VARCHAR(500)",
+      type: "TEXT",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    email2: {
-      type: "VARCHAR(500)",
-      allowNull: false,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    phone2: {
-      type: "CHAR(20)",
-      allowNull: false,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    age: {
+    city: {
       type: "VARCHAR(255)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    doctor_uniqueId: {
-      type: "VARCHAR(500)",
+    city_id: {
+      type: "INT(11)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    state_id: {
+      type: "INT(11)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    pin_code: {
+      type: "INT(8)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    days: {
+      type: "TEXT",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    start_time: {
+      type: "VARCHAR(100)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    end_time: {
+      type: "VARCHAR(100)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    break_start_time: {
+      type: "VARCHAR(100)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    break_end_time: {
+      type: "VARCHAR(100)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    admin_id: {
+      type: "INT(11)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    creation_date: {
+      type: "DATETIME",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    modified_date: {
+      type: "DATETIME",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    image: {
+      type: "TEXT",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    doc_interval: {
+      type: "INT(50)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    clinic_type: {
+      type: "ENUM('Clinic','Organization','Hospital')",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    reg_proof: {
+      type: "VARCHAR(225)",
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
     },
-    age_conf: {
-      type: "VARCHAR(255)",
+    latitude: {
+      type: "VARCHAR(11)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    quickblox_id: {
-      type: "BIGINT(20)",
-      allowNull: false,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    quickblox_login: {
-      type: "VARCHAR(225)",
+    longitude: {
+      type: "VARCHAR(11)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
@@ -150,5 +141,8 @@ const PatientDetails = db.define(
     freezeTableName: true,
   }
 );
+Clinics.hasMany(ClinicImages, { foreignKey: "clinic_id" });
+Clinics.hasMany(ClinicTimings, { foreignKey: "clinic_id" });
+Clinics.hasMany(DoctorClinicTimings, { foreignKey: "clinic_id" });
 
-module.exports = PatientDetails;
+module.exports = Clinics;

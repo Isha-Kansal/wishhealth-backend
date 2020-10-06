@@ -10,6 +10,7 @@ const Qualifications = db.define(
       defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
+      autoIncrement: true,
     },
     degree: {
       type: "VARCHAR(50)",

@@ -1,10 +1,10 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
 
-const Specialities = db.define(
-  "wh_specialities",
+const Services = db.define(
+  "wh_services",
   {
-    speciality_id: {
+    service_id: {
       type: "INT(11)",
       allowNull: false,
       defaultValue: null,
@@ -12,14 +12,20 @@ const Specialities = db.define(
       foreignKey: [Object],
       autoIncrement: true,
     },
-    title: {
-      type: "VARCHAR(250)",
+    name: {
+      type: "VARCHAR(225)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    status: {
-      type: "TINYINT(2)",
+    image: {
+      type: "VARCHAR(225)",
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    priority: {
+      type: "TINYINT(3)",
       allowNull: false,
       defaultValue: "0",
       primaryKey: false,
@@ -39,7 +45,8 @@ const Specialities = db.define(
   },
   {
     timestamps: false,
+    freezeTableName: true,
   }
 );
 
-module.exports = Specialities;
+module.exports = Services;

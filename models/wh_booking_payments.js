@@ -39,7 +39,7 @@ const BookingPayments = db.define(
     updated_at: {
       type: "TIMESTAMP",
       allowNull: true,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
   },
