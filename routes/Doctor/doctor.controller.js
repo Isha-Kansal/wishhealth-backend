@@ -274,7 +274,10 @@ module.exports = {
         include: [{ model: Council, attributes: ["name"] }],
       });
       if (!data.wh_medical_council) {
-        data.wh_medical_council.name = "Delhi Medical Council";
+        let obj = {
+          name: "Delhi Medical Council",
+        };
+        data.wh_medical_council = obj;
       }
       return res.status(200).json({
         data: data ? data : {},
