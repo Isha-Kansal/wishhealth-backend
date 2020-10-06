@@ -242,10 +242,12 @@ module.exports = {
         include: [
           {
             model: Colleges,
+            required: true,
             attributes: ["college"],
           },
           {
             model: Qualifications,
+            required: true,
             attributes: ["degree"],
           },
         ],
