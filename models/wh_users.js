@@ -8,6 +8,7 @@ const DoctorClinics = require("./wh_doctor_clinics");
 const DoctorClinicTimings = require("./wh_doctor_clinic_timings");
 const DoctorServices = require("./wh_doctor_services");
 const Bookings = require("./wh_patient_doctor_bookings");
+const States = require("./wh_states");
 const Users = db.define(
   "wh_users",
   {
@@ -101,7 +102,15 @@ Users.hasMany(Bookings, {
   sourceKey: "user_id",
   as: "bookings",
 });
+States.hasMany(Users, {
+  foreignKey: "state_id",
+  sourceKey: "id",
+  as: "state",
+});
 
+Users.belongsTo(States, {
+  foreignKey: "state_id",
+});
 Users.hasMany(DoctorServices, { foreignKey: "user_id" });
 
 module.exports = Users;
