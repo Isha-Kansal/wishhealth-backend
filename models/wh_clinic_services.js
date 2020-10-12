@@ -19,7 +19,7 @@ const ClinicServices = db.define(
       defaultValue: null,
       primaryKey: false,
     },
-    speciality_id: {
+    service_id: {
       type: "INT(11)",
       allowNull: false,
       defaultValue: null,

@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
 const ClinicImages = require("./wh_clinic_images");
+const ClinicServices = require("./wh_clinic_services");
+const ClinicSpecialities = require("./wh_clinic_specialities");
 const ClinicTimings = require("./wh_clinic_timings");
 const DoctorClinics = require("./wh_doctor_clinics");
 const DoctorClinicTimings = require("./wh_doctor_clinic_timings");
@@ -148,5 +150,7 @@ DoctorClinicTimings.belongsTo(Clinics, {
 });
 Clinics.hasMany(ClinicImages, { foreignKey: "clinic_id" });
 Clinics.hasMany(ClinicTimings, { foreignKey: "clinic_id" });
+Clinics.hasMany(ClinicServices, { foreignKey: "clinic_id" });
+Clinics.hasMany(ClinicSpecialities, { foreignKey: "clinic_id" });
 
 module.exports = Clinics;

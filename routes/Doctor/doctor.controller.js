@@ -15,6 +15,10 @@ const createController = require("../create/create.controller");
 const md5 = require("md5");
 const Cities = require("../../models/wh_cities");
 const States = require("../../models/wh_states");
+const DoctorClinicTimings = require("../../models/wh_doctor_clinic_timings");
+const Clinics = require("../../models/wh_clinic");
+const ClinicSpecialities = require("../../models/wh_clinic_specialities");
+const ClinicServices = require("../../models/wh_clinic_services");
 const { Op } = Sequelize;
 module.exports = {
   updateDoctorDetails: async function (req, res) {
@@ -172,6 +176,33 @@ module.exports = {
       });
       const result = JSON.parse(JSON.stringify(rest));
 
+      return res.status(200).json({
+        data: result,
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
+  getDoctorClinicDetails: async function (req, res) {
+    try {
+      const doctorId = req.params.id;
+      const rest = await DoctorClinicTimings.findAll({
+        where: {
+          doctor_id: doctorId,
+        },
+        include: [
+          {
+            model: Clinics,
+            required: false,
+            include: [{ model: ClinicSpecialities }, { model: ClinicServices }],
+          },
+        ],
+      });
+      const result = JSON.parse(JSON.stringify(rest));
+      console.log(result, "resultresultresultresult");
       return res.status(200).json({
         data: result,
       });

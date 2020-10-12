@@ -247,11 +247,11 @@ const Doctordetails = db.define(
     timestamps: false,
   }
 );
-Doctordetails.hasMany(Cities, {
-  foreignKey: "city_id",
-  sourceKey: "id",
-  as: "cities",
-});
+// Doctordetails.hasMany(Cities, {
+//   foreignKey: "city_id",
+//   sourceKey: "id",
+//   as: "cities",
+// });
 // Doctordetails.hasMany(States, {
 //   foreignKey: "state_id",
 //   sourceKey: "id",
