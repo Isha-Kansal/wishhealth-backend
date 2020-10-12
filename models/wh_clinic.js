@@ -159,11 +159,7 @@ States.hasMany(Clinics, { foreignKey: "state_id" });
 Clinics.belongsTo(States, {
   foreignKey: "state_id",
 });
-Cities.hasMany(Clinics, { foreignKey: "city_id" });
 
-Clinics.belongsTo(Cities, {
-  foreignKey: "city_id",
-});
 Clinics.hasMany(DoctorClinics, { foreignKey: "clinic_id" });
 DoctorClinics.belongsTo(Clinics, {
   foreignKey: "clinic_id",
