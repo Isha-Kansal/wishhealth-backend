@@ -43,5 +43,9 @@ const ClinicSpecialities = db.define(
     timestamps: false,
   }
 );
+Specialities.hasMany(ClinicSpecialities, { foreignKey: "speciality_id" });
 
+ClinicSpecialities.belongsTo(Specialities, {
+  foreignKey: "speciality_id",
+});
 module.exports = ClinicSpecialities;
