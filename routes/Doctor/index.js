@@ -15,6 +15,8 @@ router.post(
 );
 
 router.post("/updatePassword/:id", controller.updatePassword);
+router.post("/verifyOtp", controller.verifyOtp);
+router.post("/resendOtp", controller.resendOtp);
 router.get(
   "/getDoctorEducationDetails/:id",
   controller.getDoctorEducationDetails

@@ -7,6 +7,7 @@ const Doctorqualifications = require("./wh_doctor_qualifications");
 const DoctorClinics = require("./wh_doctor_clinics");
 const DoctorClinicTimings = require("./wh_doctor_clinic_timings");
 const DoctorServices = require("./wh_doctor_services");
+const Bookings = require("./wh_patient_doctor_bookings");
 const Users = db.define(
   "wh_users",
   {
@@ -27,13 +28,13 @@ const Users = db.define(
     creation_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
     modified_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
     role: {
@@ -88,6 +89,18 @@ Users.hasMany(Doctorlanguages, { foreignKey: "user_id" });
 Users.hasMany(Doctorspecialities, { foreignKey: "user_id" });
 Users.hasMany(Doctorqualifications, { foreignKey: "user_id" });
 Users.hasMany(DoctorClinics, { foreignKey: "user_id" });
+
+Users.hasMany(DoctorClinicTimings, {
+  foreignKey: "doctor_id",
+  sourceKey: "user_id",
+  as: "clinic_timings",
+});
+
+Users.hasMany(Bookings, {
+  foreignKey: "doctor_id",
+  sourceKey: "user_id",
+  as: "bookings",
+});
 
 Users.hasMany(DoctorServices, { foreignKey: "user_id" });
 

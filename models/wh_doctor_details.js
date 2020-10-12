@@ -1,5 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
+const Cities = require("./wh_cities");
+const States = require("./wh_states");
 
 const Doctordetails = db.define(
   "wh_doctor_details",
@@ -87,13 +89,13 @@ const Doctordetails = db.define(
     created_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
     modified_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
     profile_pic: {
@@ -245,5 +247,14 @@ const Doctordetails = db.define(
     timestamps: false,
   }
 );
-
+Doctordetails.hasMany(Cities, {
+  foreignKey: "city_id",
+  sourceKey: "id",
+  as: "cities",
+});
+Doctordetails.hasMany(States, {
+  foreignKey: "state_id",
+  sourceKey: "id",
+  as: "state",
+});
 module.exports = Doctordetails;

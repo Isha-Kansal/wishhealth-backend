@@ -11,13 +11,16 @@ const Council = require("../../models/wh_medical_council");
 const Doctorqualifications = require("../../models/wh_doctor_qualifications");
 const Colleges = require("../../models/wh_colleges");
 const Qualifications = require("../../models/wh_qualifications");
+const createController = require("../create/create.controller");
 const md5 = require("md5");
+const Cities = require("../../models/wh_cities");
+const States = require("../../models/wh_states");
 const { Op } = Sequelize;
 module.exports = {
   updateDoctorDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
-      console.log(req.body, "reqreqreqreq");
+      console.log("updateDoctorDetails", req.body, req.params);
       await Users.update(
         {
           name: req.body.name,
@@ -31,6 +34,7 @@ module.exports = {
       await Doctordetails.update(
         {
           email: req.body.email,
+          username: req.body.email,
           phone: req.body.phone,
           gender: req.body.gender,
           city: req.body.city + " " + req.body.state,
@@ -41,35 +45,10 @@ module.exports = {
           },
         }
       );
-      await Doctorlanguages.destroy({ where: { user_id: doctorId } }),
-        req.body.languages &&
-          req.body.languages.length > 0 &&
-          req.body.languages.map(async (item) => {
-            let language = await Languages.findOne({ where: { name: item } });
-            const result = JSON.parse(JSON.stringify(language));
-            console.log(result, "languagelanguagelanguage");
-            let values = {
-              language_id: result.id,
-              user_id: doctorId,
-            };
-
-            await Doctorlanguages.create(values);
-          });
-      await Doctorspecialities.destroy({ where: { user_id: doctorId } }),
-        req.body.specialities &&
-          req.body.specialities.length > 0 &&
-          req.body.specialities.map(async (item) => {
-            let speciality = await Specialities.findOne({
-              where: { title: item },
-            });
-
-            let values = {
-              speciality_id: speciality.speciality_id,
-              user_id: doctorId,
-            };
-
-            await Doctorspecialities.create(values);
-          });
+      await Doctorlanguages.destroy({ where: { user_id: doctorId } });
+      await createController.createLanguages(req, doctorId);
+      await Doctorspecialities.destroy({ where: { user_id: doctorId } });
+      await createController.createSpecialities(req, doctorId);
       return res.status(200).json({
         message: "Updated Successfully",
       });
@@ -105,6 +84,36 @@ module.exports = {
       });
     }
   },
+  verifyOtp: async function (req, res) {
+    try {
+      let message = "otp valid";
+      if (req.body.otp !== "12345") {
+        message = "otp invalid";
+      }
+      return res.status(200).json({
+        message: message,
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
+  resendOtp: async function (req, res) {
+    try {
+      return res.status(200).json({
+        data: {
+          otp: "12345",
+        },
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   getDoctorDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
@@ -116,7 +125,14 @@ module.exports = {
         include: [
           {
             model: Doctordetails,
-            attributes: ["email", "phone", "city", "gender", "profile_pic"],
+            attributes: [
+              "email",
+              "phone",
+              "city_id",
+              "gender",
+              "profile_pic",
+              "state_id",
+            ],
             required: false,
           },
           {
@@ -199,29 +215,10 @@ module.exports = {
 
   updateDoctorRegistrationDetails: async function (req, res) {
     try {
-      const doctorId = req.params.id;
-      const council = await Council.findOne({
-        where: {
-          name: req.body.council,
-        },
-      });
       await CouncilRegistration.destroy({
-        where: { user_id: doctorId },
+        where: { user_id: req.params.id },
       });
-
-      let obj = {
-        reg_number: req.body.reg_number,
-        council: council.id,
-        year: req.body.year,
-        reg_proof: req.body.reg_proof ? req.body.reg_proof : "",
-        govt_id_proof: req.body.govt_id_proof ? req.body.govt_id_proof : "",
-        user_id: doctorId,
-        reg_proof_size: req.body.reg_proof_size ? req.body.reg_proof_size : "",
-        govt_id_proof_size: req.body.govt_id_proof_size
-          ? req.body.govt_id_proof_size
-          : "",
-      };
-      await CouncilRegistration.create(obj);
+      await createController.createRegistration(req, req.params.id);
 
       return res.status(200).json({
         message: "Updated Successfully",
@@ -274,8 +271,7 @@ module.exports = {
         include: [{ model: Council, attributes: ["name"] }],
       });
       let finalData = JSON.parse(JSON.stringify(data));
-
-      if (!data.wh_medical_council) {
+      if (finalData && !finalData.wh_medical_council) {
         let obj = {
           name: "Delhi Medical Council",
         };

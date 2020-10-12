@@ -15,45 +15,58 @@ const Services = require("../../models/wh_services");
 const Clinics = require("../../models/wh_clinic");
 const DoctorClinicTimings = require("../../models/wh_doctor_clinic_timings");
 const ClinicImages = require("../../models/wh_clinic_images");
+const Bookings = require("../../models/wh_patient_doctor_bookings");
+const moment = require("moment");
 const { Op } = Sequelize;
 const getDoctorData = async function (req) {
   try {
-    let clinicModel = {
-      model: Clinics,
-      include: [{ model: ClinicImages }],
-    };
-    if (req.body.location && req.body.location !== "") {
-      clinicModel.required = true;
-      clinicModel.where = {
-        address: {
-          [Op.like]: `%${req.body.location}%`,
-        },
-      };
-    }
     let featured = req.body.featured
       ? {
-          [Op.gte]: -1,
+          [Op.gte]: 1,
         }
       : {
           [Op.ne]: null,
         };
-    const doctors = await Users.findAll({
-      where: {
-        [Op.and]: [
-          {
-            name: {
-              [Op.like]: `%${req.body.doctorParams}%`,
-            },
+    let specialityExist = [];
+    if (req.body.doctorParams !== "") {
+      specialityExist = await Specialities.findAll({
+        where: {
+          title: {
+            [Op.like]: `%${req.body.doctorParams}%`,
           },
-          { role: "doctor" },
-          {
-            rankings: featured,
-          },
-        ],
+        },
+      });
+    }
+
+    console.log(
+      specialityExist,
+      "specialityExistspecialityExistspecialityExist"
+    );
+    let userArr = [
+      { role: "doctor" },
+      { status: "1" },
+      {
+        rankings: featured,
       },
+    ];
+    console.log(userArr, "userArruserArruserArr");
+    if (specialityExist.length === 0) {
+      userArr.push({
+        name: {
+          [Op.like]: `%${req.body.doctorParams}%`,
+        },
+      });
+    }
+    const doctors = await Users.findAndCountAll({
+      where: {
+        [Op.and]: userArr,
+      },
+      distinct: true,
       include: [
         {
           model: Doctordetails,
+          required:
+            req.body.type !== "" || req.body.location !== "" ? true : false,
           where: {
             video_consultation: {
               [Op.in]:
@@ -63,107 +76,71 @@ const getDoctorData = async function (req) {
                   ? [0]
                   : [0, 1],
             },
-            address: {
+            city: {
               [Op.like]: `%${req.body.location}%`,
             },
           },
         },
-        // {
-        //   model: Doctorlanguages,
-        //   include: [
-        //     {
-        //       model: Languages,
-        //       attributes: ["name"],
-        //       where: {
-        //         name: {
-        //           [Op.ne]: null,
-        //         },
-        //       },
-        //     },
-        //   ],
-        // },
-        // {
-        //   model: Doctorqualifications,
-        //   include: [
-        //     {
-        //       model: Colleges,
-        //       attributes: ["college"],
-        //       where: {
-        //         college: {
-        //           [Op.ne]: null,
-        //         },
-        //       },
-        //     },
-        //     {
-        //       model: Qualifications,
-        //       attributes: ["degree"],
-        //       where: {
-        //         degree: {
-        //           [Op.ne]: null,
-        //         },
-        //       },
-        //     },
-        //   ],
-        // },
         {
-          model: Doctorspecialities,
+          model: Doctorlanguages,
+          required: false,
           include: [
             {
-              model: Specialities,
-              attributes: ["title"],
+              model: Languages,
+              required: false,
+              attributes: ["name"],
               where: {
-                title: {
+                name: {
                   [Op.ne]: null,
                 },
               },
             },
           ],
         },
-        // {
-        //   model: DoctorServices,
-        //   include: [
-        //     {
-        //       model: Services,
-        //       attributes: ["name"],
-        //       where: {
-        //         name: {
-        //           [Op.ne]: null,
-        //         },
-        //       },
-        //     },
-        //   ],
-        // },
-        // {
-        //   model: DoctorClinics,
-        //   required: req.body.location && req.body.location !== "",
-        //   include: [clinicModel],
-        // },
+        {
+          model: Doctorqualifications,
+          required: false,
+          include: [
+            {
+              model: Qualifications,
+              required: false,
+              attributes: ["degree"],
+              where: {
+                degree: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
+        {
+          model: Doctorspecialities,
+          required: false,
+          include: [
+            {
+              model: Specialities,
+              required: specialityExist.length > 0 ? true : false,
+              attributes: ["title"],
+              where: {
+                title: {
+                  [Op.like]: `%${req.body.doctorParams}%`,
+                },
+              },
+            },
+          ],
+        },
       ],
-      // limit: req.body.limit,
-      // offset: req.body.offset,
+      limit: req.body.limit,
+      offset: req.body.offset,
+      order: [["rankings", "DESC"]],
     });
-    return doctors;
+    return { data: doctors.rows, count: doctors.count };
   } catch (err) {
     console.log(err, "err");
-    return res.status(500).json({
-      message: "Something Went Wrong",
-    });
+    return [];
   }
 };
-const getDoctorClinicData = async function (req) {
-  try {
-    const clinicDetails = await DoctorClinicTimings.findAll({
-      clinic_id: req.body.clinic_id,
-      doctor_id: req.body.doctor_id,
-    });
-    return clinicDetails;
-  } catch (err) {
-    console.log(err, "err");
-    return res.status(500).json({
-      message: "Something Went Wrong",
-    });
-  }
-};
+
 const getSpecialityData = async function (req) {
   try {
     let clinicModel = {
@@ -180,12 +157,12 @@ const getSpecialityData = async function (req) {
     }
     let featured = req.body.featured
       ? {
-          [Op.gte]: -1,
+          [Op.gte]: 1,
         }
       : {
           [Op.ne]: null,
         };
-    const doctors = await Users.findAll({
+    const doctors = await Users.findAndCountAll({
       where: {
         role: "doctor",
         rankings: featured,
@@ -193,6 +170,7 @@ const getSpecialityData = async function (req) {
       include: [
         {
           model: Doctordetails,
+          required: true,
           where: {
             video_consultation: {
               [Op.in]:
@@ -204,43 +182,38 @@ const getSpecialityData = async function (req) {
             },
           },
         },
-        // {
-        //   model: Doctorlanguages,
-        //   include: [
-        //     {
-        //       model: Languages,
-        //       attributes: ["name"],
-        //       where: {
-        //         name: {
-        //           [Op.ne]: null,
-        //         },
-        //       },
-        //     },
-        //   ],
-        // },
-        // {
-        //   model: Doctorqualifications,
-        //   include: [
-        //     {
-        //       model: Colleges,
-        //       attributes: ["college"],
-        //       where: {
-        //         college: {
-        //           [Op.ne]: null,
-        //         },
-        //       },
-        //     },
-        //     {
-        //       model: Qualifications,
-        //       attributes: ["degree"],
-        //       where: {
-        //         degree: {
-        //           [Op.ne]: null,
-        //         },
-        //       },
-        //     },
-        //   ],
-        // },
+        {
+          model: Doctorlanguages,
+          duplicating: false,
+          include: [
+            {
+              model: Languages,
+              duplicating: false,
+              attributes: ["name"],
+              where: {
+                name: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
+        {
+          model: Doctorqualifications,
+          duplicating: false,
+          include: [
+            {
+              model: Qualifications,
+              duplicating: false,
+              attributes: ["degree"],
+              where: {
+                degree: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
         {
           model: Doctorspecialities,
           required: true,
@@ -257,46 +230,34 @@ const getSpecialityData = async function (req) {
             },
           ],
         },
-        // {
-        //   model: DoctorServices,
-        //   include: [
-        //     {
-        //       model: Services,
-        //       attributes: ["name"],
-        //       where: {
-        //         name: {
-        //           [Op.ne]: null,
-        //         },
-        //       },
-        //     },
-        //   ],
-        // },
-        // {
-        //   model: DoctorClinics,
-        //   required: req.body.location && req.body.location !== "",
-        //   include: [clinicModel],
-        // },
       ],
-      // limit: req.body.limit,
-      // offset: req.body.offset,
+      limit: req.body.limit,
+      offset: req.body.offset,
     });
-    return doctors;
+    return { data: doctors.rows, count: doctors.count };
   } catch (err) {
     console.log(err, "err");
-    return res.status(500).json({
-      message: "Something Went Wrong",
-    });
+    return [];
   }
 };
 module.exports = {
   searchDoctors: async function (req, res) {
     try {
       let arr = [];
+      let count = 0;
+      console.log(req.body, "dgsyhgfshgdh");
       const doctorData = await getDoctorData(req);
-      const specialityData = await getSpecialityData(req);
-      arr = [...doctorData, ...specialityData];
+      arr = [...doctorData.data];
+      count = doctorData.count;
+      // if (req.body.doctorParams !== "") {
+      //   const specialityData = await getSpecialityData(req);
+      //   arr = [...arr, ...specialityData.data];
+      //   count += specialityData.count;
+      // }
+      console.log(arr, "arrarrarrarrarrarr", arr.length);
       return res.status(200).json({
         data: arr,
+        count,
       });
     } catch (err) {
       console.log(err, "err");
@@ -305,14 +266,100 @@ module.exports = {
       });
     }
   },
-  getClinicDetails: async function (req, res) {
+
+  getDoctorClinics: async function (req, res) {
     try {
-      let arr = [];
-      const doctorClinicData = await getDoctorClinicData(req);
-      const specialityData = await getSpecialityData(req);
-      // arr = [...doctorData, ...specialityData];
+      const doctorDetails = await Doctordetails.findOne({
+        where: {
+          user_id: req.params.user_id,
+        },
+        attributes: ["video_consultation"],
+      });
+      const doctorClinicData = await DoctorClinicTimings.findAll({
+        where: {
+          doctor_id: req.params.user_id,
+        },
+        include: [
+          {
+            model: Clinics,
+            required: false,
+            include: [{ model: ClinicImages, required: false }],
+          },
+        ],
+      });
+
+      let clinics = JSON.parse(JSON.stringify(doctorClinicData));
+
+      let data = [];
+      let obj = {};
+      for (let i = 0; i < clinics.length; i++) {
+        const clinicData = clinics[i];
+        let clinicJson = JSON.parse(JSON.stringify(clinicData));
+        let found =
+          data &&
+          data.length > 0 &&
+          data.findIndex(
+            (item) =>
+              item &&
+              item.wh_clinic &&
+              item.wh_clinic.clinic_id == clinics[i] &&
+              clinics[i].clinic_id
+          );
+
+        let available_timings = [];
+        let object = { day: clinicJson.day };
+        let time = [];
+
+        if ((found === -1 || !found) && clinics[i].clinic_id) {
+          const clinicbookings = await Bookings.findAll({
+            where: {
+              doctor_id: req.params.user_id,
+              clinic_id: clinics[i].clinic_id,
+              date2: {
+                [Op.gte]: moment().startOf("day").toDate(),
+              },
+            },
+          });
+          if (doctorDetails && doctorDetails.video_consultation === 1) {
+            const videobookings = await Bookings.findAll({
+              where: {
+                doctor_id: req.params.user_id,
+                clinic_id: 0,
+                date2: {
+                  [Op.gte]: moment().startOf("day").toDate(),
+                },
+              },
+            });
+            obj.videobookings = videobookings;
+          }
+          obj.clinicbookings = clinicbookings;
+        } else {
+          available_timings = data[found].available_timings;
+        }
+
+        Object.keys(clinicJson).map((clinic) => {
+          if (clinic.includes("AM") || clinic.includes("PM")) {
+            if (clinicJson[`${clinic}`] === "1") {
+              time.push(clinic);
+              object.time = time;
+            }
+          }
+        });
+        available_timings.push(object);
+        obj.available_timings = available_timings;
+        obj = {
+          ...obj,
+          wh_clinic: clinicJson.wh_clinic,
+        };
+        if (found === -1 || !found) {
+          data.push(obj);
+        } else {
+          data[found] = obj;
+        }
+      }
+
       return res.status(200).json({
-        data: doctorClinicData,
+        data: data,
       });
     } catch (err) {
       console.log(err, "err");

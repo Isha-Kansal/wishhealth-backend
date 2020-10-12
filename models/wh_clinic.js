@@ -141,8 +141,12 @@ const Clinics = db.define(
     freezeTableName: true,
   }
 );
+Clinics.hasMany(DoctorClinicTimings, { foreignKey: "clinic_id" });
+
+DoctorClinicTimings.belongsTo(Clinics, {
+  foreignKey: "clinic_id",
+});
 Clinics.hasMany(ClinicImages, { foreignKey: "clinic_id" });
 Clinics.hasMany(ClinicTimings, { foreignKey: "clinic_id" });
-Clinics.hasMany(DoctorClinicTimings, { foreignKey: "clinic_id" });
 
 module.exports = Clinics;

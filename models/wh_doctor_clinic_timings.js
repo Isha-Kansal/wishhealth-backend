@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
-
+const Clinics = require("../models/wh_clinic");
 const DoctorClinicTimings = db.define(
   "wh_doctor_clinic_timings",
   {

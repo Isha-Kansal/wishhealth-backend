@@ -62,7 +62,7 @@ let auto = new SequelizeAuto(config.database, config.user, config.password, {
     timestamps: false,
     //...
   },
-  tables: ["wh_services"],
+  tables: ["wh_testimonials"],
   //...
 });
 auto.run(function (err) {
