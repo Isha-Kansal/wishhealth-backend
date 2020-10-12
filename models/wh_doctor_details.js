@@ -252,9 +252,9 @@ Doctordetails.hasMany(Cities, {
   sourceKey: "id",
   as: "cities",
 });
-Doctordetails.hasMany(States, {
-  foreignKey: "state_id",
-  sourceKey: "id",
-  as: "state",
-});
+// Doctordetails.hasMany(States, {
+//   foreignKey: "state_id",
+//   sourceKey: "id",
+//   as: "state",
+// });
 module.exports = Doctordetails;
