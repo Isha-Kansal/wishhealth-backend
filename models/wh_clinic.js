@@ -159,4 +159,8 @@ States.hasMany(Clinics, { foreignKey: "state_id" });
 Clinics.belongsTo(States, {
   foreignKey: "state_id",
 });
+Clinics.hasMany(DoctorClinics, { foreignKey: "clinic_id" });
+DoctorClinics.belongsTo(Clinics, {
+  foreignKey: "clinic_id",
+});
 module.exports = Clinics;

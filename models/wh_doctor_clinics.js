@@ -77,8 +77,5 @@ const DoctorClinics = db.define(
     timestamps: false,
   }
 );
-Clinics.hasMany(DoctorClinics, { foreignKey: "clinic_id" });
-DoctorClinics.belongsTo(Clinics, {
-  foreignKey: "clinic_id",
-});
+
 module.exports = DoctorClinics;
