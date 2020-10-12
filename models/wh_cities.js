@@ -30,7 +30,7 @@ const Cities = db.define(
     timestamps: false,
   }
 );
-Cities.belongsTo(States, {
-  foreignKey: "state_id",
-});
+// Cities.belongsTo(States, {
+//   foreignKey: "state_id",
+// });
 module.exports = Cities;
