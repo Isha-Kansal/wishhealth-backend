@@ -32,5 +32,10 @@ const Cities = db.define(
     timestamps: false,
   }
 );
-
+Users.belongsTo(Cities, {
+  foreignKey: "city_id",
+});
+Clinics.belongsTo(Cities, {
+  foreignKey: "city_id",
+});
 module.exports = Cities;

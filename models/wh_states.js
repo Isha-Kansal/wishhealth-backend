@@ -26,5 +26,10 @@ const States = db.define(
     timestamps: false,
   }
 );
-
+Clinics.belongsTo(States, {
+  foreignKey: "state_id",
+});
+Users.belongsTo(States, {
+  foreignKey: "state_id",
+});
 module.exports = States;

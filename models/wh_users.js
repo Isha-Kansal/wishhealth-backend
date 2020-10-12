@@ -103,12 +103,6 @@ Users.hasMany(Bookings, {
   as: "bookings",
 });
 
-Users.belongsTo(States, {
-  foreignKey: "state_id",
-});
 Users.hasMany(DoctorServices, { foreignKey: "user_id" });
-Users.belongsTo(Cities, {
-  foreignKey: "city_id",
-});
 
 module.exports = Users;
