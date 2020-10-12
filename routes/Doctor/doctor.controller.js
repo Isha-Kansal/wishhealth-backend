@@ -41,7 +41,8 @@ module.exports = {
           username: req.body.email,
           phone: req.body.phone,
           gender: req.body.gender,
-          city: req.body.city + " " + req.body.state,
+          city_id: req.body.city_id,
+          state_id: req.body.state_id,
         },
         {
           where: {
