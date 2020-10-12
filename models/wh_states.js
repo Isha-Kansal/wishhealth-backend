@@ -26,5 +26,13 @@ const States = db.define(
     timestamps: false,
   }
 );
+States.hasMany(Clinics, {
+  foreignKey: "state_id",
+  sourceKey: "id",
+  as: "state",
+});
 
+Clinics.belongsTo(States, {
+  foreignKey: "state_id",
+});
 module.exports = States;
