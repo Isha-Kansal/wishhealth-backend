@@ -41,7 +41,7 @@ const DoctorServices = db.define(
     timestamps: false,
   }
 );
-Services.hasOne(DoctorServices, { foreignKey: "service_id" });
+Services.hasMany(DoctorServices, { foreignKey: "service_id" });
 
 DoctorServices.belongsTo(Services, {
   foreignKey: "service_id",

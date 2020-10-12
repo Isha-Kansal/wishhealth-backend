@@ -19,6 +19,7 @@ const DoctorClinicTimings = require("../../models/wh_doctor_clinic_timings");
 const Clinics = require("../../models/wh_clinic");
 const ClinicSpecialities = require("../../models/wh_clinic_specialities");
 const ClinicServices = require("../../models/wh_clinic_services");
+const Services = require("../../models/wh_services");
 const { Op } = Sequelize;
 module.exports = {
   updateDoctorDetails: async function (req, res) {
@@ -198,7 +199,10 @@ module.exports = {
           {
             model: Clinics,
             required: false,
-            include: [{ model: ClinicSpecialities }, { model: ClinicServices }],
+            include: [
+              { model: ClinicSpecialities, include: [{ model: Specialities }] },
+              { model: ClinicServices, include: [{ model: Services }] },
+            ],
           },
         ],
       });
@@ -246,6 +250,24 @@ module.exports = {
     }
   },
 
+  updateDoctorClinicBasic: async function (req, res) {
+    try {
+      await CouncilRegistration.destroy({
+        where: { user_id: req.params.id },
+      });
+      console.log("updateDoctorRegistrationDetails", req.body);
+      await createController.createRegistration(req, req.params.id);
+
+      return res.status(200).json({
+        message: "Updated Successfully",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   updateDoctorRegistrationDetails: async function (req, res) {
     try {
       await CouncilRegistration.destroy({

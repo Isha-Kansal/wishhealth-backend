@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
+const Specialities = require("./wh_specialities");
 const States = require("./wh_states");
 
 const ClinicSpecialities = db.define(
@@ -45,4 +46,9 @@ const ClinicSpecialities = db.define(
 // Cities.belongsTo(States, {
 //   foreignKey: "state_id",
 // });
+Specialities.hasMany(ClinicSpecialities, { foreignKey: "speciality_id" });
+
+ClinicSpecialities.belongsTo(Specialities, {
+  foreignKey: "speciality_id",
+});
 module.exports = ClinicSpecialities;
