@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
+const Clinics = require("./wh_clinic");
 const States = require("./wh_states");
+const Users = require("./wh_users");
 
 const Cities = db.define(
   "wh_cities",
@@ -30,7 +32,23 @@ const Cities = db.define(
     timestamps: false,
   }
 );
-// Cities.belongsTo(States, {
-//   foreignKey: "state_id",
-// });
+
+Cities.hasMany(Users, {
+  foreignKey: "city_id",
+  sourceKey: "id",
+  as: "cities",
+});
+
+Users.belongsTo(Cities, {
+  foreignKey: "city_id",
+});
+Cities.hasMany(Clinics, {
+  foreignKey: "city_id",
+  sourceKey: "id",
+  as: "cities",
+});
+
+Clinics.belongsTo(Cities, {
+  foreignKey: "city_id",
+});
 module.exports = Cities;

@@ -43,9 +43,7 @@ const ClinicSpecialities = db.define(
     timestamps: false,
   }
 );
-// Cities.belongsTo(States, {
-//   foreignKey: "state_id",
-// });
+
 Specialities.hasMany(ClinicSpecialities, { foreignKey: "speciality_id" });
 
 ClinicSpecialities.belongsTo(Specialities, {

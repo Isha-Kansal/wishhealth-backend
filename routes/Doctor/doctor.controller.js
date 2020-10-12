@@ -204,6 +204,8 @@ module.exports = {
             required: false,
             include: [
               { model: ClinicTimings },
+              { model: Cities },
+              { model: States },
               { model: ClinicImages },
               { model: ClinicSpecialities, include: [{ model: Specialities }] },
               { model: ClinicServices, include: [{ model: Services }] },
