@@ -21,6 +21,7 @@ const ClinicSpecialities = require("../../models/wh_clinic_specialities");
 const ClinicServices = require("../../models/wh_clinic_services");
 const Services = require("../../models/wh_services");
 const ClinicTimings = require("../../models/wh_clinic_timings");
+const ClinicImages = require("../../models/wh_clinic_images");
 const { Op } = Sequelize;
 module.exports = {
   updateDoctorDetails: async function (req, res) {
@@ -203,6 +204,7 @@ module.exports = {
             required: false,
             include: [
               { model: ClinicTimings },
+              { model: ClinicImages },
               { model: ClinicSpecialities, include: [{ model: Specialities }] },
               { model: ClinicServices, include: [{ model: Services }] },
             ],
