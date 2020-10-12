@@ -266,6 +266,47 @@ module.exports = {
       });
     }
   },
+  suggestions: async function (req, res) {
+    try {
+      let arr = [];
+      console.log(req.body, "dgsyhgfshgdh");
+      let doctorData = await Users.findAll({
+        where: {
+          name: {
+            [Op.like]: `%${req.body.search}%`,
+          },
+        },
+        attributes: ["name"],
+      });
+      doctorData &&
+        doctorData.length > 0 &&
+        doctorData.map((data) => {
+          arr.push(data.name);
+        });
+      let specialityData = await Specialities.findAll({
+        where: {
+          title: {
+            [Op.like]: `%${req.body.search}%`,
+          },
+        },
+        attributes: ["title"],
+      });
+      specialityData &&
+        specialityData.length > 0 &&
+        specialityData.map((data) => {
+          arr.push(data.title);
+        });
+
+      return res.status(200).json({
+        data: arr,
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
 
   getDoctorClinics: async function (req, res) {
     try {
