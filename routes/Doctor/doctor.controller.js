@@ -219,6 +219,7 @@ module.exports = {
       await CouncilRegistration.destroy({
         where: { user_id: req.params.id },
       });
+      console.log("updateDoctorRegistrationDetails", req.body);
       await createController.createRegistration(req, req.params.id);
 
       return res.status(200).json({
