@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
+const States = require("./wh_states");
 
 const Cities = db.define(
   "wh_cities",
@@ -29,5 +30,7 @@ const Cities = db.define(
     timestamps: false,
   }
 );
-
+Cities.belongsTo(States, {
+  foreignKey: "state_id",
+});
 module.exports = Cities;

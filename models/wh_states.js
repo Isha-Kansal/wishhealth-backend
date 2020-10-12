@@ -24,10 +24,5 @@ const States = db.define(
     timestamps: false,
   }
 );
-States.hasMany(Cities, {
-  foreignKey: "state_id",
-  sourceKey: "id",
-  as: "state",
-});
 
 module.exports = States;
