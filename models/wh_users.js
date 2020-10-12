@@ -102,15 +102,13 @@ Users.hasMany(Bookings, {
   sourceKey: "user_id",
   as: "bookings",
 });
-States.hasMany(Users, {
-  foreignKey: "state_id",
-  sourceKey: "id",
-  as: "state",
-});
 
 Users.belongsTo(States, {
   foreignKey: "state_id",
 });
 Users.hasMany(DoctorServices, { foreignKey: "user_id" });
+Users.belongsTo(Cities, {
+  foreignKey: "city_id",
+});
 
 module.exports = Users;

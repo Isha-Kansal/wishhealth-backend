@@ -33,22 +33,4 @@ const Cities = db.define(
   }
 );
 
-Cities.hasMany(Users, {
-  foreignKey: "city_id",
-  sourceKey: "id",
-  as: "cities",
-});
-
-Users.belongsTo(Cities, {
-  foreignKey: "city_id",
-});
-Cities.hasMany(Clinics, {
-  foreignKey: "city_id",
-  sourceKey: "id",
-  as: "cities",
-});
-
-Clinics.belongsTo(Cities, {
-  foreignKey: "city_id",
-});
 module.exports = Cities;
