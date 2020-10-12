@@ -39,6 +39,7 @@ const createRegistration = async function (req, id) {
         name: req.body.council,
       },
     });
+    console.log(council, "councilcouncilcouncil", req.body, id);
     let obj = {
       reg_number: req.body.reg_number,
       council: council.id,
