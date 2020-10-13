@@ -274,40 +274,49 @@ module.exports = {
 
   updateDoctorClinicBasic: async function (req, res) {
     try {
-      await ClinicTimings.update(
-        {
-          day: req.body.day,
-          start_time: req.body.start_time,
-          end_time: req.body.end_time,
-          break_start_time: req.body.break_start_time,
-          break_end_time: req.body.break_end_time,
-        },
-        {
+      const clinic = await Clinics.findOne({
+        where: { admin_id: req.body.user_id, clinic_id: req.body.clinic_id },
+      });
+      if (clinic) {
+        await Clinics.update(
+          {
+            name: req.body.name,
+            address: req.body.address,
+            city_id: req.body.city_id,
+            state_id: req.body.state_id,
+            pincode: req.body.pincode ? req.body.pincode : "",
+            clinic_type: req.body.clinic_type,
+            latitude: req.body.latitude ? req.body.latitude : "",
+            longitude: req.body.longitude ? req.body.longitude : "",
+          },
+          {
+            where: {
+              admin_id: req.body.user_id,
+              clinic_id: req.body.clinic_id,
+            },
+          }
+        );
+        await ClinicTimings.destroy({
           where: { clinic_id: req.body.clinic_id },
-        }
-      );
-      await Clinics.update(
-        {
-          name: req.body.name,
-          address: req.body.address,
-          city_id: req.body.city_id,
-          state_id: req.body.state_id,
-          pin_code: req.body.pin_code,
-        },
-        {
-          where: { admin_id: req.body.user_id, clinic_id: req.body.clinic_id },
-        }
-      );
-      await ClinicServices.destroy({
-        where: { clinic_id: req.body.clinic_id },
-      });
-      await ClinicSpecialities.destroy({
-        where: { clinic_id: req.body.clinic_id },
-      });
-      await createController.createClinicServices(req, req.body.clinic_id);
-      await createController.createClinicSpecialities(req, req.body.clinic_id);
+        });
+        await ClinicServices.destroy({
+          where: { clinic_id: req.body.clinic_id },
+        });
+        await ClinicSpecialities.destroy({
+          where: { clinic_id: req.body.clinic_id },
+        });
+        await createController.createClinicServices(req, req.body.clinic_id);
+        await createController.createClinicTimings(req, req.body.clinic_id);
+        await createController.createClinicSpecialities(
+          req,
+          req.body.clinic_id
+        );
+        return res.status(200).json({
+          message: "Updated Successfully",
+        });
+      }
       return res.status(200).json({
-        message: "Updated Successfully",
+        message: "You are not admin of the clinic",
       });
     } catch (err) {
       console.log(err, "err");

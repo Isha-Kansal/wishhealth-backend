@@ -6,5 +6,5 @@ router.post("/createDoctor", controller.createDoctor);
 router.post("/createDoctorDetails", controller.createDoctorDetails);
 router.post("/RegistrationDetails", controller.RegistrationDetails);
 router.post("/EducationDetails", controller.EducationDetails);
-
+router.post("/ClinicBasic", controller.ClinicBasic);
 module.exports = router;

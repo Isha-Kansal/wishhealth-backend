@@ -13,6 +13,8 @@ const CouncilRegistration = require("../../models/wh_medical_council_registratio
 const ClinicSpecialities = require("../../models/wh_clinic_specialities");
 const Services = require("../../models/wh_services");
 const ClinicServices = require("../../models/wh_clinic_services");
+const Clinics = require("../../models/wh_clinic");
+const ClinicTimings = require("../../models/wh_clinic_timings");
 const { Op } = sequelize;
 const createSpecialities = async function (req, id) {
   try {
@@ -49,6 +51,22 @@ const createClinicSpecialities = async function (req, id) {
         };
 
         await ClinicSpecialities.create(values);
+      });
+  } catch (err) {
+    console.log(err, "err");
+  }
+};
+const createClinicTimings = async function (req, id) {
+  try {
+    req.body.clinic_days &&
+      req.body.clinic_days.length > 0 &&
+      req.body.clinic_days.map(async (item) => {
+        let values = {
+          ...item,
+          clinic_id: id,
+        };
+
+        await ClinicTimings.create(values);
       });
   } catch (err) {
     console.log(err, "err");
@@ -233,9 +251,37 @@ module.exports = {
       });
     }
   },
+  ClinicBasic: async function (req, res) {
+    try {
+      let values = {
+        admin_id: req.body.user_id,
+        name: req.body.name,
+        address: req.body.address,
+        city_id: req.body.city_id,
+        state_id: req.body.state_id,
+        pincode: req.body.pincode ? req.body.pincode : "",
+        clinic_type: req.body.clinic_type,
+        latitude: req.body.latitude ? req.body.latitude : "",
+        longitude: req.body.longitude ? req.body.longitude : "",
+      };
+      Clinics.create(values).then(async (resp) => {
+        const response = JSON.parse(JSON.stringify(resp));
+        await createClinicTimings(req, response.clinic_id);
+        return res.status(200).json({
+          message: "Created Successfully",
+        });
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
 };
 module.exports.createLanguages = createLanguages;
 module.exports.createSpecialities = createSpecialities;
 module.exports.createRegistration = createRegistration;
 module.exports.createClinicServices = createClinicServices;
 module.exports.createClinicSpecialities = createClinicSpecialities;
+module.exports.createClinicTimings = createClinicTimings;
