@@ -257,4 +257,9 @@ const Doctordetails = db.define(
 //   sourceKey: "id",
 //   as: "state",
 // });
+States.hasMany(Doctordetails, { foreignKey: "state_id" });
+
+Doctordetails.belongsTo(States, {
+  foreignKey: "state_id",
+});
 module.exports = Doctordetails;

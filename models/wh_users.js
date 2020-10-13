@@ -106,11 +106,6 @@ Users.hasMany(Bookings, {
 
 Users.hasMany(DoctorServices, { foreignKey: "user_id" });
 
-States.hasMany(Users, { foreignKey: "state_id" });
-
-Users.belongsTo(States, {
-  foreignKey: "state_id",
-});
 Cities.hasMany(Users, { foreignKey: "city_id" });
 
 Users.belongsTo(Cities, {
