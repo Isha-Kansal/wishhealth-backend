@@ -344,6 +344,7 @@ module.exports = {
       for (let i = 0; i < clinics.length; i++) {
         const clinicData = clinics[i];
         let clinicJson = JSON.parse(JSON.stringify(clinicData));
+        console.log(clinicJson, "clinicJsonclinicJsonclinicJson");
         let found =
           data &&
           data.length > 0 &&
@@ -351,8 +352,8 @@ module.exports = {
             (item) =>
               item &&
               item.wh_clinic &&
-              item.wh_clinic.clinic_id == clinics[i] &&
-              clinics[i].clinic_id
+              item.wh_clinic.clinic_id == clinicJson &&
+              clinicJson.clinic_id
           );
         console.log(found, "foundfoundfoundfound");
         let available_timings = [];
