@@ -404,9 +404,6 @@ module.exports = {
             where: {
               doctor_id: req.params.user_id,
               clinic_id: clinics[i].clinic_id,
-              date2: {
-                [Op.gte]: moment().startOf("day").toDate(),
-              },
             },
           });
           if (doctorDetails && doctorDetails.video_consultation === 1) {
@@ -414,9 +411,6 @@ module.exports = {
               where: {
                 doctor_id: req.params.user_id,
                 clinic_id: 0,
-                date2: {
-                  [Op.gte]: moment().startOf("day").toDate(),
-                },
               },
             });
             obj.videobookings = videobookings;
