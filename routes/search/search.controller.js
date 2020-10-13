@@ -328,9 +328,16 @@ module.exports = {
           },
         ],
       });
+      const ownClinicData = await Clinics.findAll({
+        where: {
+          admin_id: req.params.user_id,
+        },
+        include: [{ model: ClinicImages, required: false }],
+      });
 
-      let clinics = JSON.parse(JSON.stringify(doctorClinicData));
-
+      let visit = JSON.parse(JSON.stringify(doctorClinicData));
+      let own = JSON.parse(JSON.stringify(ownClinicData));
+      let clinics = [...visit, ...own];
       let data = [];
       let obj = {};
       for (let i = 0; i < clinics.length; i++) {
