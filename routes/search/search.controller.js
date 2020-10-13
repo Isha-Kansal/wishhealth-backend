@@ -143,6 +143,7 @@ const getSpecialityData = async function (req, specialityExist) {
           [Op.in]: arr,
         },
       },
+      distinct: true,
       include: [
         {
           model: Users,
