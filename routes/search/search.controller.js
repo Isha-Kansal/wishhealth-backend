@@ -137,6 +137,13 @@ const getSpecialityData = async function (req, specialityExist) {
         arr.push(item.speciality_id);
       });
     console.log(arr, "arrarrarr", speciality);
+    const doc_speciality = await Doctorspecialities.findAndCountAll({
+      where: {
+        speciality_id: {
+          [Op.in]: arr,
+        },
+      },
+    });
     const doctors = await Users.findAndCountAll({
       where: {
         role: "doctor",
@@ -144,59 +151,59 @@ const getSpecialityData = async function (req, specialityExist) {
       },
       distinct: true,
       include: [
-        // {
-        //   model: Doctordetails,
-        //   required:
-        //     req.body.type !== "" || req.body.location !== "" ? true : false,
-        //   where: {
-        //     video_consultation: {
-        //       [Op.in]:
-        //         req.body.type === "video"
-        //           ? [1]
-        //           : req.body.type === "clinic"
-        //           ? [0]
-        //           : [0, 1],
-        //     },
-        //     city: {
-        //       [Op.like]: `%${req.body.location}%`,
-        //     },
-        //   },
-        // },
-        // {
-        //   model: Doctorlanguages,
-        //   required: false,
-        //   include: [
-        //     {
-        //       model: Languages,
-        //       required: false,
-        //       attributes: ["name"],
-        //       where: {
-        //         name: {
-        //           [Op.ne]: null,
-        //         },
-        //       },
-        //     },
-        //   ],
-        // },
-        // {
-        //   model: Doctorqualifications,
-        //   required: false,
-        //   include: [
-        //     {
-        //       model: Qualifications,
-        //       required: false,
-        //       attributes: ["degree"],
-        //       where: {
-        //         degree: {
-        //           [Op.ne]: null,
-        //         },
-        //       },
-        //     },
-        //   ],
-        // },
+        {
+          model: Doctordetails,
+          required:
+            req.body.type !== "" || req.body.location !== "" ? true : false,
+          where: {
+            video_consultation: {
+              [Op.in]:
+                req.body.type === "video"
+                  ? [1]
+                  : req.body.type === "clinic"
+                  ? [0]
+                  : [0, 1],
+            },
+            city: {
+              [Op.like]: `%${req.body.location}%`,
+            },
+          },
+        },
+        {
+          model: Doctorlanguages,
+          required: false,
+          include: [
+            {
+              model: Languages,
+              required: false,
+              attributes: ["name"],
+              where: {
+                name: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
+        {
+          model: Doctorqualifications,
+          required: false,
+          include: [
+            {
+              model: Qualifications,
+              required: false,
+              attributes: ["degree"],
+              where: {
+                degree: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
         {
           model: Doctorspecialities,
-          required: true,
+          required: false,
           where: {
             speciality_id: {
               [Op.in]: arr,
@@ -220,7 +227,7 @@ const getSpecialityData = async function (req, specialityExist) {
       offset: req.body.offset,
       order: [["rankings", "DESC"]],
     });
-    return { data: doctors.rows, count: doctors.count };
+    return { data: doctors.rows, count: doc_speciality.count };
   } catch (err) {
     console.log(err, "err");
     return [];

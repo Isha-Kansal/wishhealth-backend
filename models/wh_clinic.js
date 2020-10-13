@@ -94,13 +94,13 @@ const Clinics = db.define(
     creation_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
     modified_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
     image: {
