@@ -262,4 +262,9 @@ States.hasMany(Doctordetails, { foreignKey: "state_id" });
 Doctordetails.belongsTo(States, {
   foreignKey: "state_id",
 });
+Cities.hasMany(Users, { foreignKey: "city_id" });
+
+Users.belongsTo(Cities, {
+  foreignKey: "city_id",
+});
 module.exports = Doctordetails;

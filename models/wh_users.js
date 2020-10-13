@@ -106,9 +106,4 @@ Users.hasMany(Bookings, {
 
 Users.hasMany(DoctorServices, { foreignKey: "user_id" });
 
-Cities.hasMany(Users, { foreignKey: "city_id" });
-
-Users.belongsTo(Cities, {
-  foreignKey: "city_id",
-});
 module.exports = Users;
