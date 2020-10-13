@@ -130,12 +130,13 @@ const getDoctorData = async function (req) {
 const getSpecialityData = async function (req, specialityExist) {
   try {
     let arr = [];
-    specialityExist &&
-      specialityExist.length > 0 &&
-      specialityExist.map((item) => {
+    const speciality = JSON.parse(JSON.stringify(specialityExist));
+    speciality &&
+      speciality.length > 0 &&
+      speciality.map((item) => {
         arr.push(item.id);
       });
-    console.log(arr, "arrarrarr");
+    console.log(arr, "arrarrarr", speciality);
     const doctors = await Users.findAndCountAll({
       where: {
         role: "doctor",
