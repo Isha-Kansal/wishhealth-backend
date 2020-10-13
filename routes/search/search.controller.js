@@ -408,7 +408,7 @@ module.exports = {
       }
 
       return res.status(200).json({
-        data: clinics,
+        data: data,
       });
     } catch (err) {
       console.log(err, "err");
