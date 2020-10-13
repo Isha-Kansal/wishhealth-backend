@@ -116,7 +116,7 @@ const getDoctorData = async function (req) {
         },
         {
           model: Doctorspecialities,
-          required: false,
+          required: specialityExist.length > 0 ? true : false,
           include: [
             {
               model: Specialities,
