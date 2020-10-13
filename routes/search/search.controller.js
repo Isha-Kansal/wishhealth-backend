@@ -335,76 +335,77 @@ module.exports = {
         include: [{ model: ClinicImages, required: false }],
       });
 
-      let visit = JSON.parse(JSON.stringify(doctorClinicData));
+      let clinics = JSON.parse(JSON.stringify(doctorClinicData));
       let own = JSON.parse(JSON.stringify(ownClinicData));
-      let clinics = [...visit, ...own];
+      let abc = [...visit, ...own];
       let data = [];
       let obj = {};
-      // for (let i = 0; i < clinics.length; i++) {
-      //   const clinicData = clinics[i];
-      //   let clinicJson = JSON.parse(JSON.stringify(clinicData));
-      //   let found =
-      //     data &&
-      //     data.length > 0 &&
-      //     data.findIndex(
-      //       (item) =>
-      //         item &&
-      //         item.wh_clinic &&
-      //         item.wh_clinic.clinic_id == clinics[i] &&
-      //         clinics[i].clinic_id
-      //     );
 
-      //   let available_timings = [];
-      //   let object = { day: clinicJson.day };
-      //   let time = [];
+      for (let i = 0; i < clinics.length; i++) {
+        const clinicData = clinics[i];
+        let clinicJson = JSON.parse(JSON.stringify(clinicData));
+        let found =
+          data &&
+          data.length > 0 &&
+          data.findIndex(
+            (item) =>
+              item &&
+              item.wh_clinic &&
+              item.wh_clinic.clinic_id == clinics[i] &&
+              clinics[i].clinic_id
+          );
+        console.log(found, "foundfoundfoundfound");
+        let available_timings = [];
+        let object = { day: clinicJson.day };
+        let time = [];
 
-      //   if ((found === -1 || !found) && clinics[i].clinic_id) {
-      //     const clinicbookings = await Bookings.findAll({
-      //       where: {
-      //         doctor_id: req.params.user_id,
-      //         clinic_id: clinics[i].clinic_id,
-      //         date2: {
-      //           [Op.gte]: moment().startOf("day").toDate(),
-      //         },
-      //       },
-      //     });
-      //     if (doctorDetails && doctorDetails.video_consultation === 1) {
-      //       const videobookings = await Bookings.findAll({
-      //         where: {
-      //           doctor_id: req.params.user_id,
-      //           clinic_id: 0,
-      //           date2: {
-      //             [Op.gte]: moment().startOf("day").toDate(),
-      //           },
-      //         },
-      //       });
-      //       obj.videobookings = videobookings;
-      //     }
-      //     obj.clinicbookings = clinicbookings;
-      //   } else {
-      //     available_timings = data[found].available_timings;
-      //   }
+        if ((found === -1 || !found) && clinics[i].clinic_id) {
+          const clinicbookings = await Bookings.findAll({
+            where: {
+              doctor_id: req.params.user_id,
+              clinic_id: clinics[i].clinic_id,
+              date2: {
+                [Op.gte]: moment().startOf("day").toDate(),
+              },
+            },
+          });
+          if (doctorDetails && doctorDetails.video_consultation === 1) {
+            const videobookings = await Bookings.findAll({
+              where: {
+                doctor_id: req.params.user_id,
+                clinic_id: 0,
+                date2: {
+                  [Op.gte]: moment().startOf("day").toDate(),
+                },
+              },
+            });
+            obj.videobookings = videobookings;
+          }
+          obj.clinicbookings = clinicbookings;
+        } else {
+          available_timings = data[found].available_timings;
+        }
 
-      //   Object.keys(clinicJson).map((clinic) => {
-      //     if (clinic.includes("AM") || clinic.includes("PM")) {
-      //       if (clinicJson[`${clinic}`] === "1") {
-      //         time.push(clinic);
-      //         object.time = time;
-      //       }
-      //     }
-      //   });
-      //   available_timings.push(object);
-      //   obj.available_timings = available_timings;
-      //   obj = {
-      //     ...obj,
-      //     wh_clinic: clinicJson.wh_clinic,
-      //   };
-      //   if (found === -1 || !found) {
-      //     data.push(obj);
-      //   } else {
-      //     data[found] = obj;
-      //   }
-      // }
+        Object.keys(clinicJson).map((clinic) => {
+          if (clinic.includes("AM") || clinic.includes("PM")) {
+            if (clinicJson[`${clinic}`] === "1") {
+              time.push(clinic);
+              object.time = time;
+            }
+          }
+        });
+        available_timings.push(object);
+        obj.available_timings = available_timings;
+        obj = {
+          ...obj,
+          wh_clinic: clinicJson.wh_clinic,
+        };
+        if (found === -1 || !found) {
+          data.push(obj);
+        } else {
+          data[found] = obj;
+        }
+      }
 
       return res.status(200).json({
         data: clinics,
