@@ -116,7 +116,7 @@ const getDoctorData = async function (req) {
         },
         {
           model: Doctorspecialities,
-          required: false,
+          required: specialityExist.length > 0 ? true : false,
           include: [
             {
               model: Specialities,
@@ -250,11 +250,7 @@ module.exports = {
       const doctorData = await getDoctorData(req);
       arr = [...doctorData.data];
       count = doctorData.count;
-      // if (req.body.doctorParams !== "") {
-      //   const specialityData = await getSpecialityData(req);
-      //   arr = [...arr, ...specialityData.data];
-      //   count += specialityData.count;
-      // }
+
       console.log(arr, "arrarrarrarrarrarr", arr.length);
       return res.status(200).json({
         data: arr,
