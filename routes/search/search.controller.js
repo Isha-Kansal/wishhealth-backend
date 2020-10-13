@@ -344,18 +344,18 @@ module.exports = {
       for (let i = 0; i < clinics.length; i++) {
         const clinicData = clinics[i];
         let clinicJson = JSON.parse(JSON.stringify(clinicData));
-        console.log(clinicJson, "clinicJsonclinicJsonclinicJson");
-        console.log(data, "datadatadatadatadata");
         let found =
           data &&
           data.length > 0 &&
-          data.findIndex(
-            (item) =>
+          data.findIndex((item) => {
+            console.log(item, "itemitemitemitem", clinicJson);
+            return (
               item &&
               item.wh_clinic &&
-              item.wh_clinic.clinic_id == clinicJson &&
+              item.wh_clinic.clinic_id === clinicJson &&
               clinicJson.clinic_id
-          );
+            );
+          });
         console.log(found, "foundfoundfoundfound");
         let available_timings = [];
         let object = { day: clinicJson.day };
