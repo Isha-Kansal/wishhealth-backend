@@ -282,6 +282,8 @@ module.exports = {
         end_time: "",
         break_start_time: "",
         break_end_time: "",
+        image: "",
+        doc_interval: 0,
         pin_code: req.body.pin_code ? req.body.pin_code : "",
         clinic_type: req.body.clinic_type,
         latitude: req.body.latitude ? req.body.latitude : "",
