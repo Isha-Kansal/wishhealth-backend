@@ -337,7 +337,7 @@ module.exports = {
 
       let clinics = JSON.parse(JSON.stringify(doctorClinicData));
       let own = JSON.parse(JSON.stringify(ownClinicData));
-      let abc = [...clinics, ...own];
+
       let data = [];
       let obj = {};
 
@@ -402,9 +402,9 @@ module.exports = {
           data[found] = obj;
         }
       }
-
+      let arr = [...data, ...own];
       return res.status(200).json({
-        data: data,
+        data: arr,
       });
     } catch (err) {
       console.log(err, "err");
