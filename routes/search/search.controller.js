@@ -134,53 +134,58 @@ const getSpecialityData = async function (req) {
         role: "doctor",
         status: "1",
       },
+      distinct: true,
       include: [
-        {
-          model: Doctordetails,
-          required: true,
-          where: {
-            video_consultation: {
-              [Op.in]:
-                req.body.type === "video"
-                  ? [1]
-                  : req.body.type === "clinic"
-                  ? [0]
-                  : [0, 1],
-            },
-          },
-        },
-        {
-          model: Doctorlanguages,
-          duplicating: false,
-          include: [
-            {
-              model: Languages,
-              duplicating: false,
-              attributes: ["name"],
-              where: {
-                name: {
-                  [Op.ne]: null,
-                },
-              },
-            },
-          ],
-        },
-        {
-          model: Doctorqualifications,
-          duplicating: false,
-          include: [
-            {
-              model: Qualifications,
-              duplicating: false,
-              attributes: ["degree"],
-              where: {
-                degree: {
-                  [Op.ne]: null,
-                },
-              },
-            },
-          ],
-        },
+        // {
+        //   model: Doctordetails,
+        //   required:
+        //     req.body.type !== "" || req.body.location !== "" ? true : false,
+        //   where: {
+        //     video_consultation: {
+        //       [Op.in]:
+        //         req.body.type === "video"
+        //           ? [1]
+        //           : req.body.type === "clinic"
+        //           ? [0]
+        //           : [0, 1],
+        //     },
+        //     city: {
+        //       [Op.like]: `%${req.body.location}%`,
+        //     },
+        //   },
+        // },
+        // {
+        //   model: Doctorlanguages,
+        //   required: false,
+        //   include: [
+        //     {
+        //       model: Languages,
+        //       required: false,
+        //       attributes: ["name"],
+        //       where: {
+        //         name: {
+        //           [Op.ne]: null,
+        //         },
+        //       },
+        //     },
+        //   ],
+        // },
+        // {
+        //   model: Doctorqualifications,
+        //   required: false,
+        //   include: [
+        //     {
+        //       model: Qualifications,
+        //       required: false,
+        //       attributes: ["degree"],
+        //       where: {
+        //         degree: {
+        //           [Op.ne]: null,
+        //         },
+        //       },
+        //     },
+        //   ],
+        // },
         {
           model: Doctorspecialities,
           required: true,
@@ -200,6 +205,7 @@ const getSpecialityData = async function (req) {
       ],
       limit: req.body.limit,
       offset: req.body.offset,
+      order: [["rankings", "DESC"]],
     });
     return { data: doctors.rows, count: doctors.count };
   } catch (err) {
