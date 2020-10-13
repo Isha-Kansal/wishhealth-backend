@@ -23,6 +23,7 @@ router.get(
   "/getDoctorEducationDetails/:id",
   controller.getDoctorEducationDetails
 );
+router.post("/leaveClinic", controller.leaveClinic);
 router.get(
   "/getDoctorRegistrationDetails/:id",
   controller.getDoctorRegistrationDetails

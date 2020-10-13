@@ -308,6 +308,24 @@ module.exports = {
       });
     }
   },
+  leaveClinic: async function (req, res) {
+    try {
+      await DoctorClinicTimings.destroy({
+        where: { doctor_id: req.body.user_id, clinic_id: req.body.clinic_id },
+      });
+      await Clinics.destroy({
+        where: { admin_id: req.body.user_id, clinic_id: req.body.clinic_id },
+      });
+      return res.status(200).json({
+        message: "Clinic Left Successfully",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   getDoctorEducationDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
