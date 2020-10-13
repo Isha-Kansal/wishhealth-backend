@@ -29,13 +29,13 @@ const ClinicSpecialities = db.define(
     created_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
     modified_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
   },
