@@ -147,11 +147,31 @@ const getSpecialityData = async function (req, specialityExist) {
       include: [
         {
           model: Users,
-          required: true,
           where: {
             role: "doctor",
             status: "1",
           },
+          required: true,
+          include: [
+            {
+              model: Doctordetails,
+              required:
+                req.body.type !== "" || req.body.location !== "" ? true : false,
+              where: {
+                video_consultation: {
+                  [Op.in]:
+                    req.body.type === "video"
+                      ? [1]
+                      : req.body.type === "clinic"
+                      ? [0]
+                      : [0, 1],
+                },
+                city: {
+                  [Op.like]: `%${req.body.location}%`,
+                },
+              },
+            },
+          ],
         },
       ],
     });

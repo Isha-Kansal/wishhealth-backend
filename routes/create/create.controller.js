@@ -303,6 +303,9 @@ module.exports = {
           await createClinicImages(req, response.clinic_id);
         }
         return res.status(200).json({
+          data: {
+            clinic_id: response.clinic_id,
+          },
           message: "Created Successfully",
         });
       });
