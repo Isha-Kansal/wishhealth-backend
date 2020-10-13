@@ -226,8 +226,7 @@ module.exports = {
           { model: ClinicServices, include: [{ model: Services }] },
         ],
       });
-      const result = JSON.parse(JSON.stringify(rest));
-      console.log(result, "resultresultresultresult");
+
       return res.status(200).json({
         data: {
           visitingClinics,
