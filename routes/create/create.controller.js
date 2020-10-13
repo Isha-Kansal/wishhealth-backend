@@ -293,6 +293,11 @@ module.exports = {
       Clinics.create(values).then(async (resp) => {
         const response = JSON.parse(JSON.stringify(resp));
         await createClinicTimings(req, response.clinic_id);
+        console.log(
+          req.body.services,
+          "req.body.servicesreq.body.services",
+          req.body.specialities
+        );
         if (req.body.services) {
           await createClinicServices(req, response.clinic_id);
         }
