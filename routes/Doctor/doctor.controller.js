@@ -142,7 +142,7 @@ module.exports = {
               "state_id",
             ],
             required: false,
-            // include: [{ model: Cities }, { model: States }],
+            include: [{ model: Cities }, { model: States }],
           },
           {
             model: Doctorlanguages,
