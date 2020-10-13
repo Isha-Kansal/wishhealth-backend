@@ -28,22 +28,13 @@ const getDoctorData = async function (req) {
       : {
           [Op.ne]: null,
         };
-    let specialityExist = [];
-    if (req.body.doctorParams !== "") {
-      specialityExist = await Specialities.findAll({
-        where: {
-          title: {
-            [Op.like]: `%${req.body.doctorParams}%`,
-          },
-        },
-      });
-    }
 
-    console.log(
-      specialityExist,
-      "specialityExistspecialityExistspecialityExist"
-    );
     let userArr = [
+      {
+        name: {
+          [Op.like]: `%${req.body.doctorParams}%`,
+        },
+      },
       { role: "doctor" },
       { status: "1" },
       {
@@ -51,13 +42,7 @@ const getDoctorData = async function (req) {
       },
     ];
     console.log(userArr, "userArruserArruserArr");
-    if (specialityExist.length === 0) {
-      userArr.push({
-        name: {
-          [Op.like]: `%${req.body.doctorParams}%`,
-        },
-      });
-    }
+
     const doctors = await Users.findAndCountAll({
       where: {
         [Op.and]: userArr,
@@ -116,13 +101,11 @@ const getDoctorData = async function (req) {
         },
         {
           model: Doctorspecialities,
-          required: specialityExist.length > 0 ? true : false,
-          subQuery: false,
+          required: false,
           include: [
             {
               model: Specialities,
-              required: specialityExist.length > 0 ? true : false,
-              subQuery: false,
+              required: false,
               attributes: ["title"],
               where: {
                 title: {
@@ -230,10 +213,23 @@ module.exports = {
       let arr = [];
       let count = 0;
       console.log(req.body, "dgsyhgfshgdh");
-      const doctorData = await getDoctorData(req);
-      arr = [...doctorData.data];
-      count = doctorData.count;
+      let specialityExist = await Specialities.findAll({
+        where: {
+          title: {
+            [Op.like]: `%${req.body.doctorParams}%`,
+          },
+        },
+      });
 
+      if (specialityExist.length === 0) {
+        const doctorData = await getDoctorData(req);
+        arr = [...doctorData.data];
+        count = doctorData.count;
+      } else {
+        const specialityData = await getSpecialityData(req);
+        arr = [...specialityData.data];
+        count = specialityData.count;
+      }
       console.log(arr, "arrarrarrarrarrarr", arr.length);
       return res.status(200).json({
         data: arr,

@@ -276,6 +276,7 @@ module.exports = {
         address: req.body.address,
         city_id: req.body.city_id,
         state_id: req.body.state_id,
+        city: "",
         pincode: req.body.pincode ? req.body.pincode : "",
         clinic_type: req.body.clinic_type,
         latitude: req.body.latitude ? req.body.latitude : "",
