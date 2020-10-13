@@ -10,6 +10,9 @@ const sequelize = require("../../config/mysql");
 const md5 = require("md5");
 const Council = require("../../models/wh_medical_council");
 const CouncilRegistration = require("../../models/wh_medical_council_registration");
+const ClinicSpecialities = require("../../models/wh_clinic_specialities");
+const Services = require("../../models/wh_services");
+const ClinicServices = require("../../models/wh_clinic_services");
 const { Op } = sequelize;
 const createSpecialities = async function (req, id) {
   try {
@@ -31,7 +34,26 @@ const createSpecialities = async function (req, id) {
     console.log(err, "err");
   }
 };
+const createClinicSpecialities = async function (req, id) {
+  try {
+    req.body.specialities &&
+      req.body.specialities.length > 0 &&
+      req.body.specialities.map(async (item) => {
+        let speciality = await Specialities.findOne({
+          where: { title: item },
+        });
 
+        let values = {
+          speciality_id: speciality.speciality_id,
+          clinic_id: id,
+        };
+
+        await ClinicSpecialities.create(values);
+      });
+  } catch (err) {
+    console.log(err, "err");
+  }
+};
 const createRegistration = async function (req, id) {
   try {
     const council = await Council.findOne({
@@ -53,6 +75,25 @@ const createRegistration = async function (req, id) {
         : "",
     };
     await CouncilRegistration.create(obj);
+  } catch (err) {
+    console.log(err, "err");
+  }
+};
+const createClinicServices = async function (req, id) {
+  try {
+    req.body.services &&
+      req.body.services.length > 0 &&
+      req.body.services.map(async (item) => {
+        let service = await Services.findOne({ where: { name: item } });
+        const result = JSON.parse(JSON.stringify(service));
+        console.log(result, "languagelanguagelanguage");
+        let values = {
+          service_id: result.id,
+          clinic_id: id,
+        };
+
+        await ClinicServices.create(values);
+      });
   } catch (err) {
     console.log(err, "err");
   }
@@ -196,3 +237,5 @@ module.exports = {
 module.exports.createLanguages = createLanguages;
 module.exports.createSpecialities = createSpecialities;
 module.exports.createRegistration = createRegistration;
+module.exports.createClinicServices = createClinicServices;
+module.exports.createClinicSpecialities = createClinicSpecialities;
