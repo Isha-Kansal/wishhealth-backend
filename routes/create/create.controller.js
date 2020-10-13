@@ -285,6 +285,12 @@ module.exports = {
       Clinics.create(values).then(async (resp) => {
         const response = JSON.parse(JSON.stringify(resp));
         await createClinicTimings(req, response.clinic_id);
+        if (req.body.services) {
+          await createClinicServices(req, response.clinic_id);
+        }
+        if (req.body.specialities) {
+          await createClinicSpecialities(req, response.clinic_id);
+        }
         return res.status(200).json({
           message: "Created Successfully",
         });
