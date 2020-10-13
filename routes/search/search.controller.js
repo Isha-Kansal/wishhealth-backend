@@ -337,7 +337,7 @@ module.exports = {
 
       let clinics = JSON.parse(JSON.stringify(doctorClinicData));
       let own = JSON.parse(JSON.stringify(ownClinicData));
-      let abc = [...visit, ...own];
+      let abc = [...clinics, ...own];
       let data = [];
       let obj = {};
 
