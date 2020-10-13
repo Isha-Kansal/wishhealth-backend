@@ -193,26 +193,26 @@ module.exports = {
   getDoctorClinicDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
-      // const visitingClinics = await DoctorClinicTimings.findAll({
-      //   where: {
-      //     doctor_id: doctorId,
-      //   },
-      //   attributes: ["id", "clinic_id"],
-      //   include: [
-      //     {
-      //       model: Clinics,
-      //       required: false,
-      //       include: [
-      //         { model: ClinicTimings },
-      //         { model: Cities },
-      //         { model: States },
-      //         { model: ClinicImages },
-      //         { model: ClinicSpecialities, include: [{ model: Specialities }] },
-      //         { model: ClinicServices, include: [{ model: Services }] },
-      //       ],
-      //     },
-      //   ],
-      // });
+      const visitingClinics = await DoctorClinicTimings.findAll({
+        where: {
+          doctor_id: doctorId,
+        },
+        attributes: ["id", "clinic_id"],
+        include: [
+          {
+            model: Clinics,
+            required: false,
+            include: [
+              { model: ClinicTimings },
+              { model: Cities },
+              { model: States },
+              { model: ClinicImages },
+              { model: ClinicSpecialities, include: [{ model: Specialities }] },
+              { model: ClinicServices, include: [{ model: Services }] },
+            ],
+          },
+        ],
+      });
       const ownClinics = await Clinics.findAll({
         where: {
           admin_id: doctorId,
@@ -228,7 +228,10 @@ module.exports = {
       });
 
       return res.status(200).json({
-        data: ownClinics,
+        data: {
+          visitingClinics,
+          ownClinics,
+        },
       });
     } catch (err) {
       console.log(err, "err");
