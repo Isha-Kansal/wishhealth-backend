@@ -347,15 +347,9 @@ module.exports = {
         let found =
           data &&
           data.length > 0 &&
-          data.findIndex((item) => {
-            console.log(item, "itemitemitemitem", clinicJson);
-            return (
-              item &&
-              item.wh_clinic &&
-              item.wh_clinic.clinic_id === clinicJson &&
-              clinicJson.clinic_id
-            );
-          });
+          data.findIndex(
+            (item) => item.wh_clinic.clinic_id === clinicJson.clinic_id
+          );
         console.log(found, "foundfoundfoundfound");
         let available_timings = [];
         let object = { day: clinicJson.day };
