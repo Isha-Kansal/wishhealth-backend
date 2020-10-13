@@ -196,7 +196,7 @@ const getSpecialityData = async function (req, specialityExist) {
         // },
         {
           model: Doctorspecialities,
-          required: false,
+          required: true,
           where: {
             speciality_id: {
               [Op.in]: arr,
