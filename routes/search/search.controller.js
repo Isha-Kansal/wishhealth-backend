@@ -117,10 +117,12 @@ const getDoctorData = async function (req) {
         {
           model: Doctorspecialities,
           required: specialityExist.length > 0 ? true : false,
+          subQuery: false,
           include: [
             {
               model: Specialities,
               required: specialityExist.length > 0 ? true : false,
+              subQuery: false,
               attributes: ["title"],
               where: {
                 title: {
