@@ -299,18 +299,29 @@ module.exports = {
         await ClinicTimings.destroy({
           where: { clinic_id: req.body.clinic_id },
         });
-        await ClinicServices.destroy({
+
+        if (req.body.services) {
+          await ClinicServices.destroy({
+            where: { clinic_id: req.body.clinic_id },
+          });
+          await createController.createClinicServices(req, req.body.clinic_id);
+        }
+        if (req.body.specialities) {
+          await ClinicSpecialities.destroy({
+            where: { clinic_id: req.body.clinic_id },
+          });
+          await createController.createClinicSpecialities(
+            req,
+            req.body.clinic_id
+          );
+        }
+
+        await ClinicImages.destroy({
           where: { clinic_id: req.body.clinic_id },
         });
-        await ClinicSpecialities.destroy({
-          where: { clinic_id: req.body.clinic_id },
-        });
-        await createController.createClinicServices(req, req.body.clinic_id);
+        await createController.createClinicImages(req, req.body.clinic_id);
         await createController.createClinicTimings(req, req.body.clinic_id);
-        await createController.createClinicSpecialities(
-          req,
-          req.body.clinic_id
-        );
+
         return res.status(200).json({
           message: "Updated Successfully",
         });

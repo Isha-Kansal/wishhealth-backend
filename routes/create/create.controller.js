@@ -15,6 +15,7 @@ const Services = require("../../models/wh_services");
 const ClinicServices = require("../../models/wh_clinic_services");
 const Clinics = require("../../models/wh_clinic");
 const ClinicTimings = require("../../models/wh_clinic_timings");
+const ClinicImages = require("../../models/wh_clinic_images");
 const { Op } = sequelize;
 const createSpecialities = async function (req, id) {
   try {
@@ -67,6 +68,22 @@ const createClinicTimings = async function (req, id) {
         };
 
         await ClinicTimings.create(values);
+      });
+  } catch (err) {
+    console.log(err, "err");
+  }
+};
+const createClinicImages = async function (req, id) {
+  try {
+    req.body.clinic_images &&
+      req.body.clinic_images.length > 0 &&
+      req.body.clinic_images.map(async (item) => {
+        let values = {
+          ...item,
+          clinic_id: id,
+        };
+
+        await ClinicImages.create(values);
       });
   } catch (err) {
     console.log(err, "err");
@@ -263,6 +280,7 @@ module.exports = {
         clinic_type: req.body.clinic_type,
         latitude: req.body.latitude ? req.body.latitude : "",
         longitude: req.body.longitude ? req.body.longitude : "",
+        reg_proof: req.body.reg_proof ? req.body.reg_proof : "",
       };
       Clinics.create(values).then(async (resp) => {
         const response = JSON.parse(JSON.stringify(resp));
@@ -285,3 +303,4 @@ module.exports.createRegistration = createRegistration;
 module.exports.createClinicServices = createClinicServices;
 module.exports.createClinicSpecialities = createClinicSpecialities;
 module.exports.createClinicTimings = createClinicTimings;
+module.exports.createClinicImages = createClinicImages;

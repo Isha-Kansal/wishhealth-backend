@@ -17,6 +17,7 @@ const DoctorClinicTimings = require("../../models/wh_doctor_clinic_timings");
 const ClinicImages = require("../../models/wh_clinic_images");
 const Bookings = require("../../models/wh_patient_doctor_bookings");
 const moment = require("moment");
+const ClinicTimings = require("../../models/wh_clinic_timings");
 const { Op } = Sequelize;
 const getDoctorData = async function (req) {
   try {
@@ -324,7 +325,10 @@ module.exports = {
           {
             model: Clinics,
             required: true,
-            include: [{ model: ClinicImages, required: false }],
+            include: [
+              { model: ClinicImages, required: false },
+              { model: ClinicTimings, required: false },
+            ],
           },
         ],
       });
@@ -332,7 +336,10 @@ module.exports = {
         where: {
           admin_id: req.params.user_id,
         },
-        include: [{ model: ClinicImages, required: false }],
+        include: [
+          { model: ClinicImages, required: false },
+          { model: ClinicTimings, required: false },
+        ],
       });
 
       let visit = JSON.parse(JSON.stringify(doctorClinicData));
