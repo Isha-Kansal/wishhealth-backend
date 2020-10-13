@@ -127,8 +127,15 @@ const getDoctorData = async function (req) {
   }
 };
 
-const getSpecialityData = async function (req) {
+const getSpecialityData = async function (req, specialityExist) {
   try {
+    let arr = [];
+    specialityExist &&
+      specialityExist.length > 0 &&
+      specialityExist.map((item) => {
+        arr.push(item.id);
+      });
+    console, log(arr, "arrarrarr");
     const doctors = await Users.findAndCountAll({
       where: {
         role: "doctor",
@@ -188,7 +195,12 @@ const getSpecialityData = async function (req) {
         // },
         {
           model: Doctorspecialities,
-          required: true,
+          required: false,
+          where: {
+            speciality_id: {
+              [Op.in]: arr,
+            },
+          },
           include: [
             {
               model: Specialities,
@@ -225,6 +237,7 @@ module.exports = {
             [Op.like]: `%${req.body.doctorParams}%`,
           },
         },
+        attributes: ["speciality_id"],
       });
 
       if (specialityExist.length === 0) {
@@ -232,7 +245,7 @@ module.exports = {
         arr = [...doctorData.data];
         count = doctorData.count;
       } else {
-        const specialityData = await getSpecialityData(req);
+        const specialityData = await getSpecialityData(req, specialityExist);
         arr = [...specialityData.data];
         count = specialityData.count;
       }
