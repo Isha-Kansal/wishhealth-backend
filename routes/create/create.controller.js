@@ -123,7 +123,7 @@ const createClinicServices = async function (req, id) {
         const result = JSON.parse(JSON.stringify(service));
         console.log(result, "languagelanguagelanguage");
         let values = {
-          service_id: result.id,
+          service_id: result.service_id,
           clinic_id: id,
         };
 
