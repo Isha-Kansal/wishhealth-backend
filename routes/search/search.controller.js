@@ -323,7 +323,7 @@ module.exports = {
         include: [
           {
             model: Clinics,
-            required: false,
+            required: true,
             include: [{ model: ClinicImages, required: false }],
           },
         ],
