@@ -134,7 +134,7 @@ const getSpecialityData = async function (req, specialityExist) {
     speciality &&
       speciality.length > 0 &&
       speciality.map((item) => {
-        arr.push(item.id);
+        arr.push(item.speciality_id);
       });
     console.log(arr, "arrarrarr", speciality);
     const doctors = await Users.findAndCountAll({
