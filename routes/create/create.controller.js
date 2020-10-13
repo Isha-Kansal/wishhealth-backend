@@ -277,6 +277,11 @@ module.exports = {
         city_id: req.body.city_id,
         state_id: req.body.state_id,
         city: "",
+        days: "",
+        start_time: "",
+        end_time: "",
+        break_start_time: "",
+        break_end_time: "",
         pin_code: req.body.pin_code ? req.body.pin_code : "",
         clinic_type: req.body.clinic_type,
         latitude: req.body.latitude ? req.body.latitude : "",
@@ -291,6 +296,9 @@ module.exports = {
         }
         if (req.body.specialities) {
           await createClinicSpecialities(req, response.clinic_id);
+        }
+        if (req.body.clinic_images) {
+          await createClinicImages(req, response.clinic_id);
         }
         return res.status(200).json({
           message: "Created Successfully",
