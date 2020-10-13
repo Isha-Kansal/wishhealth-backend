@@ -355,7 +355,7 @@ module.exports = {
         let object = { day: clinicJson.day };
         let time = [];
 
-        if ((found === -1 || !found) && clinics[i].clinic_id) {
+        if ((found === -1 || found === false) && clinics[i].clinic_id) {
           const clinicbookings = await Bookings.findAll({
             where: {
               doctor_id: req.params.user_id,
@@ -396,7 +396,7 @@ module.exports = {
           ...obj,
           wh_clinic: clinicJson.wh_clinic,
         };
-        if (found === -1 || !found) {
+        if (found === -1 || found === false) {
           data.push(obj);
         } else {
           data[found] = obj;
