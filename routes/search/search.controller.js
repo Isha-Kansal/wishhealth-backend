@@ -402,9 +402,9 @@ module.exports = {
           data[found] = obj;
         }
       }
-      let arr = [...data, ...own];
+      // let arr = [...data, ...own];
       return res.status(200).json({
-        data: arr,
+        data: data,
       });
     } catch (err) {
       console.log(err, "err");
