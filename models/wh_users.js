@@ -89,6 +89,9 @@ const Users = db.define(
 Users.hasOne(Doctordetails, { foreignKey: "user_id" });
 Users.hasMany(Doctorlanguages, { foreignKey: "user_id" });
 Users.hasMany(Doctorspecialities, { foreignKey: "user_id" });
+Doctorspecialities.belongsTo(Users, {
+  foreignKey: "user_id",
+});
 Users.hasMany(Doctorqualifications, { foreignKey: "user_id" });
 Users.hasMany(DoctorClinics, { foreignKey: "user_id" });
 

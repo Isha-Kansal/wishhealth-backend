@@ -116,7 +116,7 @@ const getDoctorData = async function (req) {
         },
         {
           model: Doctorspecialities,
-          required: specialityExist.length > 0 ? true : false,
+          required: false,
           include: [
             {
               model: Specialities,
@@ -144,29 +144,10 @@ const getDoctorData = async function (req) {
 
 const getSpecialityData = async function (req) {
   try {
-    let clinicModel = {
-      model: Clinics,
-      include: [{ model: ClinicImages }],
-    };
-    if (req.body.location && req.body.location !== "") {
-      clinicModel.required = true;
-      clinicModel.where = {
-        address: {
-          [Op.like]: `%${req.body.location}%`,
-        },
-      };
-    }
-    let featured = req.body.featured
-      ? {
-          [Op.gte]: 1,
-        }
-      : {
-          [Op.ne]: null,
-        };
     const doctors = await Users.findAndCountAll({
       where: {
         role: "doctor",
-        rankings: featured,
+        status: "1",
       },
       include: [
         {
