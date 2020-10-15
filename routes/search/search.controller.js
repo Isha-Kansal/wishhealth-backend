@@ -19,6 +19,92 @@ const Bookings = require("../../models/wh_patient_doctor_bookings");
 const moment = require("moment");
 const ClinicTimings = require("../../models/wh_clinic_timings");
 const { Op } = Sequelize;
+const recommendationsData = async function (req) {
+  try {
+    const doctors = await Users.findAndCountAll({
+      where: {
+        role: "doctor",
+        status: "1",
+      },
+      distinct: true,
+      include: [
+        {
+          model: Doctordetails,
+          required:
+            req.body.type !== "" || req.body.location !== "" ? true : false,
+          where: {
+            video_consultation: {
+              [Op.in]: [1],
+            },
+            city: {
+              [Op.ne]: `%${req.body.location}%`,
+            },
+          },
+        },
+        {
+          model: Doctorlanguages,
+          required: false,
+          include: [
+            {
+              model: Languages,
+              required: false,
+              attributes: ["name"],
+              where: {
+                name: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
+        {
+          model: Doctorqualifications,
+          required: false,
+          include: [
+            {
+              model: Qualifications,
+              required: false,
+              attributes: ["degree"],
+              where: {
+                degree: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
+        {
+          model: Doctorspecialities,
+          required: false,
+          where: {
+            speciality_id: {
+              [Op.in]: arr,
+            },
+          },
+          include: [
+            {
+              model: Specialities,
+              required: true,
+              attributes: ["title"],
+              where: {
+                title: {
+                  [Op.like]: `%${req.body.doctorParams}%`,
+                },
+              },
+            },
+          ],
+        },
+      ],
+      limit: req.body.limit,
+      offset: req.body.offset,
+      order: [["rankings", "DESC"]],
+    });
+    return doctors.rows;
+  } catch (err) {
+    console.log(err, "err");
+    return [];
+  }
+};
 const getDoctorData = async function (req) {
   try {
     let featured = req.body.featured
@@ -126,17 +212,8 @@ const getDoctorData = async function (req) {
     return [];
   }
 };
-
-const getSpecialityData = async function (req, specialityExist) {
+const getSpecialityData = async function (req, arr) {
   try {
-    let arr = [];
-    const speciality = JSON.parse(JSON.stringify(specialityExist));
-    speciality &&
-      speciality.length > 0 &&
-      speciality.map((item) => {
-        arr.push(item.speciality_id);
-      });
-    console.log(arr, "arrarrarr", speciality);
     const doc_speciality = await Doctorspecialities.findAndCountAll({
       where: {
         speciality_id: {
@@ -268,6 +345,7 @@ module.exports = {
   searchDoctors: async function (req, res) {
     try {
       let arr = [];
+      let recommendations = [];
       let count = 0;
       console.log(req.body, "dgsyhgfshgdh");
       let specialityExist = [];
@@ -287,13 +365,23 @@ module.exports = {
         arr = [...doctorData.data];
         count = doctorData.count;
       } else {
-        const specialityData = await getSpecialityData(req, specialityExist);
+        let arr = [];
+        const speciality = JSON.parse(JSON.stringify(specialityExist));
+        speciality &&
+          speciality.length > 0 &&
+          speciality.map((item) => {
+            arr.push(item.speciality_id);
+          });
+        console.log(arr, "arrarrarr", speciality);
+        const specialityData = await getSpecialityData(req, arr);
+        recommendations = await recommendationsData(req, arr);
         arr = [...specialityData.data];
         count = specialityData.count;
       }
       console.log(arr, "arrarrarrarrarrarr", arr.length);
       return res.status(200).json({
-        data: arr,
+        data: { arr, recommendations },
+
         count,
       });
     } catch (err) {
