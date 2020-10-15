@@ -374,7 +374,9 @@ module.exports = {
           });
         console.log(arr, "arrarrarr", speciality);
         const specialityData = await getSpecialityData(req, arr);
-        recommendations = await recommendationsData(req, arr);
+        if (arr.length === 0) {
+          recommendations = await recommendationsData(req, arr);
+        }
         arr = [...specialityData.data];
         count = specialityData.count;
       }
