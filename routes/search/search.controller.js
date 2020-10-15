@@ -474,6 +474,9 @@ module.exports = {
                 required: false,
                 where: {
                   doctor_id: req.params.user_id,
+                  date2: {
+                    [Op.gte]: new Date(new Date().setHours(0, 0, 0)),
+                  },
                 },
               },
               { model: ClinicTimings, required: false },
@@ -493,6 +496,9 @@ module.exports = {
             required: false,
             where: {
               doctor_id: req.params.user_id,
+              date2: {
+                [Op.gte]: new Date(new Date().setHours(0, 0, 0)),
+              },
             },
           },
           { model: ClinicTimings, required: false },
