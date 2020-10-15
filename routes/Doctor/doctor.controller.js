@@ -199,14 +199,20 @@ module.exports = {
         where: {
           user_id: doctorId,
         },
+        attributes: ["id"],
         include: [
           {
             model: Clinics,
             required: false,
             as: "clinics",
+            attributes: ["clinic_id"],
             include: [{ model: ClinicTimings, required: false }],
           },
-          { model: Doctordetails, required: false },
+          {
+            model: Doctordetails,
+            required: false,
+            attributes: ["doc_advance_fees", "doc_fees"],
+          },
           { model: VideoConsultation, required: false, as: "video_timings" },
           { model: DoctorBankDetails, required: false, as: "bank_details" },
         ],

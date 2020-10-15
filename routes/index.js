@@ -6,6 +6,7 @@ const patient = require("./Patient");
 const search = require("./search");
 const create = require("./create");
 const dataValues = require("./dataValues");
+const dataValues = require("./auth");
 module.exports = function (app) {
   app.use("/order", common);
   app.use("/doctor", doctor);
@@ -13,4 +14,5 @@ module.exports = function (app) {
   app.use("/search", search);
   app.use("/create", create);
   app.use("/data", dataValues);
+  app.use("/auth", auth);
 };
