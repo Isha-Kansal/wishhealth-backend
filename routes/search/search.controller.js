@@ -383,7 +383,6 @@ module.exports = {
       console.log(arr, "arrarrarrarrarrarr", arr.length);
       return res.status(200).json({
         data: { arr, recommendations },
-
         count,
       });
     } catch (err) {
@@ -530,9 +529,9 @@ module.exports = {
           data[found] = obj;
         }
       }
-      // let arr = [...data, ...own];
+
       return res.status(200).json({
-        data: data,
+        data: { visitingClinics: data, ownClinicData: own },
       });
     } catch (err) {
       console.log(err, "err");
