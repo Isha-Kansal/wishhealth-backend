@@ -366,19 +366,19 @@ module.exports = {
         arr = [...doctorData.data];
         count = doctorData.count;
       } else {
-        let arr = [];
+        let array = [];
         const speciality = JSON.parse(JSON.stringify(specialityExist));
         speciality &&
           speciality.length > 0 &&
           speciality.map((item) => {
-            arr.push(item.speciality_id);
+            array.push(item.speciality_id);
           });
-        console.log(arr, "arrarrarr", speciality);
-        const specialityData = await getSpecialityData(req, arr);
+        console.log(array, "arrarrarr", speciality);
+        const specialityData = await getSpecialityData(req, array);
+        arr = [...specialityData.data];
         if (arr.length === 0) {
           recommendations = await recommendationsData(req, arr);
         }
-        arr = [...specialityData.data];
         count = specialityData.count;
       }
       console.log(arr, "arrarrarrarrarrarr", arr.length);
