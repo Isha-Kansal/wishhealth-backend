@@ -200,8 +200,13 @@ module.exports = {
           user_id: doctorId,
         },
         include: [
+          {
+            model: Clinics,
+            required: false,
+            as: "clinics",
+            include: [{ model: ClinicTimings, required: false }],
+          },
           { model: Doctordetails, required: false },
-          { model: DoctorClinicTimings, required: false, as: "clinic_timings" },
           { model: VideoConsultation, required: false, as: "video_timings" },
           { model: DoctorBankDetails, required: false, as: "bank_details" },
         ],
