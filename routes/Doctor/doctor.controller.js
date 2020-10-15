@@ -190,6 +190,28 @@ module.exports = {
       });
     }
   },
+  getDoctorTimings: async function (req, res) {
+    try {
+      const doctorId = req.params.id;
+      const timings = await ClinicTimings.findAll({
+        where: {
+          doctor_id: doctorId,
+        },
+        // include:[
+        //   {model:}
+        // ]
+      });
+
+      return res.status(200).json({
+        data: timings,
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   getDoctorClinicDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
