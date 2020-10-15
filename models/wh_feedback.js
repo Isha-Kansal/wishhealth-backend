@@ -57,6 +57,7 @@ const Feedback = db.define(
   },
   {
     timestamps: false,
+    freezeTableName: true,
   }
 );
 
