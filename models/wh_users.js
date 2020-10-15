@@ -10,6 +10,7 @@ const DoctorServices = require("./wh_doctor_services");
 const Bookings = require("./wh_patient_doctor_bookings");
 const States = require("./wh_states");
 const Cities = require("./wh_cities");
+const Feedback = require("./wh_feedback");
 const Users = db.define(
   "wh_users",
   {
@@ -99,6 +100,11 @@ Users.hasMany(DoctorClinicTimings, {
   foreignKey: "doctor_id",
   sourceKey: "user_id",
   as: "clinic_timings",
+});
+Users.hasMany(Feedback, {
+  foreignKey: "doctor_id",
+  sourceKey: "user_id",
+  as: "feedback",
 });
 
 Users.hasMany(Bookings, {

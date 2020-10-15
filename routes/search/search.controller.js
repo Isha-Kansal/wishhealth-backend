@@ -18,6 +18,7 @@ const ClinicImages = require("../../models/wh_clinic_images");
 const Bookings = require("../../models/wh_patient_doctor_bookings");
 const moment = require("moment");
 const ClinicTimings = require("../../models/wh_clinic_timings");
+const Feedback = require("../../models/wh_feedback");
 const { Op } = Sequelize;
 const recommendationsData = async function (req) {
   try {
@@ -40,6 +41,10 @@ const recommendationsData = async function (req) {
               [Op.ne]: `%${req.body.location}%`,
             },
           },
+        },
+        {
+          model: Feedback,
+          required: false,
         },
         {
           model: Doctorlanguages,
@@ -152,6 +157,10 @@ const getDoctorData = async function (req) {
               [Op.like]: `%${req.body.location}%`,
             },
           },
+        },
+        {
+          model: Feedback,
+          required: false,
         },
         {
           model: Doctorlanguages,
@@ -276,6 +285,10 @@ const getSpecialityData = async function (req, arr) {
               [Op.like]: `%${req.body.location}%`,
             },
           },
+        },
+        {
+          model: Feedback,
+          required: false,
         },
         {
           model: Doctorlanguages,

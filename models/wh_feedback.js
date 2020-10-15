@@ -12,16 +12,46 @@ const Feedback = db.define(
       foreignKey: [Object],
       autoIncrement: true,
     },
-    name: {
-      type: "VARCHAR(30)",
+    appointment_id: {
+      type: "INT(11)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    state_id: {
+    doctor_id: {
       type: "INT(11)",
       allowNull: false,
       defaultValue: null,
+      primaryKey: false,
+    },
+    patient_id: {
+      type: "INT(11)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    recommended: {
+      type: "INT(11)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    message: {
+      type: "TEXT",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    created_at: {
+      type: "TIMESTAMP",
+      allowNull: false,
+      defaultValue: "CURRENT_TIMESTAMP",
+      primaryKey: false,
+    },
+    updated_at: {
+      type: "TIMESTAMP",
+      allowNull: false,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
   },
