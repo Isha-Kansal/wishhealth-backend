@@ -522,22 +522,15 @@ module.exports = {
         let time = [];
 
         if ((found === -1 || found === false) && clinics[i].clinic_id) {
-          // const clinicbookings = await Bookings.findAll({
-          //   where: {
-          //     doctor_id: req.params.user_id,
-          //     clinic_id: clinics[i].clinic_id,
-          //   },
-          // });
-          // if (doctorDetails && doctorDetails.video_consultation === 1) {
-          //   const videobookings = await Bookings.findAll({
-          //     where: {
-          //       doctor_id: req.params.user_id,
-          //       clinic_id: 0,
-          //     },
-          //   });
-          //   obj.videobookings = videobookings;
-          // }
-          // obj.clinicbookings = clinicbookings;
+          if (doctorDetails && doctorDetails.video_consultation === 1) {
+            const videobookings = await Bookings.findAll({
+              where: {
+                doctor_id: req.params.user_id,
+                clinic_id: 0,
+              },
+            });
+            obj.videobookings = videobookings;
+          }
         } else {
           available_timings = data[found].available_timings;
         }
