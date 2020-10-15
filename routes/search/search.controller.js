@@ -567,7 +567,7 @@ module.exports = {
       }
 
       return res.status(200).json({
-        data: { visitingClinics: data, ownClinicData: own },
+        data: { visitingClinics: data, ownClinicData: ownData },
       });
     } catch (err) {
       console.log(err, "err");
