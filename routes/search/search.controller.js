@@ -44,6 +44,7 @@ const recommendationsData = async function (req) {
         },
         {
           model: Feedback,
+          as: "feedback",
           required: false,
         },
         {
@@ -160,6 +161,7 @@ const getDoctorData = async function (req) {
         },
         {
           model: Feedback,
+          as: "feedback",
           required: false,
         },
         {
@@ -288,6 +290,7 @@ const getSpecialityData = async function (req, arr) {
         },
         {
           model: Feedback,
+          as: "feedback",
           required: false,
         },
         {
