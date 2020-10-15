@@ -10,7 +10,10 @@ router.post(
   "/updateDoctorEducationDetails/:id/:index",
   controller.updateDoctorEducationDetails
 );
-
+router.post(
+  "/deleteDoctorEducationDetails/:id/:index",
+  controller.deleteDoctorEducationDetails
+);
 router.post(
   "/updateDoctorRegistrationDetails/:id",
   controller.updateDoctorRegistrationDetails

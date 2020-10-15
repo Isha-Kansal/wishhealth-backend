@@ -240,6 +240,24 @@ module.exports = {
       });
     }
   },
+  deleteDoctorEducationDetails: async function (req, res) {
+    try {
+      const doctorId = req.params.id;
+      const number = req.params.index;
+      await Doctorqualifications.destroy({
+        where: { user_id: doctorId, index: number },
+      });
+
+      return res.status(200).json({
+        message: "Deleted Successfully",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   updateDoctorEducationDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
@@ -271,7 +289,6 @@ module.exports = {
       });
     }
   },
-
   updateDoctorClinicBasic: async function (req, res) {
     try {
       const clinic = await Clinics.findOne({
