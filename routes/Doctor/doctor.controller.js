@@ -199,7 +199,7 @@ module.exports = {
         where: {
           user_id: doctorId,
         },
-        attributes: ["id"],
+        attributes: ["user_id"],
         include: [
           {
             model: Clinics,
