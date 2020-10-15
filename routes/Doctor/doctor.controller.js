@@ -22,6 +22,7 @@ const ClinicServices = require("../../models/wh_clinic_services");
 const Services = require("../../models/wh_services");
 const ClinicTimings = require("../../models/wh_clinic_timings");
 const ClinicImages = require("../../models/wh_clinic_images");
+const VideoConsultation = require("../../models/wh_video_consultation_times");
 const { Op } = Sequelize;
 module.exports = {
   updateDoctorDetails: async function (req, res) {
@@ -197,9 +198,7 @@ module.exports = {
         where: {
           doctor_id: doctorId,
         },
-        // include:[
-        //   {model:}
-        // ]
+        include: [{ model: VideoConsultation }],
       });
 
       return res.status(200).json({
