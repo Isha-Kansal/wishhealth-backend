@@ -469,10 +469,18 @@ module.exports = {
             required: true,
             include: [
               { model: ClinicImages, required: false },
+              {
+                model: Bookings,
+                required: false,
+                where: {
+                  doctor_id: req.params.user_id,
+                },
+              },
               { model: ClinicTimings, required: false },
             ],
           },
         ],
+        order: [["clinic_id", "ASC"]],
       });
       const ownClinicData = await Clinics.findAll({
         where: {
@@ -480,8 +488,16 @@ module.exports = {
         },
         include: [
           { model: ClinicImages, required: false },
+          {
+            model: Bookings,
+            required: false,
+            where: {
+              doctor_id: req.params.user_id,
+            },
+          },
           { model: ClinicTimings, required: false },
         ],
+        order: [["clinic_id", "ASC"]],
       });
 
       let clinics = JSON.parse(JSON.stringify(doctorClinicData));
@@ -506,22 +522,22 @@ module.exports = {
         let time = [];
 
         if ((found === -1 || found === false) && clinics[i].clinic_id) {
-          const clinicbookings = await Bookings.findAll({
-            where: {
-              doctor_id: req.params.user_id,
-              clinic_id: clinics[i].clinic_id,
-            },
-          });
-          if (doctorDetails && doctorDetails.video_consultation === 1) {
-            const videobookings = await Bookings.findAll({
-              where: {
-                doctor_id: req.params.user_id,
-                clinic_id: 0,
-              },
-            });
-            obj.videobookings = videobookings;
-          }
-          obj.clinicbookings = clinicbookings;
+          // const clinicbookings = await Bookings.findAll({
+          //   where: {
+          //     doctor_id: req.params.user_id,
+          //     clinic_id: clinics[i].clinic_id,
+          //   },
+          // });
+          // if (doctorDetails && doctorDetails.video_consultation === 1) {
+          //   const videobookings = await Bookings.findAll({
+          //     where: {
+          //       doctor_id: req.params.user_id,
+          //       clinic_id: 0,
+          //     },
+          //   });
+          //   obj.videobookings = videobookings;
+          // }
+          // obj.clinicbookings = clinicbookings;
         } else {
           available_timings = data[found].available_timings;
         }
