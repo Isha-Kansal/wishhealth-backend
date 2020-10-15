@@ -242,10 +242,10 @@ module.exports = {
   },
   deleteDoctorEducationDetails: async function (req, res) {
     try {
-      const doctorId = req.params.id;
-      const number = req.params.index;
+      const doctorId = req.params.user_id;
+      const id = req.params.id;
       await Doctorqualifications.destroy({
-        where: { user_id: doctorId, index: number },
+        where: { user_id: doctorId, id },
       });
 
       return res.status(200).json({
@@ -260,10 +260,10 @@ module.exports = {
   },
   updateDoctorEducationDetails: async function (req, res) {
     try {
-      const doctorId = req.params.id;
-      const number = req.params.index;
+      const doctorId = req.params.user_id;
+      const id = req.params.id;
       await Doctorqualifications.destroy({
-        where: { user_id: doctorId, index: number },
+        where: { user_id: doctorId, id },
       });
 
       let obj = {

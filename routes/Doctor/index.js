@@ -7,11 +7,11 @@ router.get("/getDoctorClinicBasics/:id", controller.getDoctorClinicDetails);
 
 router.post("/updateDoctorDetails/:id", controller.updateDoctorDetails);
 router.post(
-  "/updateDoctorEducationDetails/:id/:index",
+  "/updateDoctorEducationDetails/:user_id/:id",
   controller.updateDoctorEducationDetails
 );
 router.post(
-  "/deleteDoctorEducationDetails/:id/:index",
+  "/deleteDoctorEducationDetails/:user_id/:id",
   controller.deleteDoctorEducationDetails
 );
 router.post(
