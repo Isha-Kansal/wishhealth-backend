@@ -23,6 +23,7 @@ const Services = require("../../models/wh_services");
 const ClinicTimings = require("../../models/wh_clinic_timings");
 const ClinicImages = require("../../models/wh_clinic_images");
 const VideoConsultation = require("../../models/wh_video_consultation_times");
+const DoctorBankDetails = require("../../models/wh_doctor_bank_details");
 const { Op } = Sequelize;
 module.exports = {
   updateDoctorDetails: async function (req, res) {
@@ -194,11 +195,16 @@ module.exports = {
   getDoctorTimings: async function (req, res) {
     try {
       const doctorId = req.params.id;
-      const timings = await ClinicTimings.findAll({
+      const timings = await Users.findOne({
         where: {
-          doctor_id: doctorId,
+          user_id: doctorId,
         },
-        include: [{ model: VideoConsultation }],
+        include: [
+          { model: Doctordetails, required: false },
+          { model: DoctorClinicTimings, required: false },
+          { model: VideoConsultation, required: false },
+          { model: DoctorBankDetails, required: false },
+        ],
       });
 
       return res.status(200).json({

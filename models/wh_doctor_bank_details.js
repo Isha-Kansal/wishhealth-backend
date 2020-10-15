@@ -11,64 +11,40 @@ const DoctorBankDetails = db.define(
       foreignKey: [Object],
       autoIncrement: true,
     },
-    user_id: {
+    doctor_id: {
       type: "INT(11)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    clinic_id: {
-      type: "INT(11)",
+    account_number: {
+      type: "BIGINT(20)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    invite_status: {
-      type: "ENUM('sent','accepted')",
+    ifsc: {
+      type: "VARCHAR(11)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    sender: {
-      type: "ENUM('doctor','clinic')",
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    reciever_type: {
-      type: "ENUM('R','G')",
-      allowNull: false,
-      defaultValue: "R",
-      primaryKey: false,
-    },
-    availability_days: {
-      type: "TEXT",
+    bank_acct_holder_name: {
+      type: "VARCHAR(225)",
       allowNull: false,
       defaultValue: null,
       primaryKey: false,
     },
-    availability_time: {
-      type: "TEXT",
+    created_at: {
+      type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
-    creation_date: {
-      type: "DATETIME",
+    updated_at: {
+      type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    doc_interval: {
-      type: "INT(11)",
-      allowNull: false,
-      defaultValue: null,
-      primaryKey: false,
-    },
-    fees: {
-      type: "INT(11)",
-      allowNull: true,
-      defaultValue: null,
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
   },
