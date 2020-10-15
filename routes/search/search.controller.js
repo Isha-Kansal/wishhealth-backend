@@ -335,6 +335,7 @@ const getSpecialityData = async function (req, arr) {
       offset: req.body.offset,
       order: [["rankings", "DESC"]],
     });
+    console.log(doctors.rows, "doctors.rowsdoctors.rowsdoctors.rows");
     return { data: doctors.rows, count: doc_speciality.count };
   } catch (err) {
     console.log(err, "err");
