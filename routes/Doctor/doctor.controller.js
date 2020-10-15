@@ -201,9 +201,9 @@ module.exports = {
         },
         include: [
           { model: Doctordetails, required: false },
-          { model: DoctorClinicTimings, required: false },
-          { model: VideoConsultation, required: false },
-          { model: DoctorBankDetails, required: false },
+          { model: DoctorClinicTimings, required: false, as: "clinic_timings" },
+          { model: VideoConsultation, required: false, as: "video_timings" },
+          { model: DoctorBankDetails, required: false, as: "bank_details" },
         ],
       });
 

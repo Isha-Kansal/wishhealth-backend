@@ -12,6 +12,7 @@ const States = require("./wh_states");
 const Cities = require("./wh_cities");
 const Feedback = require("./wh_feedback");
 const VideoConsultation = require("./wh_video_consultation_times");
+const DoctorBankDetails = require("./wh_doctor_bank_details");
 const Users = db.define(
   "wh_users",
   {
@@ -101,6 +102,11 @@ Users.hasMany(DoctorClinicTimings, {
   foreignKey: "doctor_id",
   sourceKey: "user_id",
   as: "clinic_timings",
+});
+Users.hasMany(DoctorBankDetails, {
+  foreignKey: "doctor_id",
+  sourceKey: "user_id",
+  as: "bank_details",
 });
 Users.hasOne(VideoConsultation, {
   foreignKey: "doctor_id",
