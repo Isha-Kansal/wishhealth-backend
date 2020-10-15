@@ -504,7 +504,23 @@ module.exports = {
       let own = JSON.parse(JSON.stringify(ownClinicData));
       let data = [];
       let obj = {};
+      const videobookings = await Bookings.findAll({
+        where: {
+          doctor_id: req.params.user_id,
+          clinic_id: 0,
+        },
+      });
 
+      let ownData = [];
+      own &&
+        own.length > 0 &&
+        own.map((data) => {
+          let object = {
+            ...data,
+            videobookings,
+          };
+          ownData.push(object);
+        });
       for (let i = 0; i < clinics.length; i++) {
         const clinicData = clinics[i];
 
@@ -523,12 +539,6 @@ module.exports = {
 
         if ((found === -1 || found === false) && clinics[i].clinic_id) {
           if (doctorDetails && doctorDetails.video_consultation === 1) {
-            const videobookings = await Bookings.findAll({
-              where: {
-                doctor_id: req.params.user_id,
-                clinic_id: 0,
-              },
-            });
             obj.videobookings = videobookings;
           }
         } else {
