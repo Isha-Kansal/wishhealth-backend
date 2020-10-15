@@ -6,7 +6,7 @@ const patient = require("./Patient");
 const search = require("./search");
 const create = require("./create");
 const dataValues = require("./dataValues");
-const dataValues = require("./auth");
+const auth = require("./auth");
 module.exports = function (app) {
   app.use("/order", common);
   app.use("/doctor", doctor);
