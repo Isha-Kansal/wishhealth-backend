@@ -19,6 +19,7 @@ const Bookings = require("../../models/wh_patient_doctor_bookings");
 const moment = require("moment");
 const ClinicTimings = require("../../models/wh_clinic_timings");
 const Feedback = require("../../models/wh_feedback");
+const VideoConsultation = require("../../models/wh_video_consultation_times");
 const { Op } = Sequelize;
 const recommendationsData = async function (req) {
   try {
@@ -516,7 +517,11 @@ module.exports = {
           clinic_id: 0,
         },
       });
-
+      const video_timings = await VideoConsultation.findOne({
+        where: {
+          doctor_id: req.params.user_id,
+        },
+      });
       // let ownData = [];
       // own &&
       //   own.length > 0 &&
@@ -546,6 +551,7 @@ module.exports = {
         if ((found === -1 || found === false) && clinics[i].clinic_id) {
           if (doctorDetails && doctorDetails.video_consultation === 1) {
             obj.videobookings = videobookings;
+            obj.video_timings = video_timings;
           }
         } else {
           available_timings = data[found].available_timings;
