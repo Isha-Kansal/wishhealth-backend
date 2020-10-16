@@ -114,7 +114,7 @@ module.exports = {
   },
   resendOtpSignUp: async function (req, res) {
     try {
-      const otp = Math.random(10000, 99999);
+      const otp = Math.floor(Math.random() * 99999) + 10000;
       const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=docsignup&var1=${req.body.name}&var2=${otp}`;
       await commonController.sendOtp(url);
       return res.status(200).json({
