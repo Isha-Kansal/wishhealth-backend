@@ -287,6 +287,7 @@ module.exports = {
   },
   inviteClinic: async function (req, res) {
     try {
+      console.log(req.body, "req.bodyreq.bodyreq.body");
       const user_id = req.body.user_id;
       const clinic_id = req.body.clinic_id;
       await DoctorClinics.create({
