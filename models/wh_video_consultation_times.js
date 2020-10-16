@@ -69,13 +69,13 @@ const VideoConsultation = db.define(
     created_at: {
       type: "TIMESTAMP",
       allowNull: true,
-      defaultValue: "Sequelize.NOW",
+      defaultValue: "new Date()",
       primaryKey: false,
     },
     updated_at: {
       type: "TIMESTAMP",
       allowNull: true,
-      defaultValue: "Sequelize.NOW",
+      defaultValue: "new Date()",
       primaryKey: false,
     },
   },

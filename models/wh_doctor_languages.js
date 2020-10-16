@@ -29,13 +29,13 @@ const Doctorlanguages = db.define(
     created_at: {
       type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: "Sequelize.NOW",
+      defaultValue: "new Date()",
       primaryKey: false,
     },
     updated_at: {
       type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: "Sequelize.NOW",
+      defaultValue: "new Date()",
       primaryKey: false,
     },
   },

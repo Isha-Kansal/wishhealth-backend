@@ -57,7 +57,7 @@ const DoctorClinics = db.define(
     creation_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: "Sequelize.NOW",
+      defaultValue: "new Date()",
       primaryKey: false,
     },
     doc_interval: {

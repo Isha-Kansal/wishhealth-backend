@@ -95,13 +95,13 @@ const Clinics = db.define(
     creation_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: "Sequelize.NOW",
+      defaultValue: "new Date()",
       primaryKey: false,
     },
     modified_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: "Sequelize.NOW",
+      defaultValue: "new Date()",
       primaryKey: false,
     },
     image: {
