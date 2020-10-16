@@ -39,13 +39,13 @@ const Testimonials = db.define(
     created_at: {
       type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: ""CURRENT_TIMESTAMP"",
       primaryKey: false,
     },
     updated_at: {
       type: "TIMESTAMP",
       allowNull: true,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: ""CURRENT_TIMESTAMP"",
       primaryKey: false,
     },
   },

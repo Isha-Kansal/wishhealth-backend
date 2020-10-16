@@ -57,7 +57,7 @@ const DoctorClinics = db.define(
     creation_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: ""CURRENT_TIMESTAMP"",
       primaryKey: false,
     },
     doc_interval: {

@@ -89,13 +89,13 @@ const Doctordetails = db.define(
     created_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: ""CURRENT_TIMESTAMP"",
       primaryKey: false,
     },
     modified_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: ""CURRENT_TIMESTAMP"",
       primaryKey: false,
     },
     profile_pic: {
