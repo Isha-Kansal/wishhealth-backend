@@ -266,7 +266,6 @@ module.exports = {
         where: {
           doctor_id: doctorId,
         },
-        attributes: ["fees", "advance_fees"],
       });
       return res.status(200).json({
         data: { data, account_details, clinic_fee, video_fees },
