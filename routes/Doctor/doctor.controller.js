@@ -239,7 +239,7 @@ module.exports = {
       const doctorId = req.params.id;
       const visitingClinics = await DoctorClinics.findAll({
         where: {
-          doctor_id: doctorId,
+          user_id: doctorId,
         },
         attributes: ["id", "clinic_id"],
         include: [
