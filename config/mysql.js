@@ -3,11 +3,9 @@ require("dotenv").config();
 const Sequelize = require("sequelize");
 const {
   SERVER_ENVIRONMENT,
-
   LOCAL_DATABASE_HOST,
   LOCAL_DATABASE_USER,
   LOCAL_DATABASE_PASSWORD,
-
   LIVE_DATABASE_HOST,
   LIVE_DATABASE_NAME,
   LIVE_DATABASE_USER,
@@ -28,7 +26,7 @@ const config =
         password: LIVE_DATABASE_PASSWORD,
         port: 3306,
       };
-
+console.log(config, "configconfigconfigconfig");
 const sequelize = new Sequelize(config.database, config.user, config.password, {
   host: config.host,
   port: config.port,
