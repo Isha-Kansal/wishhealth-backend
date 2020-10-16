@@ -293,6 +293,7 @@ module.exports = {
       await DoctorClinics.create({
         user_id,
         clinic_id,
+        invite_status: "accepted",
       });
 
       return res.status(200).json({
