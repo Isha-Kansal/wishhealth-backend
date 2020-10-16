@@ -87,13 +87,13 @@ const Bookings = db.define(
     created_at: {
       type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: NOW(),
       primaryKey: false,
     },
     modified_at: {
       type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: NOW(),
       primaryKey: false,
     },
     read_status: {

@@ -45,13 +45,13 @@ const Feedback = db.define(
     created_at: {
       type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: NOW(),
       primaryKey: false,
     },
     updated_at: {
       type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: NOW(),
       primaryKey: false,
     },
   },

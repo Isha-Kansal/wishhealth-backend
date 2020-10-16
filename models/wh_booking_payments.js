@@ -33,13 +33,13 @@ const BookingPayments = db.define(
     created_at: {
       type: "TIMESTAMP",
       allowNull: true,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: NOW(),
       primaryKey: false,
     },
     updated_at: {
       type: "TIMESTAMP",
       allowNull: true,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: NOW(),
       primaryKey: false,
     },
   },
