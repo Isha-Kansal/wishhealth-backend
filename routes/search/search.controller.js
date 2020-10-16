@@ -476,7 +476,7 @@ module.exports = {
                 where: {
                   doctor_id: req.params.user_id,
                   date2: {
-                    [Op.gte]: new Date(new Date().setHours(0, 0, 0)),
+                    [Op.gte]: new Date(CURRENT_TIMESTAMP.setHours(0, 0, 0)),
                   },
                 },
               },
@@ -498,7 +498,7 @@ module.exports = {
             where: {
               doctor_id: req.params.user_id,
               date2: {
-                [Op.gte]: new Date(new Date().setHours(0, 0, 0)),
+                [Op.gte]: new Date(CURRENT_TIMESTAMP.setHours(0, 0, 0)),
               },
             },
           },

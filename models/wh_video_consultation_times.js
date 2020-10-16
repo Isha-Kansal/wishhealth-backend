@@ -69,13 +69,13 @@ const VideoConsultation = db.define(
     created_at: {
       type: "TIMESTAMP",
       allowNull: true,
-      defaultValue: "new Date()",
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
     updated_at: {
       type: "TIMESTAMP",
       allowNull: true,
-      defaultValue: "new Date()",
+      defaultValue: "CURRENT_TIMESTAMP",
       primaryKey: false,
     },
   },
