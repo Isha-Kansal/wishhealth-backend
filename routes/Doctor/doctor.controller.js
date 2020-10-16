@@ -224,7 +224,7 @@ module.exports = {
         let object = { day: clinicJson.day };
         let time = [];
 
-        if ((found === -1 || found === false) && clinics[i].clinic_id) {
+        if ((found === -1 || found === false) && clinicJson.clinic_id) {
         } else {
           available_timings = data[found].available_timings;
         }
