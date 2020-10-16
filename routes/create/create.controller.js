@@ -184,7 +184,7 @@ module.exports = {
           profile_pic: "",
           profile_status: "",
           doc_advance_fees: 0,
-          quickblox_id: "",
+          quickblox_id: 0,
           quickblox_login: "",
           degree: 0,
         };
