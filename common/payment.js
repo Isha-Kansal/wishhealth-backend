@@ -14,10 +14,6 @@ const sendOtp = async function (url) {
       {
         method: "GET",
         url,
-        // form: {
-        //   amount: req.params.amount * 100, // amount == Rs 10 // Same As Order amount
-        //   currency: "INR",
-        // },
       },
       async function (err, response, body) {
         console.log(err, response, body, "err, response, body");
@@ -28,7 +24,9 @@ const sendOtp = async function (url) {
         }
         // console.log("Status:", response.statusCode);
         // console.log("Headers:", JSON.stringify(response.headers));
-        // let data = JSON.parse(body);
+        let data = JSON.parse(body);
+        console.log(data, "datadatadatadata");
+        return data.Details;
         // console.log("Response:", data, data.status);
         // if (data.status === "captured") {
         //   let obj = {
@@ -40,9 +38,6 @@ const sendOtp = async function (url) {
         //     message: "success",
         //   });
         // }
-        return res.status(400).json({
-          message: "failure",
-        });
       }
     );
   } catch (err) {

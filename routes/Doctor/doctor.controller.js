@@ -117,10 +117,10 @@ module.exports = {
       const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
 
       const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=docsignup&var1=${req.body.name}&var2=${otp}`;
-      await commonController.sendOtp(url);
+      const session = await commonController.sendOtp(url);
       return res.status(200).json({
         data: {
-          otp: "12345",
+          session,
         },
         message: "Sent successfully",
       });
@@ -285,6 +285,25 @@ module.exports = {
       });
     }
   },
+  inviteClinic: async function (req, res) {
+    try {
+      const user_id = req.body.user_id;
+      const clinic_id = req.body.clinic_id;
+      await DoctorClinics.create({
+        user_id,
+        clinic_id,
+      });
+
+      return res.status(200).json({
+        message: "Joined Successfully",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   deleteDoctorEducationDetails: async function (req, res) {
     try {
       const doctorId = req.params.user_id;
@@ -307,9 +326,6 @@ module.exports = {
     try {
       const doctorId = req.params.user_id;
       const id = req.params.id;
-      await Doctorqualifications.destroy({
-        where: { user_id: doctorId, id },
-      });
 
       let obj = {
         year: req.body.year,
@@ -322,7 +338,9 @@ module.exports = {
           ? req.body.attachment_size
           : "",
       };
-      await Doctorqualifications.create(obj);
+      await Doctorqualifications.update(obj, {
+        where: { user_id: doctorId, id },
+      });
 
       return res.status(200).json({
         message: "Updated Successfully",
