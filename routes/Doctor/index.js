@@ -15,6 +15,7 @@ router.post(
   "/deleteDoctorEducationDetails/:user_id/:id",
   controller.deleteDoctorEducationDetails
 );
+router.post("/inviteClinic", controller.inviteClinic);
 router.post(
   "/updateDoctorRegistrationDetails/:id",
   controller.updateDoctorRegistrationDetails
