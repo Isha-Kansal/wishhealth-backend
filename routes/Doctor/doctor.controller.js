@@ -295,6 +295,8 @@ module.exports = {
         clinic_id,
         invite_status: "accepted",
         doc_interval: 0,
+        availability_days: "",
+        availability_time: "",
       });
 
       return res.status(200).json({
