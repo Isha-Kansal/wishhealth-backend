@@ -206,27 +206,26 @@ module.exports = {
         where: {
           doctor_id: doctorId,
         },
-
-        // include: [
-        //   {
-        //     model: Clinics,
-        //     required: false,
-        //     as: "clinics",
-        //     attributes: ["clinic_id"],
-        //     include: [{ model: ClinicTimings, required: false }],
-        //   },
-        //   {
-        //     model: Doctordetails,
-        //     required: false,
-        //     attributes: ["doc_advance_fees", "doc_fees"],
-        //   },
-        //   { model: VideoConsultation, required: false, as: "video_timings" },
-        //   { model: DoctorBankDetails, required: false, as: "bank_details" },
-        // ],
       });
-
+      const account_details = await DoctorBankDetails.findAll({
+        where: {
+          doctor_id: doctorId,
+        },
+      });
+      const clinic_fee = await Doctordetails.findOne({
+        where: {
+          user_id: doctorId,
+        },
+        attributes: ["doc_fees", "doc_advance_fees"],
+      });
+      const video_fees = await VideoConsultation.findOne({
+        where: {
+          doctor_id: doctorId,
+        },
+        attributes: ["fees", "advance_fees"],
+      });
       return res.status(200).json({
-        data: timings,
+        data: { timings, account_details, clinic_fee, video_fees },
       });
     } catch (err) {
       console.log(err, "err");
