@@ -89,13 +89,13 @@ const Doctordetails = db.define(
     created_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: "Sequelize.NOW",
       primaryKey: false,
     },
     modified_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: "Sequelize.NOW",
       primaryKey: false,
     },
     profile_pic: {
