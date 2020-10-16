@@ -208,6 +208,7 @@ module.exports = {
         },
       });
       let data = [];
+      let obj = {};
       for (let i = 0; i < timings.length; i++) {
         const clinicData = timings[i];
 
