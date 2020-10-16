@@ -207,20 +207,49 @@ module.exports = {
           doctor_id: doctorId,
         },
       });
-      let availability_time = [];
-      const clinicJson = JSON.parse(JSON.stringify(timings));
-      clinicJson &&
-        clinicJson.length > 0 &&
-        clinicJson.map((item) => {
-          Object.keys(item).map((clinic) => {
-            if (clinic.includes("AM") || clinic.includes("PM")) {
-              if (item[`${clinic}`] === "1") {
-                availability_time.push(clinic);
-              }
-            }
-          });
-        });
+      let data = [];
+      for (let i = 0; i < timings.length; i++) {
+        const clinicData = timings[i];
 
+        let clinicJson = JSON.parse(JSON.stringify(clinicData));
+        let found =
+          data &&
+          data.length > 0 &&
+          data.findIndex((item) => {
+            console.log(item, "dhjhsjhas", clinicJson);
+            return item.clinic_id === clinicJson.clinic_id;
+          });
+        console.log(found, "foundfoundfoundfound");
+        let available_timings = [];
+        let object = { day: clinicJson.day };
+        let time = [];
+
+        if ((found === -1 || found === false) && clinics[i].clinic_id) {
+        } else {
+          available_timings = data[found].available_timings;
+        }
+
+        Object.keys(clinicJson).map((clinic) => {
+          if (clinic.includes("AM") || clinic.includes("PM")) {
+            if (clinicJson[`${clinic}`] === "1") {
+              time.push(clinic);
+              object.time = time;
+            }
+          }
+        });
+        available_timings.push(object);
+        obj.available_timings = available_timings;
+        obj = {
+          ...obj,
+          clinic_id: clinicJson.clinic_id,
+        };
+        if (found === -1 || found === false) {
+          data.push(obj);
+        } else {
+          data[found] = obj;
+        }
+      }
+      console.log(data, "datadatadata");
       const account_details = await DoctorBankDetails.findAll({
         where: {
           doctor_id: doctorId,
@@ -239,7 +268,7 @@ module.exports = {
         attributes: ["fees", "advance_fees"],
       });
       return res.status(200).json({
-        data: { availability_time, account_details, clinic_fee, video_fees },
+        data: { data, account_details, clinic_fee, video_fees },
       });
     } catch (err) {
       console.log(err, "err");
