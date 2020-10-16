@@ -209,13 +209,18 @@ module.exports = {
       });
       let availability_time = [];
       const clinicJson = JSON.parse(JSON.stringify(timings));
-      Object.keys(clinicJson).map((clinic) => {
-        if (clinic.includes("AM") || clinic.includes("PM")) {
-          if (clinicJson[`${clinic}`] === "1") {
-            availability_time.push(clinic);
-          }
-        }
-      });
+      clinicJson &&
+        clinicJson.length > 0 &&
+        clinicJson.map((item) => {
+          Object.keys(item).map((clinic) => {
+            if (clinic.includes("AM") || clinic.includes("PM")) {
+              if (item[`${clinic}`] === "1") {
+                availability_time.push(clinic);
+              }
+            }
+          });
+        });
+
       const account_details = await DoctorBankDetails.findAll({
         where: {
           doctor_id: doctorId,
