@@ -207,6 +207,15 @@ module.exports = {
           doctor_id: doctorId,
         },
       });
+      let availability_time = [];
+      const clinicJson = JSON.parse(JSON.stringify(timings));
+      Object.keys(clinicJson).map((clinic) => {
+        if (clinic.includes("AM") || clinic.includes("PM")) {
+          if (clinicJson[`${clinic}`] === "1") {
+            availability_time.push(clinic);
+          }
+        }
+      });
       const account_details = await DoctorBankDetails.findAll({
         where: {
           doctor_id: doctorId,
@@ -225,7 +234,7 @@ module.exports = {
         attributes: ["fees", "advance_fees"],
       });
       return res.status(200).json({
-        data: { timings, account_details, clinic_fee, video_fees },
+        data: { availability_time, account_details, clinic_fee, video_fees },
       });
     } catch (err) {
       console.log(err, "err");
