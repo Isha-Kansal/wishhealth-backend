@@ -25,6 +25,7 @@ const ClinicTimings = require("../../models/wh_clinic_timings");
 const ClinicImages = require("../../models/wh_clinic_images");
 const VideoConsultation = require("../../models/wh_video_consultation_times");
 const DoctorBankDetails = require("../../models/wh_doctor_bank_details");
+const DoctorClinics = require("../../models/wh_doctor_clinics");
 const { Op } = Sequelize;
 module.exports = {
   updateDoctorDetails: async function (req, res) {
@@ -236,7 +237,7 @@ module.exports = {
   getDoctorClinicDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
-      const visitingClinics = await DoctorClinicTimings.findAll({
+      const visitingClinics = await DoctorClinics.findAll({
         where: {
           doctor_id: doctorId,
         },
