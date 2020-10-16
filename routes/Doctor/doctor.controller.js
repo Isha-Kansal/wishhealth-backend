@@ -12,6 +12,7 @@ const Doctorqualifications = require("../../models/wh_doctor_qualifications");
 const Colleges = require("../../models/wh_colleges");
 const Qualifications = require("../../models/wh_qualifications");
 const createController = require("../create/create.controller");
+const commonController = require("../../common/payment");
 const md5 = require("md5");
 const Cities = require("../../models/wh_cities");
 const States = require("../../models/wh_states");
@@ -112,10 +113,14 @@ module.exports = {
   },
   resendOtp: async function (req, res) {
     try {
+      const otp = Math.random(10000, 99999);
+      $url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=docsignup&var1=${req.body.name}&var2=${otp}`;
+      await commonController.sendOtp(url);
       return res.status(200).json({
         data: {
           otp: "12345",
         },
+        message: "Sent successfully",
       });
     } catch (err) {
       console.log(err, "err");

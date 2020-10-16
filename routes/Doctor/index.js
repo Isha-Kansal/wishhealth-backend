@@ -22,7 +22,7 @@ router.post(
 router.post("/updateDoctorClinicBasic", controller.updateDoctorClinicBasic);
 router.post("/updatePassword/:id", controller.updatePassword);
 router.post("/verifyOtp", controller.verifyOtp);
-router.post("/resendOtp", controller.resendOtp);
+router.post("/resendOtp", controller.resendOtpSignUp);
 router.get(
   "/getDoctorEducationDetails/:id",
   controller.getDoctorEducationDetails

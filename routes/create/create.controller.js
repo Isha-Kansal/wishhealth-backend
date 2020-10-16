@@ -16,6 +16,8 @@ const ClinicServices = require("../../models/wh_clinic_services");
 const Clinics = require("../../models/wh_clinic");
 const ClinicTimings = require("../../models/wh_clinic_timings");
 const ClinicImages = require("../../models/wh_clinic_images");
+const commonController = require("../../common/payment");
+const { urlencoded } = require("body-parser");
 const { Op } = sequelize;
 const createSpecialities = async function (req, id) {
   try {
@@ -187,10 +189,13 @@ module.exports = {
           degree: 0,
         };
         await Doctordetails.create(details);
+        const otp = Math.random(10000, 99999);
+
+        $url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${obj.contact}&from=WishPL&templatename=docsignup&var1=${obj.name}&var2=${otp}`;
+        await commonController.sendOtp(url);
         return res.status(200).json({
           data: {
             user_id: response.user_id,
-            otp: "12345",
           },
           message: "Created Successfully",
         });
