@@ -40,7 +40,7 @@ const Users = db.define(
     modified_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: "CURRENT_TIMESTAMP",
+      defaultValue: Sequelize.NOW,
       primaryKey: false,
     },
     role: {
