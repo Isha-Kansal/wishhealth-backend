@@ -199,6 +199,42 @@ module.exports = {
       });
     }
   },
+  getDoctorClinicTimings: async function (req, res) {
+    try {
+      const doctorId = req.params.id;
+      const timings = await DoctorClinicTimings.findOne({
+        where: {
+          doctor_id: doctorId,
+        },
+
+        // include: [
+        //   {
+        //     model: Clinics,
+        //     required: false,
+        //     as: "clinics",
+        //     attributes: ["clinic_id"],
+        //     include: [{ model: ClinicTimings, required: false }],
+        //   },
+        //   {
+        //     model: Doctordetails,
+        //     required: false,
+        //     attributes: ["doc_advance_fees", "doc_fees"],
+        //   },
+        //   { model: VideoConsultation, required: false, as: "video_timings" },
+        //   { model: DoctorBankDetails, required: false, as: "bank_details" },
+        // ],
+      });
+
+      return res.status(200).json({
+        data: timings,
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   getDoctorTimings: async function (req, res) {
     try {
       const doctorId = req.params.id;
