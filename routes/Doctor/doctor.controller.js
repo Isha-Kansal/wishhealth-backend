@@ -202,7 +202,7 @@ module.exports = {
   getDoctorClinicTimings: async function (req, res) {
     try {
       const doctorId = req.params.id;
-      const timings = await DoctorClinicTimings.findOne({
+      const timings = await DoctorClinicTimings.findAll({
         where: {
           doctor_id: doctorId,
         },
