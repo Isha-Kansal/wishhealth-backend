@@ -191,7 +191,7 @@ module.exports = {
         await Doctordetails.create(details);
         const otp = Math.random(10000, 99999);
 
-        $url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${obj.contact}&from=WishPL&templatename=docsignup&var1=${obj.name}&var2=${otp}`;
+        const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${obj.contact}&from=WishPL&templatename=docsignup&var1=${obj.name}&var2=${otp}`;
         await commonController.sendOtp(url);
         return res.status(200).json({
           data: {
