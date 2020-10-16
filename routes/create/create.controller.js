@@ -261,9 +261,12 @@ module.exports = {
           ? req.body.attachment_size
           : "",
       };
-      await Doctorqualifications.create(values);
+      const response = await Doctorqualifications.create(values);
 
       return res.status(200).json({
+        data: {
+          id: response.id,
+        },
         message: "Created Successfully",
       });
     } catch (err) {

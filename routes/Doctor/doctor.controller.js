@@ -315,7 +315,7 @@ module.exports = {
         degree: req.body.degree,
         college: req.body.college,
         user_id: doctorId,
-        index: number,
+        index: 0,
         attachment_size: req.body.attachment_size
           ? req.body.attachment_size
           : "",
