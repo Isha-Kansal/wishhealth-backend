@@ -12,12 +12,12 @@ const sendOtp = async function (url) {
   try {
     return request(
       {
-        method: "POST",
-        url: `https://${instance.key_id}:${instance.key_secret}@api.razorpay.com/v1/payments/${req.params.paymentId}/capture`,
-        form: {
-          amount: req.params.amount * 100, // amount == Rs 10 // Same As Order amount
-          currency: "INR",
-        },
+        method: "GET",
+        url,
+        // form: {
+        //   amount: req.params.amount * 100, // amount == Rs 10 // Same As Order amount
+        //   currency: "INR",
+        // },
       },
       async function (err, response, body) {
         console.log(err, response, body, "err, response, body");
@@ -26,20 +26,20 @@ const sendOtp = async function (url) {
             message: "Something Went Wrong",
           });
         }
-        console.log("Status:", response.statusCode);
-        console.log("Headers:", JSON.stringify(response.headers));
-        let data = JSON.parse(body);
-        console.log("Response:", data, data.status);
-        if (data.status === "captured") {
-          let obj = {
-            amount: req.params.amount,
-            payment_id: req.params.paymentId,
-          };
-          await BookingPayments.create(obj);
-          return res.status(200).json({
-            message: "success",
-          });
-        }
+        // console.log("Status:", response.statusCode);
+        // console.log("Headers:", JSON.stringify(response.headers));
+        // let data = JSON.parse(body);
+        // console.log("Response:", data, data.status);
+        // if (data.status === "captured") {
+        //   let obj = {
+        //     amount: req.params.amount,
+        //     payment_id: req.params.paymentId,
+        //   };
+        //   await BookingPayments.create(obj);
+        //   return res.status(200).json({
+        //     message: "success",
+        //   });
+        // }
         return res.status(400).json({
           message: "failure",
         });
