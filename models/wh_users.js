@@ -31,18 +31,18 @@ const Users = db.define(
       defaultValue: null,
       primaryKey: false,
     },
-    // creation_date: {
-    //   type: "DATETIME",
-    //   allowNull: false,
-    //   defaultValue: NOW(),
-    //   primaryKey: false,
-    // },
-    // modified_date: {
-    //   type: "DATETIME",
-    //   allowNull: false,
-    //   defaultValue: NOW(),
-    //   primaryKey: false,
-    // },
+    creation_date: {
+      type: "DATETIME",
+      allowNull: false,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      primaryKey: false,
+    },
+    modified_date: {
+      type: "DATETIME",
+      allowNull: false,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      primaryKey: false,
+    },
     role: {
       type: "ENUM('patient','doctor','receptionist','pharmacist')",
       allowNull: false,

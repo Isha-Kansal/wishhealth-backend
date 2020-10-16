@@ -28,13 +28,13 @@ const Doctorspecialities = db.define(
     created_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: NOW(),
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       primaryKey: false,
     },
     modified_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: NOW(),
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       primaryKey: false,
     },
   },

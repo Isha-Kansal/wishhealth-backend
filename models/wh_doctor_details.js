@@ -86,18 +86,18 @@ const Doctordetails = db.define(
       defaultValue: null,
       primaryKey: false,
     },
-    // created_date: {
-    //   type: "DATETIME",
-    //   allowNull: false,
-    //   defaultValue: NOW(),
-    //   primaryKey: false,
-    // },
-    // modified_date: {
-    //   type: "DATETIME",
-    //   allowNull: false,
-    //   defaultValue: NOW(),
-    //   primaryKey: false,
-    // },
+    created_date: {
+      type: "DATETIME",
+      allowNull: false,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      primaryKey: false,
+    },
+    modified_date: {
+      type: "DATETIME",
+      allowNull: false,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      primaryKey: false,
+    },
     profile_pic: {
       type: "VARCHAR(100)",
       allowNull: false,

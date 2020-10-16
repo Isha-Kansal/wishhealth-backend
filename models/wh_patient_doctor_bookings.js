@@ -87,13 +87,13 @@ const Bookings = db.define(
     created_at: {
       type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: NOW(),
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       primaryKey: false,
     },
     modified_at: {
       type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: NOW(),
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       primaryKey: false,
     },
     read_status: {
