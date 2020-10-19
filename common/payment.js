@@ -22,22 +22,10 @@ const sendOtp = async function (url) {
             message: "Something Went Wrong",
           });
         }
-        // console.log("Status:", response.statusCode);
-        // console.log("Headers:", JSON.stringify(response.headers));
+
         let data = JSON.parse(body);
         console.log(data, "datadatadatadata");
         return data.Details;
-        // console.log("Response:", data, data.status);
-        // if (data.status === "captured") {
-        //   let obj = {
-        //     amount: req.params.amount,
-        //     payment_id: req.params.paymentId,
-        //   };
-        //   await BookingPayments.create(obj);
-        //   return res.status(200).json({
-        //     message: "success",
-        //   });
-        // }
       }
     );
   } catch (err) {
