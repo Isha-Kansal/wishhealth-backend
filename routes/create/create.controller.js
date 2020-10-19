@@ -192,7 +192,11 @@ module.exports = {
         const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
 
         const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${obj.contact}&from=WishPL&templatename=docsignup&var1=${obj.name}&var2=${otp}`;
-        await commonController.sendOtp(url, { otp, user_id: response.user_id });
+        const session = await commonController.sendOtp(url, {
+          otp,
+          user_id: response.user_id,
+        });
+        console.log(session, "sessionsession");
         return res.status(200).json({
           data: {
             user_id: response.user_id,
