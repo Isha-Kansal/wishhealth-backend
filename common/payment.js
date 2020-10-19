@@ -42,6 +42,7 @@ const verify = async function (obj) {
       otpData &&
       otpData.length > 0 &&
       otpData.find((data) => JSON.stringify(data) === JSON.stringify(obj));
+    console.log(data, "datadatadatadata", otpData);
     if (data) {
       verified = true;
       const index = otpData.findIndex(
@@ -49,6 +50,7 @@ const verify = async function (obj) {
       );
       otpData.splice(index, 1);
     }
+    console.log(verified, "verified");
     return verified;
   } catch (err) {
     console.log(err, "err");

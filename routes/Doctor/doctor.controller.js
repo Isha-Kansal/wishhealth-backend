@@ -108,6 +108,7 @@ module.exports = {
         otp: req.body.otp,
         user_id: user,
       });
+      console.log(verify, "verifyverifyverifyverify");
       if (verify) {
         message = "otp valid";
       }
