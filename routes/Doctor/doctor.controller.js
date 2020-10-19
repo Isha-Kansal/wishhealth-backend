@@ -99,9 +99,9 @@ module.exports = {
   verifyOtp: async function (req, res) {
     try {
       let message = "otp invalid";
-      const user = await Users.findOne({
+      const user = await Doctordetails.findOne({
         where: {
-          contact: req.body.phone,
+          phone: req.body.phone,
         },
       });
       const verify = await commonController.verify({
@@ -124,10 +124,9 @@ module.exports = {
   resendOtpSignUp: async function (req, res) {
     try {
       const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
-      const user = await Users.findOne({
+      const user = await Doctordetails.findOne({
         where: {
-          contact: req.body.phone,
-          name: req.body.name,
+          phone: req.body.phone,
         },
       });
       const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=docsignup&var1=${req.body.name}&var2=${otp}`;

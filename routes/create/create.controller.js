@@ -160,7 +160,7 @@ module.exports = {
       let obj = {
         name: req.body.name,
         role: "doctor",
-        contact: req.body.phone,
+        contact_no: req.body.phone,
         status: "1",
         doc_profile_status: "1",
         offers: "",
