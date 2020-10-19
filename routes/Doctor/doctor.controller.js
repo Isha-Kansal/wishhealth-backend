@@ -106,7 +106,7 @@ module.exports = {
       });
       const verify = await commonController.verify({
         otp: req.body.otp,
-        user_id: user,
+        user_id: user.user_id,
       });
       console.log(verify, "verifyverifyverifyverify");
       if (verify) {
