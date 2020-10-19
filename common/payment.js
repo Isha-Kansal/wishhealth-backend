@@ -8,7 +8,8 @@ const instance = new Razorpay({
   key_id: `rzp_test_5G5VyL9K8BPPNJ`,
   key_secret: `Ynzgwz8hhTezffS3cG1iiDWk`,
 });
-const sendOtp = async function (url) {
+const otpData = [];
+const sendOtp = async function (url, obj) {
   try {
     return request(
       {
@@ -25,9 +26,29 @@ const sendOtp = async function (url) {
 
         let data = JSON.parse(body);
         console.log(data, "datadatadatadata");
+        otpData.push(obj);
         return data.Details;
       }
     );
+  } catch (err) {
+    console.log(err, "err");
+  }
+};
+const verify = async function (obj) {
+  try {
+    let verified = false;
+    const data =
+      otpData &&
+      otpData.length > 0 &&
+      otpData.find((data) => JSON.stringify(data) === JSON.stringify(obj));
+    if (data) {
+      verified = true;
+      const index = otpData.findIndex(
+        (data) => JSON.stringify(data) === JSON.stringify(obj)
+      );
+      otpData.splice(index, 1);
+    }
+    return verified;
   } catch (err) {
     console.log(err, "err");
   }
@@ -106,3 +127,4 @@ module.exports = {
   },
 };
 module.exports.sendOtp = sendOtp;
+module.exports.verify = verify;

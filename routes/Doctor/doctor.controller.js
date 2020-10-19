@@ -98,9 +98,18 @@ module.exports = {
   },
   verifyOtp: async function (req, res) {
     try {
-      let message = "otp valid";
-      if (req.body.otp !== "12345") {
-        message = "otp invalid";
+      let message = "otp invalid";
+      const user = await Users.findOne({
+        where: {
+          contact: req.body.phone,
+        },
+      });
+      const verify = await commonController.verify({
+        otp: req.body.otp,
+        user_id: user,
+      });
+      if (verify) {
+        message = "otp valid";
       }
       return res.status(200).json({
         message: message,
@@ -115,13 +124,18 @@ module.exports = {
   resendOtpSignUp: async function (req, res) {
     try {
       const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
-
-      const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=docsignup&var1=${req.body.name}&var2=${otp}`;
-      const session = await commonController.sendOtp(url);
-      return res.status(200).json({
-        data: {
-          session,
+      const user = await Users.findOne({
+        where: {
+          contact: req.body.phone,
+          name: req.body.name,
         },
+      });
+      const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=docsignup&var1=${req.body.name}&var2=${otp}`;
+      await commonController.sendOtp(url, {
+        otp,
+        user_id: user.user_id,
+      });
+      return res.status(200).json({
         message: "Sent successfully",
       });
     } catch (err) {
