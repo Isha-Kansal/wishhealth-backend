@@ -297,7 +297,7 @@ module.exports = {
         clinic_type: req.body.clinic_type,
         latitude: req.body.latitude ? req.body.latitude : "",
         longitude: req.body.longitude ? req.body.longitude : "",
-        reg_proof: req.body.reg_proof ? req.body.reg_proof : "",
+        reg_proof: req.body.reg_proof ? req.body.reg_proof.uri : "",
       };
       console.log(req.body, "req.bodyreq.bodyreq.bodyreq.body");
       Clinics.create(values).then(async (resp) => {
