@@ -299,6 +299,7 @@ module.exports = {
         longitude: req.body.longitude ? req.body.longitude : "",
         reg_proof: req.body.reg_proof ? req.body.reg_proof : "",
       };
+      console.log(req.body, "req.bodyreq.bodyreq.bodyreq.body");
       Clinics.create(values).then(async (resp) => {
         const response = JSON.parse(JSON.stringify(resp));
         await createClinicTimings(req, response.clinic_id);
