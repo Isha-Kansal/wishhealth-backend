@@ -99,14 +99,9 @@ module.exports = {
   verifyOtp: async function (req, res) {
     try {
       let message = "otp invalid";
-      const user = await Doctordetails.findOne({
-        where: {
-          phone: req.body.phone,
-        },
-      });
       const verify = await commonController.verify({
         otp: req.body.otp,
-        user_id: user.user_id,
+        user_id: req.body.user_id,
       });
       console.log(verify, "verifyverifyverifyverify");
       if (verify) {
