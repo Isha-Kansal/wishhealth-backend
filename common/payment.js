@@ -27,6 +27,7 @@ const sendOtp = async function (url, obj) {
         let data = JSON.parse(body);
         console.log(data, "datadatadatadata");
         otpData.push(obj);
+        console.log(otpData, "otpDataotpDataotpData");
         return data.Details;
       }
     );
