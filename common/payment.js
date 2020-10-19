@@ -39,9 +39,7 @@ const verify = async function (obj) {
   try {
     let verified = false;
     const data =
-      otpData &&
-      otpData.length > 0 &&
-      otpData.find((data) => JSON.stringify(data) === JSON.stringify(obj));
+      otpData && otpData.length > 0 && otpData.find((data) => data === obj);
     console.log(data, "datadatadatadata", otpData);
     if (data) {
       verified = true;
