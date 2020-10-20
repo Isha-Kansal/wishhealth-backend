@@ -161,7 +161,7 @@ module.exports = {
               {
                 model: Cities,
                 where: {
-                  state_id: { [Op.col]: "wh_doctor_details.state_id" },
+                  state_id: { [Op.col]: "wh_users.wh_doctor_details.state_id" },
                 },
               },
               { model: States },
