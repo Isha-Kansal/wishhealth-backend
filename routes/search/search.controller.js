@@ -24,13 +24,29 @@ const Cities = require("../../models/wh_cities");
 const { Op } = Sequelize;
 const recommendationsData = async function (req) {
   try {
-    const city = await Cities.findOne({
-      where: {
-        name: {
-          [Op.like]: `%${req.body.location}%`,
+    let city;
+    let doctorDetailwhere = [
+      {
+        video_consultation: {
+          [Op.in]: [1],
         },
       },
-    });
+    ];
+
+    if (req.body.location !== "") {
+      city = await Cities.findOne({
+        where: {
+          name: {
+            [Op.like]: `%${req.body.location}%`,
+          },
+        },
+      });
+      doctorDetailwhere.push({
+        city_id: {
+          [Op.ne]: city.id,
+        },
+      });
+    }
     const doctors = await Users.findAndCountAll({
       where: {
         role: "doctor",
@@ -43,12 +59,7 @@ const recommendationsData = async function (req) {
           required:
             req.body.type !== "" || req.body.location !== "" ? true : false,
           where: {
-            video_consultation: {
-              [Op.in]: [1],
-            },
-            city_id: {
-              [Op.ne]: city.id,
-            },
+            [Op.and]: doctorDetailwhere,
           },
         },
         {
@@ -243,13 +254,27 @@ const getDoctorData = async function (req) {
 };
 const getSpecialityData = async function (req, arr) {
   try {
-    const city = await Cities.findOne({
-      where: {
-        name: {
-          [Op.like]: `%${req.body.location}%`,
-        },
+    let city;
+    let doctorDetailwhere = {
+      video_consultation: {
+        [Op.in]:
+          req.body.type === "video"
+            ? [1]
+            : req.body.type === "clinic"
+            ? [0]
+            : [0, 1],
       },
-    });
+    };
+    if (req.body.location !== "") {
+      city = await Cities.findOne({
+        where: {
+          name: {
+            [Op.like]: `%${req.body.location}%`,
+          },
+        },
+      });
+      doctorDetailwhere.city_id = city && city.id;
+    }
     const doc_speciality = await Doctorspecialities.findAndCountAll({
       where: {
         speciality_id: {
@@ -270,17 +295,7 @@ const getSpecialityData = async function (req, arr) {
               model: Doctordetails,
               required:
                 req.body.type !== "" || req.body.location !== "" ? true : false,
-              where: {
-                video_consultation: {
-                  [Op.in]:
-                    req.body.type === "video"
-                      ? [1]
-                      : req.body.type === "clinic"
-                      ? [0]
-                      : [0, 1],
-                },
-                city_id: city.id,
-              },
+              where: doctorDetailwhere,
             },
           ],
         },
