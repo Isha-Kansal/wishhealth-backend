@@ -159,7 +159,9 @@ const getDoctorData = async function (req) {
         {
           model: Doctordetails,
           required:
-            req.body.type !== "" || req.body.location !== "" ? true : false,
+            req.body.type !== "" || (req.body.location !== "" && city)
+              ? true
+              : false,
           where: {
             video_consultation: {
               [Op.in]:
