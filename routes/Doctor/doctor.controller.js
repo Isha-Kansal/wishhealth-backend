@@ -465,6 +465,8 @@ module.exports = {
             clinic_type: req.body.clinic_type,
             latitude: req.body.latitude ? req.body.latitude : "",
             longitude: req.body.longitude ? req.body.longitude : "",
+            city_id: req.body.city_id,
+            state_id: req.body.state_id,
           },
           {
             where: {
