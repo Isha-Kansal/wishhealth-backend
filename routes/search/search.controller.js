@@ -171,7 +171,7 @@ const getDoctorData = async function (req) {
                   ? [0]
                   : [0, 1],
             },
-            city_id: city.id,
+            city_id: city && city.id,
           },
         },
         {
