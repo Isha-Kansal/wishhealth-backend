@@ -231,6 +231,13 @@ const getDoctorData = async function (req) {
 };
 const getSpecialityData = async function (req, arr) {
   try {
+    const city = await Cities.findOne({
+      where: {
+        name: {
+          [Op.like]: `%${req.body.location}%`,
+        },
+      },
+    });
     const doc_speciality = await Doctorspecialities.findAndCountAll({
       where: {
         speciality_id: {
@@ -260,9 +267,7 @@ const getSpecialityData = async function (req, arr) {
                       ? [0]
                       : [0, 1],
                 },
-                city: {
-                  [Op.like]: `%${req.body.location}%`,
-                },
+                city_id: city.id,
               },
             },
           ],
