@@ -140,13 +140,7 @@ module.exports = {
   getDoctorDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
-      const doctor = await Doctordetails.findOne({
-        where: {
-          user_id: doctorId,
-        },
-      });
-      const doc = JSON.parse(JSON.stringify(doctor));
-      console.log(doc, "hfjhdjhfdjhfjhdj");
+
       const rest = await Users.findOne({
         where: {
           user_id: doctorId,
@@ -169,7 +163,9 @@ module.exports = {
                 model: Cities,
                 required: false,
                 where: {
-                  state_id: doc.state_id,
+                  state_id: {
+                    [Op.col]: "wh_doctor_detail.state_id",
+                  },
                 },
               },
               { model: States, required: false },
@@ -338,6 +334,7 @@ module.exports = {
   getDoctorClinicDetails: async function (req, res) {
     try {
       const doctorId = req.params.id;
+
       const visitingClinics = await DoctorClinics.findAll({
         where: {
           user_id: doctorId,
@@ -349,7 +346,14 @@ module.exports = {
             required: false,
             include: [
               { model: ClinicTimings },
-              { model: Cities },
+              {
+                model: Cities,
+                where: {
+                  state_id: {
+                    [Op.col]: "wh_clinic.state_id",
+                  },
+                },
+              },
               { model: States },
               { model: ClinicImages },
               { model: ClinicSpecialities, include: [{ model: Specialities }] },
@@ -364,7 +368,14 @@ module.exports = {
         },
         include: [
           { model: ClinicTimings },
-          { model: Cities },
+          {
+            model: Cities,
+            where: {
+              state_id: {
+                [Op.col]: "wh_clinic.state_id",
+              },
+            },
+          },
           { model: States },
           { model: ClinicImages },
           { model: ClinicSpecialities, include: [{ model: Specialities }] },
