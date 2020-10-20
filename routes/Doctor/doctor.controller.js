@@ -157,7 +157,15 @@ module.exports = {
               "state_id",
             ],
             required: false,
-            include: [{ model: Cities }, { model: States }],
+            include: [
+              {
+                model: Cities,
+                where: {
+                  state_id: { [Op.col]: "wh_doctor_details.state_id" },
+                },
+              },
+              { model: States },
+            ],
           },
           {
             model: Doctorlanguages,
