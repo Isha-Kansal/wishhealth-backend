@@ -156,15 +156,16 @@ module.exports = {
               "profile_pic",
               "state_id",
             ],
-            required: false,
+            required: true,
             include: [
               {
                 model: Cities,
+                required: false,
                 where: {
                   state_id: { [Op.col]: "wh_doctor_detail.state_id" },
                 },
               },
-              { model: States },
+              { model: States, required: false },
             ],
           },
           {
