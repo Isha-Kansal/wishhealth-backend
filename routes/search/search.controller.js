@@ -143,13 +143,28 @@ const getDoctorData = async function (req) {
       },
     ];
     console.log(userArr, "userArruserArruserArr");
-    const city = await Cities.findOne({
-      where: {
-        name: {
-          [Op.like]: `%${req.body.location}%`,
-        },
+    let city;
+    let doctorDetailwhere = {
+      video_consultation: {
+        [Op.in]:
+          req.body.type === "video"
+            ? [1]
+            : req.body.type === "clinic"
+            ? [0]
+            : [0, 1],
       },
-    });
+    };
+    if (req.body.location !== "") {
+      city = await Cities.findOne({
+        where: {
+          name: {
+            [Op.like]: `%${req.body.location}%`,
+          },
+        },
+      });
+      doctorDetailwhere.city_id = city && city.id;
+    }
+
     const doctors = await Users.findAndCountAll({
       where: {
         [Op.and]: userArr,
@@ -159,20 +174,8 @@ const getDoctorData = async function (req) {
         {
           model: Doctordetails,
           required:
-            req.body.type !== "" || (req.body.location !== "" && city)
-              ? true
-              : false,
-          where: {
-            video_consultation: {
-              [Op.in]:
-                req.body.type === "video"
-                  ? [1]
-                  : req.body.type === "clinic"
-                  ? [0]
-                  : [0, 1],
-            },
-            city_id: city && city.id,
-          },
+            req.body.type !== "" || req.body.location !== "" ? true : false,
+          where: doctorDetailwhere,
         },
         {
           model: Feedback,
