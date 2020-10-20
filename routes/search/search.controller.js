@@ -24,6 +24,13 @@ const Cities = require("../../models/wh_cities");
 const { Op } = Sequelize;
 const recommendationsData = async function (req) {
   try {
+    const city = await Cities.findOne({
+      where: {
+        name: {
+          [Op.like]: `%${req.body.location}%`,
+        },
+      },
+    });
     const doctors = await Users.findAndCountAll({
       where: {
         role: "doctor",
@@ -39,8 +46,8 @@ const recommendationsData = async function (req) {
             video_consultation: {
               [Op.in]: [1],
             },
-            city: {
-              [Op.ne]: `%${req.body.location}%`,
+            city_id: {
+              [Op.ne]: city.id,
             },
           },
         },
@@ -403,12 +410,13 @@ module.exports = {
         console.log(array, "arrarrarr", speciality);
         const specialityData = await getSpecialityData(req, array);
         arr = [...specialityData.data];
-        if (arr.length === 0) {
-          recommendations = await recommendationsData(req, arr);
-        }
+
         count = specialityData.count;
       }
       console.log(arr, "arrarrarrarrarrarr", arr.length);
+      if (arr.length === 0) {
+        recommendations = await recommendationsData(req, arr);
+      }
       return res.status(200).json({
         data: { arr, recommendations },
         count,
