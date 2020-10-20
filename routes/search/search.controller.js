@@ -312,19 +312,7 @@ const getSpecialityData = async function (req, arr) {
           model: Doctordetails,
           required:
             req.body.type !== "" || req.body.location !== "" ? true : false,
-          where: {
-            video_consultation: {
-              [Op.in]:
-                req.body.type === "video"
-                  ? [1]
-                  : req.body.type === "clinic"
-                  ? [0]
-                  : [0, 1],
-            },
-            city: {
-              [Op.like]: `%${req.body.location}%`,
-            },
-          },
+          where: doctorDetailwhere,
         },
         {
           model: Feedback,
