@@ -20,6 +20,7 @@ const moment = require("moment");
 const ClinicTimings = require("../../models/wh_clinic_timings");
 const Feedback = require("../../models/wh_feedback");
 const VideoConsultation = require("../../models/wh_video_consultation_times");
+const Cities = require("../../models/wh_cities");
 const { Op } = Sequelize;
 const recommendationsData = async function (req) {
   try {
@@ -135,7 +136,13 @@ const getDoctorData = async function (req) {
       },
     ];
     console.log(userArr, "userArruserArruserArr");
-
+    const city = await Cities.findOne({
+      where: {
+        name: {
+          [Op.like]: `%${req.body.location}%`,
+        },
+      },
+    });
     const doctors = await Users.findAndCountAll({
       where: {
         [Op.and]: userArr,
@@ -155,9 +162,7 @@ const getDoctorData = async function (req) {
                   ? [0]
                   : [0, 1],
             },
-            city: {
-              [Op.like]: `%${req.body.location}%`,
-            },
+            city_id: city.id,
           },
         },
         {
