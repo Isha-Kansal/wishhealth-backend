@@ -451,9 +451,11 @@ module.exports = {
   },
   updateDoctorClinicBasic: async function (req, res) {
     try {
+      console.log("updateDoctorClinicBasic", req.body);
       const clinic = await Clinics.findOne({
         where: { admin_id: req.body.user_id, clinic_id: req.body.clinic_id },
       });
+      console.log(clinic, "clinicclinicclinic");
       if (clinic) {
         await Clinics.update(
           {
