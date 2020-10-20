@@ -145,6 +145,8 @@ module.exports = {
           user_id: doctorId,
         },
       });
+      const doc = JSON.parse(JSON.stringify(doctor));
+      console.log(doc, "hfjhdjhfdjhfjhdj");
       const rest = await Users.findOne({
         where: {
           user_id: doctorId,
@@ -167,7 +169,7 @@ module.exports = {
                 model: Cities,
                 required: false,
                 where: {
-                  state_id: doctor.state_id,
+                  state_id: doc.state_id,
                 },
               },
               { model: States, required: false },
