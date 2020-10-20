@@ -144,7 +144,7 @@ module.exports = {
         where: {
           user_id: doctorId,
         },
-        attributes: ["name"],
+        attributes: ["name", "user_id"],
         include: [
           {
             model: Doctordetails,
