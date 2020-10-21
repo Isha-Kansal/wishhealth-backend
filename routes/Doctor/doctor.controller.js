@@ -409,7 +409,6 @@ module.exports = {
         availability_days: "",
         availability_time: "",
       });
-
       return res.status(200).json({
         message: "Joined Successfully",
       });
@@ -554,6 +553,24 @@ module.exports = {
       });
     }
   },
+  updateDoctorTimings: async function (req, res) {
+    try {
+      await CouncilRegistration.destroy({
+        where: { user_id: req.params.id },
+      });
+      console.log("updateDoctorRegistrationDetails", req.body);
+      await createController.createRegistration(req, req.params.id);
+
+      return res.status(200).json({
+        message: "Updated Successfully",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   leaveClinic: async function (req, res) {
     try {
       await DoctorClinicTimings.destroy({
@@ -561,6 +578,9 @@ module.exports = {
       });
       await Clinics.destroy({
         where: { admin_id: req.body.user_id, clinic_id: req.body.clinic_id },
+      });
+      await DoctorClinics.destroy({
+        where: { user_id: req.body.user_id, clinic_id: req.body.clinic_id },
       });
       return res.status(200).json({
         message: "Clinic Left Successfully",
