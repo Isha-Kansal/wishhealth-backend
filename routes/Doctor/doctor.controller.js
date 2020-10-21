@@ -247,6 +247,8 @@ module.exports = {
           available_timings = foundData[found].available_timings;
           console.log(
             available_timings,
+            foundData[found],
+            found,
             "available_timingsavailable_timingsavailable_timings"
           );
         }
