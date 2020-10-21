@@ -48,6 +48,18 @@ const recommendationsData = async function (req, arr) {
         },
       });
     }
+    const specialityObj =
+      arr && arr.length > 0
+        ? {
+            speciality_id: {
+              [Op.in]: arr,
+            },
+          }
+        : {
+            speciality_id: {
+              [Op.notIn]: arr,
+            },
+          };
     const doctors = await Users.findAndCountAll({
       where: {
         role: "doctor",
@@ -103,11 +115,7 @@ const recommendationsData = async function (req, arr) {
         {
           model: Doctorspecialities,
           required: false,
-          where: {
-            speciality_id: {
-              [Op.notIn]: arr,
-            },
-          },
+          where: specialityObj,
           include: [
             {
               model: Specialities,
