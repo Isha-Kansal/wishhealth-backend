@@ -188,11 +188,6 @@ const getDoctorData = async function (req) {
     }
     let userArr = [
       {
-        user_id: {
-          [Op.in]: users,
-        },
-      },
-      {
         name: {
           [Op.like]: `%${req.body.doctorParams.trim()}%`,
         },
@@ -203,6 +198,13 @@ const getDoctorData = async function (req) {
         rankings: featured,
       },
     ];
+    if (users.length > 0) {
+      userArr.push({
+        user_id: {
+          [Op.in]: users,
+        },
+      });
+    }
     const doctors = await Users.findAndCountAll({
       where: {
         [Op.and]: userArr,
@@ -331,7 +333,14 @@ const getSpecialityData = async function (req, arr) {
           }
         });
     }
-
+    let userArr = [{ role: "doctor" }, { status: "1" }];
+    if (users.length > 0) {
+      userArr.push({
+        user_id: {
+          [Op.in]: users,
+        },
+      });
+    }
     const doc_speciality = await Doctorspecialities.findAndCountAll({
       where: {
         speciality_id: {
@@ -343,11 +352,7 @@ const getSpecialityData = async function (req, arr) {
         {
           model: Users,
           where: {
-            role: "doctor",
-            status: "1",
-            user_id: {
-              [Op.in]: users,
-            },
+            [Op.and]: userArr,
           },
           required: true,
           include: [
