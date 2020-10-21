@@ -555,11 +555,13 @@ module.exports = {
   },
   updateDoctorTimings: async function (req, res) {
     try {
-      await CouncilRegistration.destroy({
-        where: { user_id: req.params.id },
+      await DoctorClinicTimings.destroy({
+        where: {
+          clinic_id: req.body.clinic_id,
+          doctor_id: req.body.user_id,
+          day: req.body.day,
+        },
       });
-      console.log("updateDoctorRegistrationDetails", req.body);
-      await createController.createRegistration(req, req.params.id);
 
       return res.status(200).json({
         message: "Updated Successfully",

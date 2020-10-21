@@ -550,7 +550,7 @@ module.exports = {
       const videobookings = await Bookings.findAll({
         where: {
           doctor_id: req.params.user_id,
-          clinic_id: 0,
+          clinic_id: 1,
         },
       });
       const video_timings = await VideoConsultation.findOne({
