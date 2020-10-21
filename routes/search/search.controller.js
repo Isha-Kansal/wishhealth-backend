@@ -22,7 +22,7 @@ const Feedback = require("../../models/wh_feedback");
 const VideoConsultation = require("../../models/wh_video_consultation_times");
 const Cities = require("../../models/wh_cities");
 const { Op } = Sequelize;
-const recommendationsData = async function (req) {
+const recommendationsData = async function (req, arr) {
   try {
     let city;
     let doctorDetailwhere = [
@@ -392,6 +392,7 @@ module.exports = {
       let count = 0;
       console.log(req.body, "dgsyhgfshgdh");
       let specialityExist = [];
+      let array = [];
       if (req.body.doctorParams !== "") {
         specialityExist = await Specialities.findAll({
           where: {
@@ -401,14 +402,7 @@ module.exports = {
           },
           attributes: ["speciality_id"],
         });
-      }
 
-      if (specialityExist.length === 0) {
-        const doctorData = await getDoctorData(req);
-        arr = [...doctorData.data];
-        count = doctorData.count;
-      } else {
-        let array = [];
         const speciality = JSON.parse(JSON.stringify(specialityExist));
         speciality &&
           speciality.length > 0 &&
@@ -416,6 +410,13 @@ module.exports = {
             array.push(item.speciality_id);
           });
         console.log(array, "arrarrarr", speciality);
+      }
+
+      if (specialityExist.length === 0) {
+        const doctorData = await getDoctorData(req);
+        arr = [...doctorData.data];
+        count = doctorData.count;
+      } else {
         const specialityData = await getSpecialityData(req, array);
         arr = [...specialityData.data];
 
@@ -423,7 +424,7 @@ module.exports = {
       }
       console.log(arr, "arrarrarrarrarrarr", arr.length);
       if (arr.length === 0) {
-        recommendations = await recommendationsData(req, arr);
+        recommendations = await recommendationsData(req, array);
       }
       return res.status(200).json({
         data: { arr, recommendations },
