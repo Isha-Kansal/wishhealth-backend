@@ -504,6 +504,11 @@ module.exports = {
           {
             model: Clinics,
             required: true,
+            where: {
+              admin_id: {
+                [Op.ne]: req.params.user_id,
+              },
+            },
             include: [
               { model: ClinicImages, required: false },
               {
