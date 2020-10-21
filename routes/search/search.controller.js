@@ -230,7 +230,8 @@ const getDoctorData = async function (req) {
         rankings: featured,
       },
     ];
-    if (users.length > 0) {
+    console.log(users, "usersusersusers");
+    if (req.body.location !== "") {
       userArr.push({
         user_id: {
           [Op.in]: users,
@@ -366,7 +367,7 @@ const getSpecialityData = async function (req, arr) {
         });
     }
     let userArr = [{ role: "doctor" }, { status: "1" }];
-    if (users.length > 0) {
+    if (req.body.location !== "") {
       userArr.push({
         user_id: {
           [Op.in]: users,
@@ -409,11 +410,7 @@ const getSpecialityData = async function (req, arr) {
     });
     const doctors = await Users.findAndCountAll({
       where: {
-        role: "doctor",
-        status: "1",
-        user_id: {
-          [Op.in]: users,
-        },
+        [Op.and]: userArr,
       },
       distinct: true,
       include: [
