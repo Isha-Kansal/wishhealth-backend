@@ -26,13 +26,6 @@ const recommendationsData = async function (req, arr) {
   try {
     console.log(arr, "recommendationsDatarecommendationsData");
     let city;
-    let doctorDetailwhere = [
-      {
-        video_consultation: {
-          [Op.in]: [1],
-        },
-      },
-    ];
 
     if (req.body.location !== "") {
       city = await Cities.findOne({
@@ -42,11 +35,11 @@ const recommendationsData = async function (req, arr) {
           },
         },
       });
-      doctorDetailwhere.push({
-        city_id: {
-          [Op.ne]: city.id,
-        },
-      });
+      // doctorDetailwhere.push({
+      //   city_id: {
+      //     [Op.ne]: city.id,
+      //   },
+      // });
     }
     const specialityObj =
       arr && arr.length > 0
@@ -72,7 +65,9 @@ const recommendationsData = async function (req, arr) {
           required:
             req.body.type !== "" || req.body.location !== "" ? true : false,
           where: {
-            [Op.and]: doctorDetailwhere,
+            video_consultation: {
+              [Op.in]: [1],
+            },
           },
         },
         {
@@ -150,7 +145,54 @@ const getDoctorData = async function (req) {
           [Op.ne]: null,
         };
 
+    console.log(userArr, "userArruserArruserArr");
+    let city;
+    let users = [];
+    if (req.body.location !== "") {
+      city = await Cities.findOne({
+        where: {
+          name: {
+            [Op.like]: `%${req.body.location.trim()}%`,
+          },
+        },
+      });
+      ownClinics = await Clinics.findAll({
+        where: {
+          city_id: city && city.id,
+        },
+      });
+      let clinic_ids = [];
+      ownClinics &&
+        ownClinics.length > 0 &&
+        ownClinics.map((own) => {
+          if (!users.includes(own.admin_id)) {
+            users.push(own.admin_id);
+          }
+          if (!clinic_ids.includes(own.clinic_id)) {
+            clinic_ids.push(own.clinic_id);
+          }
+        });
+      joinedClinics = await DoctorClinics.findAll({
+        where: {
+          clinic_id: {
+            [Op.in]: clinic_ids,
+          },
+        },
+      });
+      joinedClinics &&
+        joinedClinics.length > 0 &&
+        joinedClinics.map((joined) => {
+          if (!users.includes(joined.user_id)) {
+            users.push(joined.user_id);
+          }
+        });
+    }
     let userArr = [
+      {
+        user_id: {
+          [Op.in]: users,
+        },
+      },
       {
         name: {
           [Op.like]: `%${req.body.doctorParams.trim()}%`,
@@ -162,29 +204,6 @@ const getDoctorData = async function (req) {
         rankings: featured,
       },
     ];
-    console.log(userArr, "userArruserArruserArr");
-    let city;
-    let doctorDetailwhere = {
-      video_consultation: {
-        [Op.in]:
-          req.body.type === "video"
-            ? [1]
-            : req.body.type === "clinic"
-            ? [0]
-            : [0, 1],
-      },
-    };
-    if (req.body.location !== "") {
-      city = await Cities.findOne({
-        where: {
-          name: {
-            [Op.like]: `%${req.body.location.trim()}%`,
-          },
-        },
-      });
-      doctorDetailwhere.city_id = city && city.id;
-    }
-
     const doctors = await Users.findAndCountAll({
       where: {
         [Op.and]: userArr,
@@ -195,7 +214,16 @@ const getDoctorData = async function (req) {
           model: Doctordetails,
           required:
             req.body.type !== "" || req.body.location !== "" ? true : false,
-          where: doctorDetailwhere,
+          where: {
+            video_consultation: {
+              [Op.in]:
+                req.body.type === "video"
+                  ? [1]
+                  : req.body.type === "clinic"
+                  ? [0]
+                  : [0, 1],
+            },
+          },
         },
         {
           model: Feedback,
@@ -264,16 +292,7 @@ const getDoctorData = async function (req) {
 const getSpecialityData = async function (req, arr) {
   try {
     let city;
-    let doctorDetailwhere = {
-      video_consultation: {
-        [Op.in]:
-          req.body.type === "video"
-            ? [1]
-            : req.body.type === "clinic"
-            ? [0]
-            : [0, 1],
-      },
-    };
+    let users = [];
     if (req.body.location !== "") {
       city = await Cities.findOne({
         where: {
@@ -282,8 +301,38 @@ const getSpecialityData = async function (req, arr) {
           },
         },
       });
-      doctorDetailwhere.city_id = city && city.id;
+      ownClinics = await Clinics.findAll({
+        where: {
+          city_id: city && city.id,
+        },
+      });
+      let clinic_ids = [];
+      ownClinics &&
+        ownClinics.length > 0 &&
+        ownClinics.map((own) => {
+          if (!users.includes(own.admin_id)) {
+            users.push(own.admin_id);
+          }
+          if (!clinic_ids.includes(own.clinic_id)) {
+            clinic_ids.push(own.clinic_id);
+          }
+        });
+      joinedClinics = await DoctorClinics.findAll({
+        where: {
+          clinic_id: {
+            [Op.in]: clinic_ids,
+          },
+        },
+      });
+      joinedClinics &&
+        joinedClinics.length > 0 &&
+        joinedClinics.map((joined) => {
+          if (!users.includes(joined.user_id)) {
+            users.push(joined.user_id);
+          }
+        });
     }
+
     const doc_speciality = await Doctorspecialities.findAndCountAll({
       where: {
         speciality_id: {
@@ -297,6 +346,9 @@ const getSpecialityData = async function (req, arr) {
           where: {
             role: "doctor",
             status: "1",
+            user_id: {
+              [Op.in]: users,
+            },
           },
           required: true,
           include: [
@@ -304,7 +356,16 @@ const getSpecialityData = async function (req, arr) {
               model: Doctordetails,
               required:
                 req.body.type !== "" || req.body.location !== "" ? true : false,
-              where: doctorDetailwhere,
+              where: {
+                video_consultation: {
+                  [Op.in]:
+                    req.body.type === "video"
+                      ? [1]
+                      : req.body.type === "clinic"
+                      ? [0]
+                      : [0, 1],
+                },
+              },
             },
           ],
         },
@@ -314,6 +375,9 @@ const getSpecialityData = async function (req, arr) {
       where: {
         role: "doctor",
         status: "1",
+        user_id: {
+          [Op.in]: users,
+        },
       },
       distinct: true,
       include: [
@@ -321,7 +385,16 @@ const getSpecialityData = async function (req, arr) {
           model: Doctordetails,
           required:
             req.body.type !== "" || req.body.location !== "" ? true : false,
-          where: doctorDetailwhere,
+          where: {
+            video_consultation: {
+              [Op.in]:
+                req.body.type === "video"
+                  ? [1]
+                  : req.body.type === "clinic"
+                  ? [0]
+                  : [0, 1],
+            },
+          },
         },
         {
           model: Feedback,
@@ -504,11 +577,7 @@ module.exports = {
           {
             model: Clinics,
             required: true,
-            where: {
-              admin_id: {
-                [Op.ne]: req.params.user_id,
-              },
-            },
+
             include: [
               { model: ClinicImages, required: false },
               {
