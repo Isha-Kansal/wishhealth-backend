@@ -21,6 +21,7 @@ router.post(
   "/updateDoctorRegistrationDetails/:id",
   controller.updateDoctorRegistrationDetails
 );
+router.post("/updateDoctorTimings/:id", controller.updateDoctorTimings);
 router.post("/updateDoctorClinicBasic", controller.updateDoctorClinicBasic);
 router.post("/updatePassword/:id", controller.updatePassword);
 router.post("/verifyOtp", controller.verifyOtp);

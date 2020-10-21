@@ -37,7 +37,7 @@ const recommendationsData = async function (req) {
       city = await Cities.findOne({
         where: {
           name: {
-            [Op.like]: `%${req.body.location}%`,
+            [Op.like]: `%${req.body.location.trim()}%`,
           },
         },
       });
@@ -114,7 +114,7 @@ const recommendationsData = async function (req) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams}%`,
+                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
                 },
               },
             },
@@ -144,7 +144,7 @@ const getDoctorData = async function (req) {
     let userArr = [
       {
         name: {
-          [Op.like]: `%${req.body.doctorParams}%`,
+          [Op.like]: `%${req.body.doctorParams.trim()}%`,
         },
       },
       { role: "doctor" },
@@ -169,7 +169,7 @@ const getDoctorData = async function (req) {
       city = await Cities.findOne({
         where: {
           name: {
-            [Op.like]: `%${req.body.location}%`,
+            [Op.like]: `%${req.body.location.trim()}%`,
           },
         },
       });
@@ -235,7 +235,7 @@ const getDoctorData = async function (req) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams}%`,
+                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
                 },
               },
             },
@@ -269,7 +269,7 @@ const getSpecialityData = async function (req, arr) {
       city = await Cities.findOne({
         where: {
           name: {
-            [Op.like]: `%${req.body.location}%`,
+            [Op.like]: `%${req.body.location.trim()}%`,
           },
         },
       });
@@ -366,7 +366,7 @@ const getSpecialityData = async function (req, arr) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams}%`,
+                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
                 },
               },
             },
@@ -396,7 +396,7 @@ module.exports = {
         specialityExist = await Specialities.findAll({
           where: {
             title: {
-              [Op.like]: `%${req.body.doctorParams}%`,
+              [Op.like]: `%${req.body.doctorParams.trim()}%`,
             },
           },
           attributes: ["speciality_id"],
@@ -443,7 +443,7 @@ module.exports = {
       let doctorData = await Users.findAll({
         where: {
           name: {
-            [Op.like]: `%${req.body.search}%`,
+            [Op.like]: `%${req.body.search.trim()}%`,
           },
         },
         attributes: ["name"],
@@ -456,7 +456,7 @@ module.exports = {
       let specialityData = await Specialities.findAll({
         where: {
           title: {
-            [Op.like]: `%${req.body.search}%`,
+            [Op.like]: `%${req.body.search.trim()}%`,
           },
         },
         attributes: ["title"],
