@@ -105,7 +105,7 @@ const recommendationsData = async function (req, arr) {
           required: false,
           where: {
             speciality_id: {
-              [Op.in]: arr,
+              [Op.notIn]: arr,
             },
           },
           include: [
