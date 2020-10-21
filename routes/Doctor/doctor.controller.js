@@ -275,8 +275,9 @@ module.exports = {
         } else {
           data[found] = obj;
         }
+        console.log(data, "datadatadata");
       }
-      console.log(data, "datadatadata");
+
       const account_details = await DoctorBankDetails.findAll({
         where: {
           doctor_id: doctorId,
