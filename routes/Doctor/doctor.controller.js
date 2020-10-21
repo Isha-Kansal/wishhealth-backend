@@ -235,17 +235,15 @@ module.exports = {
           data &&
           data.length > 0 &&
           data.findIndex((item) => item.clinic_id === clinicJson.clinic_id);
-        console.log(found, "foundfoundfoundfound");
+
         let datatimings = [];
         let object = { day: clinicJson.day };
         let time = [];
 
         if ((found === -1 || found === false) && clinicJson.clinic_id) {
-          console.log("gfhgsdhfdsfdhfh");
         } else {
           let foundData = data.slice();
           datatimings = foundData[found].available_timings;
-          console.log(foundData[found], "foundData[found]foundData[found]");
         }
 
         Object.keys(clinicJson).map((clinic) => {
@@ -259,7 +257,6 @@ module.exports = {
 
         datatimings.push(object);
 
-        console.log(datatimings, "datatimingsdatatimingsdatatimings");
         obj = {
           available_timings: datatimings,
           clinic_id: clinicJson.clinic_id,
