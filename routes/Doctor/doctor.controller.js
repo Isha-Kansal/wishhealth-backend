@@ -245,8 +245,8 @@ module.exports = {
 
         if ((found === -1 || found === false) && clinicJson.clinic_id) {
         } else {
-          let foundData = data[found].slice();
-          available_timings = foundData.available_timings;
+          let foundData = data.slice();
+          available_timings = foundData[found].available_timings;
         }
 
         Object.keys(clinicJson).map((clinic) => {
