@@ -145,7 +145,6 @@ const getDoctorData = async function (req) {
           [Op.ne]: null,
         };
 
-    console.log(userArr, "userArruserArruserArr");
     let city;
     let users = [];
     if (req.body.location !== "") {
