@@ -37,7 +37,7 @@ const recommendationsData = async function (req) {
       city = await Cities.findOne({
         where: {
           name: {
-            [Op.like]: `%${req.body.location.trim()}%`,
+            [Op.ne]: `%${req.body.location.trim()}%`,
           },
         },
       });
