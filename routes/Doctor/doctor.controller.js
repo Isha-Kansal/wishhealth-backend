@@ -280,13 +280,13 @@ module.exports = {
         },
         attributes: ["doc_fees", "doc_advance_fees"],
       });
-      const video_fees = await VideoConsultation.findOne({
+      const video_timings = await VideoConsultation.findOne({
         where: {
           doctor_id: doctorId,
         },
       });
       return res.status(200).json({
-        data: { data, account_details, clinic_fee, video_fees },
+        data: { data, account_details, clinic_fee, video_timings },
       });
     } catch (err) {
       console.log(err, "err");

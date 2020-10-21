@@ -25,13 +25,12 @@ module.exports = {
     try {
       console.log(req.body, "reqreqreqreq");
       if (req.body.name) {
-      }
-      const patient = await PatientDetails.findOne({
-        where: {
+        await PatientDetails.create({
+          name: req.body.name,
           phone: req.body.phone,
-        },
-        attributes: ["name"],
-      });
+        });
+      }
+
       return res.status(200).json({
         data: patient,
         message: patient ? "already registered" : "not registered",
