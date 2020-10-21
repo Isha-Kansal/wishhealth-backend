@@ -245,6 +245,7 @@ module.exports = {
         } else {
           let foundData = data.slice();
           datatimings = foundData[found].available_timings;
+          console.log(foundData[found], "foundData[found]foundData[found]");
         }
 
         Object.keys(clinicJson).map((clinic) => {
@@ -258,10 +259,9 @@ module.exports = {
 
         datatimings.push(object);
 
-        obj.available_timings = datatimings;
-        console.log(datatimings, "datatimingsdatatimingsdatatimings", obj);
+        console.log(datatimings, "datatimingsdatatimingsdatatimings");
         obj = {
-          ...obj,
+          available_timings: datatimings,
           clinic_id: clinicJson.clinic_id,
         };
         if (found === -1 || found === false) {
