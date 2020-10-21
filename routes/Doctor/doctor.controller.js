@@ -245,6 +245,10 @@ module.exports = {
         } else {
           let foundData = data.slice();
           available_timings = foundData[found].available_timings;
+          console.log(
+            available_timings,
+            "available_timingsavailable_timingsavailable_timings"
+          );
         }
 
         Object.keys(clinicJson).map((clinic) => {
@@ -255,6 +259,7 @@ module.exports = {
             }
           }
         });
+
         available_timings.push(object);
         obj.available_timings = available_timings;
         obj = {
