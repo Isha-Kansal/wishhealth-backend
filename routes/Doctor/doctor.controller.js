@@ -241,6 +241,7 @@ module.exports = {
         let time = [];
 
         if ((found === -1 || found === false) && clinicJson.clinic_id) {
+          console.log("gfhgsdhfdsfdhfh");
         } else {
           let foundData = data.slice();
           available_timings = foundData[found].available_timings;
