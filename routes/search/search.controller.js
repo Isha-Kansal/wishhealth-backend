@@ -24,6 +24,7 @@ const Cities = require("../../models/wh_cities");
 const { Op } = Sequelize;
 const recommendationsData = async function (req, arr) {
   try {
+    console.log(arr, "recommendationsDatarecommendationsData");
     let city;
     let doctorDetailwhere = [
       {
