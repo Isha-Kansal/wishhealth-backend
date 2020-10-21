@@ -26,20 +26,45 @@ const recommendationsData = async function (req, arr) {
   try {
     console.log(arr, "recommendationsDatarecommendationsData");
     let city;
-
+    let users = [];
     if (req.body.location !== "") {
       city = await Cities.findOne({
         where: {
           name: {
-            [Op.ne]: `%${req.body.location.trim()}%`,
+            [Op.like]: `%${req.body.location.trim()}%`,
           },
         },
       });
-      // doctorDetailwhere.push({
-      //   city_id: {
-      //     [Op.ne]: city.id,
-      //   },
-      // });
+      ownClinics = await Clinics.findAll({
+        where: {
+          city_id: city && city.id,
+        },
+      });
+      let clinic_ids = [];
+      ownClinics &&
+        ownClinics.length > 0 &&
+        ownClinics.map((own) => {
+          if (!users.includes(own.admin_id)) {
+            users.push(own.admin_id);
+          }
+          if (!clinic_ids.includes(own.clinic_id)) {
+            clinic_ids.push(own.clinic_id);
+          }
+        });
+      joinedClinics = await DoctorClinics.findAll({
+        where: {
+          clinic_id: {
+            [Op.in]: clinic_ids,
+          },
+        },
+      });
+      joinedClinics &&
+        joinedClinics.length > 0 &&
+        joinedClinics.map((joined) => {
+          if (!users.includes(joined.user_id)) {
+            users.push(joined.user_id);
+          }
+        });
     }
     const specialityObj =
       arr && arr.length > 0
@@ -53,10 +78,17 @@ const recommendationsData = async function (req, arr) {
               [Op.notIn]: arr,
             },
           };
+    let userArr = [{ role: "doctor" }, { status: "1" }];
+    if (users.length > 0) {
+      userArr.push({
+        user_id: {
+          [Op.notIn]: users,
+        },
+      });
+    }
     const doctors = await Users.findAndCountAll({
       where: {
-        role: "doctor",
-        status: "1",
+        [Op.and]: userArr,
       },
       distinct: true,
       include: [
