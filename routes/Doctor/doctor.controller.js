@@ -236,7 +236,7 @@ module.exports = {
           data.length > 0 &&
           data.findIndex((item) => item.clinic_id === clinicJson.clinic_id);
         console.log(found, "foundfoundfoundfound");
-        let timings = [];
+        let datatimings = [];
         let object = { day: clinicJson.day };
         let time = [];
 
@@ -244,9 +244,9 @@ module.exports = {
           console.log("gfhgsdhfdsfdhfh");
         } else {
           let foundData = data.slice();
-          timings = foundData[found].available_timings;
+          datatimings = foundData[found].available_timings;
           console.log(
-            timings,
+            datatimings,
             "dghsggshdfdf",
             foundData[found],
             "dfhjdhjf",
@@ -264,8 +264,8 @@ module.exports = {
           }
         });
 
-        timings.push(object);
-        obj.available_timings = timings;
+        datatimings.push(object);
+        obj.available_timings = datatimings;
         obj = {
           ...obj,
           clinic_id: clinicJson.clinic_id,
