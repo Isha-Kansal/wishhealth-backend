@@ -21,4 +21,26 @@ module.exports = {
       });
     }
   },
+  patientSave: async function (req, res) {
+    try {
+      console.log(req.body, "reqreqreqreq");
+      if (req.body.name) {
+      }
+      const patient = await PatientDetails.findOne({
+        where: {
+          phone: req.body.phone,
+        },
+        attributes: ["name"],
+      });
+      return res.status(200).json({
+        data: patient,
+        message: patient ? "already registered" : "not registered",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
 };
