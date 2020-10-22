@@ -444,7 +444,7 @@ module.exports = {
 
       let obj = {
         year: req.body.year,
-        attachment: req.body.proof,
+        attachment: req.body.proof.uri,
         degree: req.body.degree,
         college: req.body.college,
         user_id: doctorId,
