@@ -26,7 +26,7 @@ const createQuickBlox = async function (obj) {
       {
         method: "POST",
         url: `https://api.quickblox.com/session.json`,
-        form: {
+        data: {
           ...QBcredentials,
           timeStamp,
           signature,
