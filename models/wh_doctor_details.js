@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const db = require("../config/mysql");
 const Cities = require("./wh_cities");
 const States = require("./wh_states");
+const Users = require("./wh_users");
 
 const Doctordetails = db.define(
   "wh_doctor_details",
@@ -262,6 +263,7 @@ States.hasMany(Doctordetails, { foreignKey: "state_id" });
 Doctordetails.belongsTo(States, {
   foreignKey: "state_id",
 });
+Users.hasOne(Doctordetails, { foreignKey: "user_id" });
 Cities.hasMany(Doctordetails, { foreignKey: "city_id" });
 
 Doctordetails.belongsTo(Cities, {
