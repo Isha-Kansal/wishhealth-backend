@@ -6,6 +6,7 @@ const request = require("request");
 const BookingPayments = require("../models/wh_booking_payments");
 const hmacsha1 = require("hmacsha1");
 const CryptoJS = require("crypto-js");
+const Doctordetails = require("../models/wh_doctor_details");
 const instance = new Razorpay({
   key_id: `rzp_test_5G5VyL9K8BPPNJ`,
   key_secret: `Ynzgwz8hhTezffS3cG1iiDWk`,
@@ -24,11 +25,7 @@ const createQuickBlox = async function (obj) {
   try {
     const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
     const signature = CryptoJS.HmacSHA1(signData, QBcredentials.authSecret);
-    console.log(
-      signature.toString(),
-      "signaturesignaturesignature",
-      QBcredentials.timestamp
-    );
+
     return request(
       {
         method: "POST",
@@ -49,6 +46,54 @@ const createQuickBlox = async function (obj) {
         console.log("Headers:", JSON.stringify(response.headers));
         let data = JSON.parse(body);
         console.log("reewee", data);
+        const token = data.session.token;
+        return request(
+          {
+            method: "POST",
+            url: `https://api.quickblox.com/users.json`,
+            headers: {
+              "QB-Token": token,
+            },
+            form: {
+              login: obj.username,
+              password: "password",
+            },
+          },
+          async function (err, response, body) {
+            console.log(err, response, body, "err, response, body");
+            if (err) {
+              return res.status(500).json({
+                message: "Something Went Wrong",
+              });
+            }
+            console.log("dfsfs", response);
+            console.log("Headers:", JSON.stringify(response.headers));
+            let data = JSON.parse(body);
+            console.log("reewee1111111", data);
+            // await Doctordetails.update(
+            //   {quickblox_id:data.id,
+            //     quickblox_login:obj.username},
+            //   {
+            //     where: {
+            //       user_id: obj.user_id,
+            //     },
+            //   }
+            // );
+            // if (data.status === "captured") {
+            //   let obj = {
+            //     amount: req.params.amount,
+            //     payment_id: req.params.paymentId,
+            //   };
+            //   await BookingPayments.create(obj);
+            //   return res.status(200).json({
+            //     message: "success",
+            //   });
+            // }
+            // return res.status(400).json({
+            //   message: "failure",
+            // });
+          }
+        );
         // if (data.status === "captured") {
         //   let obj = {
         //     amount: req.params.amount,
