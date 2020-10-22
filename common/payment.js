@@ -5,6 +5,7 @@ const Razorpay = require("razorpay");
 const request = require("request");
 const BookingPayments = require("../models/wh_booking_payments");
 const hmacsha1 = require("hmacsha1");
+const CryptoJS = require("crypto-js");
 const instance = new Razorpay({
   key_id: `rzp_test_5G5VyL9K8BPPNJ`,
   key_secret: `Ynzgwz8hhTezffS3cG1iiDWk`,
@@ -22,7 +23,7 @@ const otpData = [];
 const createQuickBlox = async function (obj) {
   try {
     const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
-    const signature = hmacsha1(QBcredentials.authSecret, signData);
+    const signature = CryptoJS.HmacSHA1(signData, QBcredentials.authSecret);
     console.log(
       signature,
       "signaturesignaturesignature",
