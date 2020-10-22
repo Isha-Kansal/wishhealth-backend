@@ -114,11 +114,11 @@ Users.hasMany(Clinics, {
   sourceKey: "user_id",
   as: "clinics",
 });
-Users.hasOne(VideoConsultation, {
-  foreignKey: "doctor_id",
-  sourceKey: "user_id",
-  as: "video_timings",
-});
+// Users.hasOne(VideoConsultation, {
+//   foreignKey: "doctor_id",
+//   sourceKey: "user_id",
+//   as: "video_timings",
+// });
 Users.hasMany(Feedback, {
   foreignKey: "doctor_id",
   sourceKey: "user_id",
