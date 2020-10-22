@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
+const Users = require("./wh_users");
 
 const VideoConsultation = db.define(
   "wh_video_consultation_times",
@@ -83,5 +84,9 @@ const VideoConsultation = db.define(
     timestamps: false,
   }
 );
-
+Users.hasOne(VideoConsultation, {
+  foreignKey: "doctor_id",
+  sourceKey: "user_id",
+  as: "video_timings",
+});
 module.exports = VideoConsultation;
