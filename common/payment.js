@@ -4,11 +4,63 @@
 const Razorpay = require("razorpay");
 const request = require("request");
 const BookingPayments = require("../models/wh_booking_payments");
+const hmacsha1 = require("hmacsha1");
 const instance = new Razorpay({
   key_id: `rzp_test_5G5VyL9K8BPPNJ`,
   key_secret: `Ynzgwz8hhTezffS3cG1iiDWk`,
 });
+const QBcredentials = {
+  application_id: 85060,
+  auth_key: "Hu527uvYdY7GfyT",
+  nonce: 4321,
+  timestamp: new Date().getTime(),
+  authSecret: "a2EvU4g3E-cju3F",
+};
 const otpData = [];
+const createQuickBlox = async function (obj) {
+  try {
+    const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
+    const signature = hmacsha1(QBcredentials.authSecret, signData);
+    console.log(signature, "signaturesignaturesignature");
+    return request(
+      {
+        method: "POST",
+        url: `https://api.quickblox.com/session.json`,
+        form: {
+          ...QBcredentials,
+          signature,
+        },
+      },
+      async function (err, response, body) {
+        console.log(err, response, body, "err, response, body");
+        if (err) {
+          return res.status(500).json({
+            message: "Something Went Wrong",
+          });
+        }
+        console.log("Status:", response);
+        console.log("Headers:", JSON.stringify(response.headers));
+        let data = JSON.parse(body);
+        console.log("Response:", data);
+        // if (data.status === "captured") {
+        //   let obj = {
+        //     amount: req.params.amount,
+        //     payment_id: req.params.paymentId,
+        //   };
+        //   await BookingPayments.create(obj);
+        //   return res.status(200).json({
+        //     message: "success",
+        //   });
+        // }
+        // return res.status(400).json({
+        //   message: "failure",
+        // });
+      }
+    );
+  } catch (err) {
+    console.log(err, "err");
+  }
+};
 const sendOtp = async function (url, obj) {
   try {
     return request(
@@ -134,3 +186,4 @@ module.exports = {
 };
 module.exports.sendOtp = sendOtp;
 module.exports.verify = verify;
+module.exports.createQuickBlox = createQuickBlox;

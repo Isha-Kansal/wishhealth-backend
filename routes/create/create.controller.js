@@ -197,6 +197,7 @@ module.exports = {
           user_id: response.user_id,
         });
         console.log(session, "sessionsession");
+        commonController.createQuickBlox(details);
         return res.status(200).json({
           data: {
             user_id: response.user_id,
