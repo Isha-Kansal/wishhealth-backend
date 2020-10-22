@@ -101,11 +101,11 @@ Users.hasMany(DoctorClinicTimings, {
   sourceKey: "user_id",
   as: "clinic_timings",
 });
-// Users.hasMany(DoctorBankDetails, {
-//   foreignKey: "doctor_id",
-//   sourceKey: "user_id",
-//   as: "bank_details",
-// });
+Users.hasMany(DoctorBankDetails, {
+  foreignKey: "doctor_id",
+  sourceKey: "user_id",
+  as: "bank_details",
+});
 
 Users.hasMany(Feedback, {
   foreignKey: "doctor_id",
