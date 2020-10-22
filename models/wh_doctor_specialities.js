@@ -48,8 +48,5 @@ Specialities.hasMany(Doctorspecialities, { foreignKey: "speciality_id" });
 Doctorspecialities.belongsTo(Specialities, {
   foreignKey: "speciality_id",
 });
-Users.hasMany(Doctorspecialities, { foreignKey: "user_id" });
-Doctorspecialities.belongsTo(Users, {
-  foreignKey: "user_id",
-});
+
 module.exports = Doctorspecialities;
