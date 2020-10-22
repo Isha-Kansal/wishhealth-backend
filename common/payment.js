@@ -14,7 +14,7 @@ const QBcredentials = {
   auth_key: "Hu527uvYdY7GfyT",
   nonce: 4321,
   authSecret: "a2EvU4g3E-cju3F",
-  timestamp: new Date().getTime(),
+  timestamp: parseInt(new Date().getTime()),
 };
 const otpData = [];
 const createQuickBlox = async function (obj) {
