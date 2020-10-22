@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
+const Users = require("./wh_users");
 
 const Bookings = db.define(
   "wh_patient_doctor_bookings",
@@ -131,5 +132,9 @@ const Bookings = db.define(
     timestamps: false,
   }
 );
-
+Users.hasMany(Bookings, {
+  foreignKey: "doctor_id",
+  sourceKey: "user_id",
+  as: "bookings",
+});
 module.exports = Bookings;

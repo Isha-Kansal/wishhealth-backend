@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
 const Specialities = require("./wh_specialities");
+const Users = require("./wh_users");
 
 const Doctorspecialities = db.define(
   "wh_doctor_specialities",
@@ -46,5 +47,9 @@ Specialities.hasMany(Doctorspecialities, { foreignKey: "speciality_id" });
 
 Doctorspecialities.belongsTo(Specialities, {
   foreignKey: "speciality_id",
+});
+Users.hasMany(Doctorspecialities, { foreignKey: "user_id" });
+Doctorspecialities.belongsTo(Users, {
+  foreignKey: "user_id",
 });
 module.exports = Doctorspecialities;
