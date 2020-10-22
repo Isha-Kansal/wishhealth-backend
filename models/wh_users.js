@@ -90,7 +90,7 @@ const Users = db.define(
     timestamps: false,
   }
 );
-Users.hasOne(Doctordetails, { foreignKey: "user_id" });
+
 Users.hasMany(Doctorlanguages, { foreignKey: "user_id" });
 Users.hasMany(Doctorspecialities, { foreignKey: "user_id" });
 Doctorspecialities.belongsTo(Users, {
@@ -114,11 +114,7 @@ Users.hasMany(Clinics, {
   sourceKey: "user_id",
   as: "clinics",
 });
-Users.hasOne(VideoConsultation, {
-  foreignKey: "doctor_id",
-  sourceKey: "user_id",
-  as: "video_timings",
-});
+
 Users.hasMany(Feedback, {
   foreignKey: "doctor_id",
   sourceKey: "user_id",
@@ -130,7 +126,11 @@ Users.hasMany(Bookings, {
   sourceKey: "user_id",
   as: "bookings",
 });
-
+Users.hasOne(VideoConsultation, {
+  foreignKey: "doctor_id",
+  sourceKey: "user_id",
+  as: "video_timings",
+});
 Users.hasMany(DoctorServices, { foreignKey: "user_id" });
 
 module.exports = Users;
