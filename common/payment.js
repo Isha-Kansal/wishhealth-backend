@@ -9,12 +9,15 @@ const instance = new Razorpay({
   key_id: `rzp_test_5G5VyL9K8BPPNJ`,
   key_secret: `Ynzgwz8hhTezffS3cG1iiDWk`,
 });
+
 const QBcredentials = {
   application_id: 85060,
   auth_key: "Hu527uvYdY7GfyT",
   nonce: 4321,
   authSecret: "a2EvU4g3E-cju3F",
-  timestamp: parseInt(new Date().getTime()),
+  timestamp: parseInt(
+    new Date(new Date().setMinutes(new Date().getMinutes() - 30)).getTime()
+  ),
 };
 const otpData = [];
 const createQuickBlox = async function (obj) {
