@@ -90,7 +90,7 @@ const Users = db.define(
     timestamps: false,
   }
 );
-Users.hasOne(Doctordetails, { foreignKey: "user_id" });
+// Users.hasOne(Doctordetails, { foreignKey: "user_id" });
 Users.hasMany(Doctorlanguages, { foreignKey: "user_id" });
 Users.hasMany(Doctorspecialities, { foreignKey: "user_id" });
 Doctorspecialities.belongsTo(Users, {
