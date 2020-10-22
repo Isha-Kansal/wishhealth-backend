@@ -72,43 +72,16 @@ const createQuickBlox = async function (obj) {
             console.log("Headers:", JSON.stringify(response.headers));
             let data = JSON.parse(body);
             console.log("reewee1111111", data);
-            // await Doctordetails.update(
-            //   {quickblox_id:data.id,
-            //     quickblox_login:obj.username},
-            //   {
-            //     where: {
-            //       user_id: obj.user_id,
-            //     },
-            //   }
-            // );
-            // if (data.status === "captured") {
-            //   let obj = {
-            //     amount: req.params.amount,
-            //     payment_id: req.params.paymentId,
-            //   };
-            //   await BookingPayments.create(obj);
-            //   return res.status(200).json({
-            //     message: "success",
-            //   });
-            // }
-            // return res.status(400).json({
-            //   message: "failure",
-            // });
+            await Doctordetails.update(
+              { quickblox_id: data.user.id, quickblox_login: data.user.login },
+              {
+                where: {
+                  user_id: obj.user_id,
+                },
+              }
+            );
           }
         );
-        // if (data.status === "captured") {
-        //   let obj = {
-        //     amount: req.params.amount,
-        //     payment_id: req.params.paymentId,
-        //   };
-        //   await BookingPayments.create(obj);
-        //   return res.status(200).json({
-        //     message: "success",
-        //   });
-        // }
-        // return res.status(400).json({
-        //   message: "failure",
-        // });
       }
     );
   } catch (err) {
