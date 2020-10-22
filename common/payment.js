@@ -55,8 +55,10 @@ const createQuickBlox = async function (obj) {
               "QB-Token": token,
             },
             form: {
-              login: obj.username,
-              password: "password",
+              user: {
+                login: obj.username,
+                password: "password",
+              },
             },
           },
           async function (err, response, body) {
