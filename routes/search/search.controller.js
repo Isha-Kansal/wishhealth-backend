@@ -238,6 +238,15 @@ const getDoctorData = async function (req) {
         },
       });
     }
+    console.log(userArr, "userArruserArr");
+    const abc = await Users.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${req.body.doctorParams.trim()}%`,
+        },
+      },
+    });
+    console.log(abc, "abcabcabcabcabcabc");
     const doctors = await Users.findAndCountAll({
       where: {
         [Op.and]: userArr,
