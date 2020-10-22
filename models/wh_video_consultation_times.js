@@ -84,9 +84,5 @@ const VideoConsultation = db.define(
     timestamps: false,
   }
 );
-Users.hasOne(VideoConsultation, {
-  foreignKey: "doctor_id",
-  sourceKey: "user_id",
-  as: "video_timings",
-});
+
 module.exports = VideoConsultation;
