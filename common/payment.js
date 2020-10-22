@@ -38,10 +38,10 @@ const createQuickBlox = async function (obj) {
             message: "Something Went Wrong",
           });
         }
-        console.log("Status:", response);
+        console.log("dfsfs", response);
         console.log("Headers:", JSON.stringify(response.headers));
         let data = JSON.parse(body);
-        console.log("Response:", data);
+        console.log("reewee", data);
         // if (data.status === "captured") {
         //   let obj = {
         //     amount: req.params.amount,
