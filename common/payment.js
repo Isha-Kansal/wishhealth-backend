@@ -25,7 +25,7 @@ const createQuickBlox = async function (obj) {
     const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
     const signature = CryptoJS.HmacSHA1(signData, QBcredentials.authSecret);
     console.log(
-      signature,
+      signature.toString(),
       "signaturesignaturesignature",
       QBcredentials.timestamp
     );
@@ -35,7 +35,7 @@ const createQuickBlox = async function (obj) {
         url: `https://api.quickblox.com/session.json`,
         form: {
           ...QBcredentials,
-          signature,
+          signature: signature.toString(),
         },
       },
       async function (err, response, body) {
