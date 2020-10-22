@@ -117,12 +117,11 @@ Users.hasMany(Feedback, {
   sourceKey: "user_id",
   as: "feedback",
 });
-
-Users.hasMany(Bookings, {
-  foreignKey: "doctor_id",
-  sourceKey: "user_id",
-  as: "bookings",
+Users.hasMany(Doctorspecialities, { foreignKey: "user_id" });
+Doctorspecialities.belongsTo(Users, {
+  foreignKey: "user_id",
 });
+
 Users.hasOne(VideoConsultation, {
   foreignKey: "doctor_id",
   sourceKey: "user_id",
