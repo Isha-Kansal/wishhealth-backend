@@ -686,6 +686,14 @@ module.exports = {
             required: true,
 
             include: [
+              {
+                model: Cities,
+                where: {
+                  state_id: {
+                    [Op.col]: "wh_clinic.state_id",
+                  },
+                },
+              },
               { model: ClinicImages, required: false },
               {
                 model: Bookings,
