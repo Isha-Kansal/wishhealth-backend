@@ -132,9 +132,5 @@ const Bookings = db.define(
     timestamps: false,
   }
 );
-Users.hasMany(Bookings, {
-  foreignKey: "doctor_id",
-  sourceKey: "user_id",
-  as: "bookings",
-});
+
 module.exports = Bookings;

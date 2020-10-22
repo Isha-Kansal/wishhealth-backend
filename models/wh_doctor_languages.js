@@ -48,4 +48,6 @@ Languages.hasMany(Doctorlanguages, { foreignKey: "language_id" });
 Doctorlanguages.belongsTo(Languages, {
   foreignKey: "language_id",
 });
+Users.hasMany(Doctorlanguages, { foreignKey: "user_id" });
+
 module.exports = Doctorlanguages;

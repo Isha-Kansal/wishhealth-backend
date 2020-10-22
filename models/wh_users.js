@@ -128,5 +128,9 @@ Users.hasOne(VideoConsultation, {
   as: "video_timings",
 });
 Users.hasMany(DoctorServices, { foreignKey: "user_id" });
-
+Users.hasMany(Bookings, {
+  foreignKey: "doctor_id",
+  sourceKey: "user_id",
+  as: "bookings",
+});
 module.exports = Users;
