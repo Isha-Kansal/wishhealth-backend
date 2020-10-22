@@ -552,6 +552,84 @@ module.exports = {
       });
     }
   },
+  getDoctorDetails: async function (req, res) {
+    try {
+      const data = await Users.findOne({
+        where: {
+          user_id: req.params.user_id,
+        },
+        distinct: true,
+        include: [
+          {
+            model: Doctordetails,
+            required: true,
+          },
+          {
+            model: Feedback,
+            as: "feedback",
+            required: false,
+          },
+          {
+            model: Doctorlanguages,
+            required: false,
+            include: [
+              {
+                model: Languages,
+                required: false,
+                attributes: ["name"],
+                where: {
+                  name: {
+                    [Op.ne]: null,
+                  },
+                },
+              },
+            ],
+          },
+          {
+            model: Doctorqualifications,
+            required: false,
+            include: [
+              {
+                model: Qualifications,
+                required: false,
+                attributes: ["degree"],
+                where: {
+                  degree: {
+                    [Op.ne]: null,
+                  },
+                },
+              },
+            ],
+          },
+          {
+            model: Doctorspecialities,
+            required: false,
+            where: specialityObj,
+            include: [
+              {
+                model: Specialities,
+                required: true,
+                attributes: ["title"],
+                where: {
+                  title: {
+                    [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      });
+      return res.status(200).json({
+        data: data,
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   suggestions: async function (req, res) {
     try {
       let arr = [];
