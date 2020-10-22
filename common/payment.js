@@ -13,21 +13,22 @@ const QBcredentials = {
   application_id: 85060,
   auth_key: "Hu527uvYdY7GfyT",
   nonce: 4321,
-  timestamp: new Date().getTime(),
   authSecret: "a2EvU4g3E-cju3F",
 };
 const otpData = [];
 const createQuickBlox = async function (obj) {
   try {
-    const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
+    const timeStamp = new Date().getTime();
+    const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${timeStamp}`;
     const signature = hmacsha1(QBcredentials.authSecret, signData);
-    console.log(signature, "signaturesignaturesignature");
+    console.log(signature, "signaturesignaturesignature", timeStamp);
     return request(
       {
         method: "POST",
         url: `https://api.quickblox.com/session.json`,
         form: {
           ...QBcredentials,
+          timeStamp,
           signature,
         },
       },
