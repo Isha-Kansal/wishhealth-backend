@@ -30,7 +30,7 @@ const createQuickBlox = async function (obj) {
           application_id: 85060,
           auth_key: "Hu527uvYdY7GfyT",
           nonce: 4321,
-          timeStamp,
+          timestamp: timeStamp,
           signature,
         },
       },
