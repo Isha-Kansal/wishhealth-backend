@@ -604,17 +604,11 @@ module.exports = {
           {
             model: Doctorspecialities,
             required: false,
-            where: specialityObj,
             include: [
               {
                 model: Specialities,
                 required: true,
                 attributes: ["title"],
-                where: {
-                  title: {
-                    [Op.like]: `%${req.body.doctorParams.trim()}%`,
-                  },
-                },
               },
             ],
           },
