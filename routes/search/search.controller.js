@@ -22,6 +22,42 @@ const Feedback = require("../../models/wh_feedback");
 const VideoConsultation = require("../../models/wh_video_consultation_times");
 const Cities = require("../../models/wh_cities");
 const { Op } = Sequelize;
+const getLiveDoctorData = async function (req) {
+  try {
+    const doctorsData = await getDoctorData(req);
+    const doctors = doctorsData.data;
+    const finalArr = [];
+    doctors &&
+      doctors.length > 0 &&
+      doctors.map(async (doctor) => {
+        const doctorTimings = await DoctorClinicTimings.findAll({
+          where: {
+            doctor_id: doctor.user_id,
+          },
+        });
+        return (
+          doctorTimings &&
+          doctorTimings.length > 0 &&
+          doctorTimings.map((timing) => {
+            return Object.keys(timing).map((time) => {
+              if (
+                time.includes("AM") ||
+                (time.includes("PM") && timing[time] === 1)
+              ) {
+                let hours = moment(time, ["h:mm A"]).format("HH");
+                if (new Date().setHours(hours, 0, 0) < new Date()) {
+                  return finalArr.push(doctor);
+                }
+              }
+            });
+          })
+        );
+      });
+  } catch (err) {
+    console.log(err, "err");
+    return [];
+  }
+};
 const recommendationsData = async function (req, arr) {
   try {
     console.log(arr, "recommendationsDatarecommendationsData");
@@ -510,39 +546,44 @@ module.exports = {
       console.log(req.body, "dgsyhgfshgdh");
       let specialityExist = [];
       let array = [];
-      if (req.body.doctorParams !== "") {
-        specialityExist = await Specialities.findAll({
-          where: {
-            title: {
-              [Op.like]: `%${req.body.doctorParams.trim()}%`,
+      if (!req.body.consult) {
+        if (req.body.doctorParams !== "") {
+          specialityExist = await Specialities.findAll({
+            where: {
+              title: {
+                [Op.like]: `%${req.body.doctorParams.trim()}%`,
+              },
             },
-          },
-          attributes: ["speciality_id"],
-        });
-
-        const speciality = JSON.parse(JSON.stringify(specialityExist));
-        speciality &&
-          speciality.length > 0 &&
-          speciality.map((item) => {
-            array.push(item.speciality_id);
+            attributes: ["speciality_id"],
           });
-        console.log(array, "arrarrarr", speciality);
-      }
-      if (specialityExist.length > 0) {
-        const specialityData = await getSpecialityData(req, array);
-        arr = [...specialityData.data];
 
-        count = specialityData.count;
+          const speciality = JSON.parse(JSON.stringify(specialityExist));
+          speciality &&
+            speciality.length > 0 &&
+            speciality.map((item) => {
+              array.push(item.speciality_id);
+            });
+          console.log(array, "arrarrarr", speciality);
+        }
+        if (specialityExist.length > 0) {
+          const specialityData = await getSpecialityData(req, array);
+          arr = [...specialityData.data];
+
+          count = specialityData.count;
+        }
+        if (specialityExist.length === 0 || arr.length === 0) {
+          const doctorData = await getDoctorData(req);
+          arr = [...doctorData.data];
+          count = doctorData.count;
+        }
+        console.log(arr, "arrarrarrarrarrarr", arr.length);
+        if (arr.length === 0) {
+          recommendations = await recommendationsData(req, array);
+        }
+      } else {
+        const livedoctorData = await getLiveDoctorData(req);
       }
-      if (specialityExist.length === 0 || arr.length === 0) {
-        const doctorData = await getDoctorData(req);
-        arr = [...doctorData.data];
-        count = doctorData.count;
-      }
-      console.log(arr, "arrarrarrarrarrarr", arr.length);
-      if (arr.length === 0) {
-        recommendations = await recommendationsData(req, array);
-      }
+
       return res.status(200).json({
         data: { arr, recommendations },
         count,
