@@ -37,21 +37,22 @@ const getLiveDoctorData = async function (req) {
       });
       console.log(doctorTimings, "doctorTimingsdoctorTimingsdoctorTimings");
       const doctorTime = JSON.parse(JSON.stringify(doctorTimings));
-      for (let j = 0; j < doctorTime.length; j++) {}
-      let timing = doctorTime[j];
-      Object.keys(timing).map((time) => {
-        console.log(time, "timetimetime");
-        if (
-          time.includes("AM") ||
-          (time.includes("PM") && timing[time] === 1)
-        ) {
-          let hours = moment(time, ["h:mm A"]).format("HH");
-          console.log(hours, "hourshourshours");
-          if (new Date().setHours(hours, 0, 0) < new Date()) {
-            finalArr.push(doctor);
+      for (let j = 0; j < doctorTime.length; j++) {
+        let timing = doctorTime[j];
+        Object.keys(timing).map((time) => {
+          console.log(time, "timetimetime");
+          if (
+            time.includes("AM") ||
+            (time.includes("PM") && timing[time] === 1)
+          ) {
+            let hours = moment(time, ["h:mm A"]).format("HH");
+            console.log(hours, "hourshourshours");
+            if (new Date().setHours(hours, 0, 0) < new Date()) {
+              finalArr.push(doctor);
+            }
           }
-        }
-      });
+        });
+      }
     }
 
     console.log(finalArr, "finalArrfinalArrfinalArr");
