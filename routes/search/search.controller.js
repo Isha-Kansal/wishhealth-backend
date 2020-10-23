@@ -27,6 +27,7 @@ const getLiveDoctorData = async function (req) {
     const doctorsData = await getDoctorData(req);
     const doctors = doctorsData.data;
     const finalArr = [];
+    console.log(doctors, "doctorsdoctors");
     doctors &&
       doctors.length > 0 &&
       doctors.map(async (doctor) => {
