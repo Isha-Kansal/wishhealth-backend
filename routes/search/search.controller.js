@@ -37,8 +37,7 @@ const getLiveDoctorData = async function (req) {
           },
         });
         const doctorTime = JSON.parse(JSON.stringify(doctorTimings));
-        return (
-          doctorTime &&
+        doctorTime &&
           doctorTime.length > 0 &&
           doctorTime.map((timing) => {
             return Object.keys(timing).map((time) => {
@@ -54,8 +53,7 @@ const getLiveDoctorData = async function (req) {
                 }
               }
             });
-          })
-        );
+          });
       });
     console.log(finalArr, "finalArrfinalArrfinalArr");
     return finalArr;
