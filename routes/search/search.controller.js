@@ -528,16 +528,16 @@ module.exports = {
           });
         console.log(array, "arrarrarr", speciality);
       }
-
-      if (specialityExist.length === 0) {
-        const doctorData = await getDoctorData(req);
-        arr = [...doctorData.data];
-        count = doctorData.count;
-      } else {
+      if (specialityExist.length > 0) {
         const specialityData = await getSpecialityData(req, array);
         arr = [...specialityData.data];
 
         count = specialityData.count;
+      }
+      if (specialityExist.length === 0 || arr.length === 0) {
+        const doctorData = await getDoctorData(req);
+        arr = [...doctorData.data];
+        count = doctorData.count;
       }
       console.log(arr, "arrarrarrarrarrarr", arr.length);
       if (arr.length === 0) {
