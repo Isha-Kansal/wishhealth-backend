@@ -383,19 +383,28 @@ module.exports = {
           admin_id: doctorId,
         },
         include: [
-          { model: ClinicTimings },
+          { model: ClinicTimings, required: false },
           {
             model: Cities,
+            required: false,
             where: {
               state_id: {
                 [Op.col]: "wh_clinic.state_id",
               },
             },
           },
-          { model: States },
-          { model: ClinicImages },
-          { model: ClinicSpecialities, include: [{ model: Specialities }] },
-          { model: ClinicServices, include: [{ model: Services }] },
+          { model: States, required: false },
+          { model: ClinicImages, required: false },
+          {
+            model: ClinicSpecialities,
+            required: false,
+            include: [{ model: Specialities, required: false }],
+          },
+          {
+            model: ClinicServices,
+            required: false,
+            include: [{ model: Services, required: false }],
+          },
         ],
       });
 
