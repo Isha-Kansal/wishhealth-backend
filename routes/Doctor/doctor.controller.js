@@ -350,22 +350,22 @@ module.exports = {
         include: [
           {
             model: Clinics,
-            required: true,
-            include: [
-              { model: ClinicTimings },
-              {
-                model: Cities,
-                where: {
-                  state_id: {
-                    [Op.col]: "wh_clinic.state_id",
-                  },
-                },
-              },
-              { model: States },
-              { model: ClinicImages },
-              { model: ClinicSpecialities, include: [{ model: Specialities }] },
-              { model: ClinicServices, include: [{ model: Services }] },
-            ],
+            required: false,
+            // include: [
+            //   { model: ClinicTimings },
+            //   {
+            //     model: Cities,
+            //     where: {
+            //       state_id: {
+            //         [Op.col]: "wh_clinic.state_id",
+            //       },
+            //     },
+            //   },
+            //   { model: States },
+            //   { model: ClinicImages },
+            //   { model: ClinicSpecialities, include: [{ model: Specialities }] },
+            //   { model: ClinicServices, include: [{ model: Services }] },
+            // ],
           },
         ],
       });
