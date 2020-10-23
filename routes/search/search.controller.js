@@ -688,6 +688,7 @@ module.exports = {
             include: [
               {
                 model: Cities,
+                required: false,
                 where: {
                   state_id: {
                     [Op.col]: "wh_clinic.state_id",
