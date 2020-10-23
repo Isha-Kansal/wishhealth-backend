@@ -111,7 +111,7 @@ module.exports = {
       console.log(verify, "verifyverifyverifyverify");
       if (verify) {
         message = "otp valid";
-        const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${user.contact_no}&from=WishPL&templatename=docSignUpSuccess&var1=${user.name}`;
+        const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${user.contact_no}&from=WishPL&templatename=doctorSignUpSuccess&var1=${user.name}`;
         const session = await commonController.sendOtp(url);
       }
       return res.status(200).json({
