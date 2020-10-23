@@ -40,7 +40,7 @@ const getLiveDoctorData = async function (req) {
         doctorTime &&
           doctorTime.length > 0 &&
           doctorTime.map((timing) => {
-            return Object.keys(timing).map((time) => {
+            Object.keys(timing).map((time) => {
               console.log(time, "timetimetime");
               if (
                 time.includes("AM") ||
