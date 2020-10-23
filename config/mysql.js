@@ -26,7 +26,7 @@ const config =
         password: LIVE_DATABASE_PASSWORD,
         port: 3306,
       };
-
+console.log(config, "configconfigconfig");
 const sequelize = new Sequelize(config.database, config.user, config.password, {
   host: config.host,
   port: config.port,
