@@ -586,7 +586,7 @@ module.exports = {
         }
       } else {
         const livedoctorData = await getLiveDoctorData(req);
-        const arr = [...livedoctorData];
+        arr = [...livedoctorData];
         count = arr.length;
       }
 
