@@ -36,6 +36,7 @@ const getLiveDoctorData = async function (req) {
             doctor_id: doctor.user_id,
           },
         });
+        console.log(doctorTimings, "doctorTimingsdoctorTimingsdoctorTimings");
         const doctorTime = JSON.parse(JSON.stringify(doctorTimings));
         doctorTime &&
           doctorTime.length > 0 &&
