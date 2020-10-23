@@ -28,34 +28,32 @@ const getLiveDoctorData = async function (req) {
     const doctors = doctorsData.data;
     const finalArr = [];
     console.log(doctors, "doctorsdoctors");
-    doctors &&
-      doctors.length > 0 &&
-      doctors.map(async (doctor) => {
-        const doctorTimings = await DoctorClinicTimings.findAll({
-          where: {
-            doctor_id: doctor.user_id,
-          },
-        });
-        console.log(doctorTimings, "doctorTimingsdoctorTimingsdoctorTimings");
-        const doctorTime = JSON.parse(JSON.stringify(doctorTimings));
-        doctorTime &&
-          doctorTime.length > 0 &&
-          doctorTime.map((timing) => {
-            Object.keys(timing).map((time) => {
-              console.log(time, "timetimetime");
-              if (
-                time.includes("AM") ||
-                (time.includes("PM") && timing[time] === 1)
-              ) {
-                let hours = moment(time, ["h:mm A"]).format("HH");
-                console.log(hours, "hourshourshours");
-                if (new Date().setHours(hours, 0, 0) < new Date()) {
-                  finalArr.push(doctor);
-                }
-              }
-            });
-          });
+    for (let i = 0; i < doctors.length; i++) {
+      let doctor = doctors[i];
+      const doctorTimings = await DoctorClinicTimings.findAll({
+        where: {
+          doctor_id: doctor.user_id,
+        },
       });
+      console.log(doctorTimings, "doctorTimingsdoctorTimingsdoctorTimings");
+      const doctorTime = JSON.parse(JSON.stringify(doctorTimings));
+      for (let j = 0; j < doctorTime.length; j++) {}
+      let timing = doctorTime[j];
+      Object.keys(timing).map((time) => {
+        console.log(time, "timetimetime");
+        if (
+          time.includes("AM") ||
+          (time.includes("PM") && timing[time] === 1)
+        ) {
+          let hours = moment(time, ["h:mm A"]).format("HH");
+          console.log(hours, "hourshourshours");
+          if (new Date().setHours(hours, 0, 0) < new Date()) {
+            finalArr.push(doctor);
+          }
+        }
+      });
+    }
+
     console.log(finalArr, "finalArrfinalArrfinalArr");
     return finalArr;
   } catch (err) {
