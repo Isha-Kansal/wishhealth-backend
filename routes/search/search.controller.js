@@ -36,10 +36,11 @@ const getLiveDoctorData = async function (req) {
             doctor_id: doctor.user_id,
           },
         });
+        const doctorTime = JSON.parse(JSON.stringify(doctorTimings));
         return (
-          doctorTimings &&
-          doctorTimings.length > 0 &&
-          doctorTimings.map((timing) => {
+          doctorTime &&
+          doctorTime.length > 0 &&
+          doctorTime.map((timing) => {
             return Object.keys(timing).map((time) => {
               console.log(time, "timetimetime");
               if (
