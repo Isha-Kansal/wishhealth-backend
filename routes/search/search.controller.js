@@ -49,7 +49,7 @@ const getLiveDoctorData = async function (req) {
                 let hours = moment(time, ["h:mm A"]).format("HH");
                 console.log(hours, "hourshourshours");
                 if (new Date().setHours(hours, 0, 0) < new Date()) {
-                  return finalArr.push(doctor);
+                  finalArr.push(doctor);
                 }
               }
             });
