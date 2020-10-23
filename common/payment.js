@@ -4,7 +4,6 @@
 const Razorpay = require("razorpay");
 const request = require("request");
 const BookingPayments = require("../models/wh_booking_payments");
-const hmacsha1 = require("hmacsha1");
 const CryptoJS = require("crypto-js");
 const Doctordetails = require("../models/wh_doctor_details");
 const instance = new Razorpay({
@@ -105,8 +104,11 @@ const sendOtp = async function (url, obj) {
 
         let data = JSON.parse(body);
         console.log(data, "datadatadatadata");
-        otpData.push(obj);
-        console.log(otpData, "otpDataotpDataotpData");
+        if (obj) {
+          otpData.push(obj);
+          console.log(otpData, "otpDataotpDataotpData");
+        }
+
         return data.Details;
       }
     );

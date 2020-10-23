@@ -6,7 +6,6 @@ router.get("/getDoctorDetails/:id", controller.getDoctorDetails);
 router.get("/getDoctorClinicBasics/:id", controller.getDoctorClinicDetails);
 router.get("/getDoctorTimings/:id", controller.getDoctorTimings);
 router.get("/getDoctorClinicTimings/:id", controller.getDoctorClinicTimings);
-
 router.post("/updateDoctorDetails/:id", controller.updateDoctorDetails);
 router.post(
   "/updateDoctorEducationDetails/:user_id/:id",

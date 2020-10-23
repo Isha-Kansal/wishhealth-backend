@@ -99,6 +99,11 @@ module.exports = {
   verifyOtp: async function (req, res) {
     try {
       let message = "otp invalid";
+      const user = await Users.findOne({
+        where: {
+          user_id: req.body.user_id,
+        },
+      });
       const verify = await commonController.verify({
         otp: req.body.otp,
         user_id: req.body.user_id,
@@ -106,6 +111,8 @@ module.exports = {
       console.log(verify, "verifyverifyverifyverify");
       if (verify) {
         message = "otp valid";
+        const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${user.contact_no}&from=WishPL&templatename=docSignUpSuccess&var1=${user.name}`;
+        const session = await commonController.sendOtp(url);
       }
       return res.status(200).json({
         message: message,
