@@ -41,11 +41,13 @@ const getLiveDoctorData = async function (req) {
           doctorTimings.length > 0 &&
           doctorTimings.map((timing) => {
             return Object.keys(timing).map((time) => {
+              console.log(time, "timetimetime");
               if (
                 time.includes("AM") ||
                 (time.includes("PM") && timing[time] === 1)
               ) {
                 let hours = moment(time, ["h:mm A"]).format("HH");
+                console.log(hours, "hourshourshours");
                 if (new Date().setHours(hours, 0, 0) < new Date()) {
                   return finalArr.push(doctor);
                 }
