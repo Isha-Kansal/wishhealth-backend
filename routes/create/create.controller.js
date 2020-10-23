@@ -222,7 +222,7 @@ module.exports = {
           gender: req.body.gender,
           profile_pic: req.body.image ? req.body.image.uri : "",
           prefix: req.body.prefix,
-          city_id: req.body.state_id,
+          city_id: req.body.city_id,
           state_id: req.body.state_id,
         },
         {

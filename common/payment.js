@@ -79,6 +79,7 @@ const createQuickBlox = async function (obj) {
                 },
               }
             );
+            return { message: "Success" };
           }
         );
       }
