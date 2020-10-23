@@ -53,6 +53,8 @@ const getLiveDoctorData = async function (req) {
           })
         );
       });
+    console.log(finalArr, "finalArrfinalArrfinalArr");
+    return finalArr;
   } catch (err) {
     console.log(err, "err");
     return [];
@@ -582,6 +584,8 @@ module.exports = {
         }
       } else {
         const livedoctorData = await getLiveDoctorData(req);
+        const arr = [...livedoctorData];
+        count = arr.length;
       }
 
       return res.status(200).json({
