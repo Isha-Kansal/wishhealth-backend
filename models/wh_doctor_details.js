@@ -243,6 +243,12 @@ const Doctordetails = db.define(
       defaultValue: "0",
       primaryKey: false,
     },
+    extension: {
+      type: "VARCHAR(100)",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
   },
   {
     timestamps: false,
