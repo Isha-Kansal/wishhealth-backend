@@ -95,7 +95,7 @@ const getLiveDoctorData = async function (req) {
 
 		return finalArr;
 	} catch (err) {
-		console.log(err, 'err');
+		console.log(err, 'err1111');
 		return [];
 	}
 };
