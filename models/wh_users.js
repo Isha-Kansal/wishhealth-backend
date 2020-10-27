@@ -14,6 +14,7 @@ const Feedback = require("./wh_feedback");
 const VideoConsultation = require("./wh_video_consultation_times");
 const DoctorBankDetails = require("./wh_doctor_bank_details");
 const Clinics = require("./wh_clinic");
+
 const Users = db.define(
   "wh_users",
   {
