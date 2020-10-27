@@ -277,6 +277,7 @@ module.exports = {
           ? req.body.attachment_size
           : "",
       };
+      console.log("EducationDetails-values",values);
       const response = await Doctorqualifications.create(values).then(result => {
         console.log("EducationDetails-result",result);
       }).catch(err => {
