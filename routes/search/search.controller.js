@@ -26,6 +26,7 @@ const getLiveDoctorData = async function (req) {
 	try {
 		const doctorsData = await getDoctorData(req);
 		const doctors = doctorsData.data;
+		console.log('getLiveDoctorData-doctors', doctors);
 		const finalArr = [];
 		for (let i = 0; i < doctors.length; i++) {
 			let doctor = doctors[i];
@@ -34,18 +35,19 @@ const getLiveDoctorData = async function (req) {
 					doctor_id: doctor.user_id,
 				},
 			});
+			console.log('getLiveDoctorData-doctorTimings', doctorTimings);
 			const doctorTime = JSON.parse(JSON.stringify(doctorTimings));
 			// for (let j = 0; j < doctorTime.length; j++) {
 			// let timing = doctorTime[j];
 
 			let currentday = moment().day();
-
+			console.log('getLiveDoctorData-currentday', currentday);
 			let doctorTodayTimings = doctorTime.find((item) => {
 				if (parseInt(item.day) === currentday) {
 					return true;
 				}
 			});
-
+			console.log('getLiveDoctorData-doctorTodayTimings', doctorTodayTimings);
 			const doctorAvailabilityTiming = [];
 			Object.keys(doctorTodayTimings).filter((ele) => {
 				if (doctorTodayTimings[ele] === '1') {
@@ -60,7 +62,9 @@ const getLiveDoctorData = async function (req) {
 				'h:mm a'
 			);
 			const startTime = moment(doctorAvailabilityTiming[0], 'h:mm a');
-
+			console.log('getLiveDoctorData-currenttime', currenttime);
+			console.log('getLiveDoctorData-startTime', startTime);
+			console.log('getLiveDoctorData-endTime', endTime);
 			if (
 				doctorAvailabilityTiming.length > 0 &&
 				startTime.isBefore(currenttime) &&
@@ -68,6 +72,7 @@ const getLiveDoctorData = async function (req) {
 			) {
 				finalArr.push(doctor);
 			}
+			console.log('getLiveDoctorData-finalArr', finalArr);
 			// Object.keys(timing).map((time) => {
 			// 	console.log(time, 'timetimetime');
 			// 	if (
