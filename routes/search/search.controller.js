@@ -30,6 +30,7 @@ const getLiveDoctorData = async function (req) {
 		const finalArr = [];
 		for (let i = 0; i < doctors.length; i++) {
 			let doctor = doctors[i];
+			console.log('doctor: ', doctor);
 			const doctorTimings = await DoctorClinicTimings.findAll({
 				where: {
 					doctor_id: doctor.user_id,
@@ -49,29 +50,31 @@ const getLiveDoctorData = async function (req) {
 			});
 			console.log('getLiveDoctorData-doctorTodayTimings', doctorTodayTimings);
 			const doctorAvailabilityTiming = [];
-			Object.keys(doctorTodayTimings).filter((ele) => {
-				if (doctorTodayTimings[ele] === '1') {
-					doctorAvailabilityTiming.push(ele);
+			if (doctorTodayTimings) {
+				Object.keys(doctorTodayTimings).filter((ele) => {
+					if (doctorTodayTimings[ele] === '1') {
+						doctorAvailabilityTiming.push(ele);
+					}
+				});
+
+				const currenttime = moment().add(5, 'hours').add(30, 'minutes');
+				// const startTime = moment(doctorAvailabilityTiming[0], 'HH:mm A');
+				const startTime = moment(doctorAvailabilityTiming[0], 'h:mm a');
+				const endTime = moment(
+					doctorAvailabilityTiming[doctorAvailabilityTiming.length - 1],
+					'h:mm a'
+				);
+
+				console.log('getLiveDoctorData-currenttime', currenttime);
+				console.log('getLiveDoctorData-startTime', startTime);
+				console.log('getLiveDoctorData-endTime', endTime);
+				if (
+					doctorAvailabilityTiming.length > 0 &&
+					startTime.isBefore(currenttime) &&
+					currenttime.isBefore(endTime)
+				) {
+					finalArr.push(doctor);
 				}
-			});
-
-			const currenttime = moment().add(5, 'hours').add(30, 'minutes');
-			// const startTime = moment(doctorAvailabilityTiming[0], 'HH:mm A');
-			const startTime = moment(doctorAvailabilityTiming[0], 'h:mm a');
-			const endTime = moment(
-				doctorAvailabilityTiming[doctorAvailabilityTiming.length - 1],
-				'h:mm a'
-			);
-
-			console.log('getLiveDoctorData-currenttime', currenttime);
-			console.log('getLiveDoctorData-startTime', startTime);
-			console.log('getLiveDoctorData-endTime', endTime);
-			if (
-				doctorAvailabilityTiming.length > 0 &&
-				startTime.isBefore(currenttime) &&
-				currenttime.isBefore(endTime)
-			) {
-				finalArr.push(doctor);
 			}
 			console.log('getLiveDoctorData-finalArr', finalArr);
 			// Object.keys(timing).map((time) => {
