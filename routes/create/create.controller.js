@@ -345,6 +345,8 @@ module.exports = {
           },
           message: "Created Successfully",
         });
+      }).catch(err => {
+        console.log('ClinicBasic-err', err);
       });
     } catch (err) {
       console.log(err, "err");
