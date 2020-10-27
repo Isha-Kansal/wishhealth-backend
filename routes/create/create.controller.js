@@ -166,6 +166,7 @@ module.exports = {
         offers: "",
       };
       Users.create(obj).then(async (resp) => {
+        console.log("createDoctor-create-use-resp", resp);
         const response = JSON.parse(JSON.stringify(resp));
         console.log("createDoctor-create-user", response);
         let details = {
