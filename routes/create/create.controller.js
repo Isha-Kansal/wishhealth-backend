@@ -278,8 +278,10 @@ module.exports = {
           : "",
       };
       console.log("EducationDetails-values",values);
-      const response = await Doctorqualifications.create(values).then(result => {
+      let response = '';
+      await Doctorqualifications.create(values).then(result => {
         console.log("EducationDetails-result",result);
+        response = JSON.parse(JSON.stringify(result));
       }).catch(err => {
         console.log("EducationDetails-err",err);
       });
