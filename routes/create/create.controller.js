@@ -167,7 +167,7 @@ module.exports = {
       };
       Users.create(obj).then(async (resp) => {
         const response = JSON.parse(JSON.stringify(resp));
-
+        console.log("createDoctor-create-user", response);
         let details = {
           phone: req.body.phone,
           email: req.body.email,
