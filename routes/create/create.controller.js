@@ -189,7 +189,14 @@ module.exports = {
           quickblox_login: "",
           degree: 0,
         };
-        await Doctordetails.create(details);
+        await Doctordetails.create(details).then((result) => {
+          // you can now access the newly created user
+          console.log('Doctordetails-result', result);
+      })
+      .catch((err) => {
+          // print the error details
+          console.log("Doctordetails-err", err);
+      });
         const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
 
         const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${obj.contact_no}&from=WishPL&templatename=docsignup&var1=${obj.name}&var2=${otp}`;
