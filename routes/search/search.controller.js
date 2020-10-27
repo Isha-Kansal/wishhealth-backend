@@ -55,13 +55,14 @@ const getLiveDoctorData = async function (req) {
 				}
 			});
 
-			const currenttime = moment();
+			const currenttime = moment().add(5, 'hours').add(30, 'minutes');
 			// const startTime = moment(doctorAvailabilityTiming[0], 'HH:mm A');
+			const startTime = moment(doctorAvailabilityTiming[0], 'h:mm a');
 			const endTime = moment(
 				doctorAvailabilityTiming[doctorAvailabilityTiming.length - 1],
 				'h:mm a'
 			);
-			const startTime = moment(doctorAvailabilityTiming[0], 'h:mm a');
+
 			console.log('getLiveDoctorData-currenttime', currenttime);
 			console.log('getLiveDoctorData-startTime', startTime);
 			console.log('getLiveDoctorData-endTime', endTime);
@@ -894,33 +895,33 @@ module.exports = {
 			});
 		}
 	},
-	// searchClinics: async function (req, res) {
-	// 	try {
-	// 		const { clinicName, location, user_id } = req.body;
-	// 		const cond = {};
-	// 		if (clinicName) {
-	// 			cond.name = {
-	// 				[Op.like]: '%' + clinicName + '%',
-	// 			};
-	// 		}
-	// 		if (location) {
-	// 			cond.address = {
-	// 				[Op.like]: '%' + location + '%',
-	// 			};
-	// 		}
-	// 		if (user_id) {
-	// 			cond.admin_id = user_id;
-	// 		}
-	// 		console.log('searchClinics-cond', cond);
-	// 		const clinics = await Clinics.findAll({ where: cond });
-	// 		return res.status(200).json({
-	// 			data: { listing: clinics || [] },
-	// 		});
-	// 	} catch (err) {
-	// 		console.log(err, 'err');
-	// 		return res.status(500).json({
-	// 			message: 'Something Went Wrong',
-	// 		});
-	// 	}
-	// },
+	searchClinics: async function (req, res) {
+		try {
+			const { clinicName, location, user_id } = req.body;
+			const cond = {};
+			if (clinicName) {
+				cond.name = {
+					[Op.like]: '%' + clinicName + '%',
+				};
+			}
+			if (location) {
+				cond.address = {
+					[Op.like]: '%' + location + '%',
+				};
+			}
+			if (user_id) {
+				cond.admin_id = user_id;
+			}
+			console.log('searchClinics-cond', cond);
+			const clinics = await Clinics.findAll({ where: cond });
+			return res.status(200).json({
+				data: { listing: clinics || [] },
+			});
+		} catch (err) {
+			console.log(err, 'err');
+			return res.status(500).json({
+				message: 'Something Went Wrong',
+			});
+		}
+	},
 };
