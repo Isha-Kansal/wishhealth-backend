@@ -151,16 +151,20 @@ const createLanguages = async function (req, id) {
       req.body.languages.map(async (item) => {
         let language = await Languages.findOne({ where: { name: item } });
         const result = JSON.parse(JSON.stringify(language));
-        console.log(result, "languagelanguagelanguage");
+        console.log("createLanguages-find-result", result);
         let values = {
           language_id: result.id,
           user_id: id,
         };
 
-        await Doctorlanguages.create(values);
+        await Doctorlanguages.create(values).then(result => {
+          console.log("createLanguages-result", result)
+        }).catch(err => {
+          console.log("createLanguages-api-catch-err", err)
+        });
       });
   } catch (err) {
-    console.log(err, "err");
+    console.log("createLanguages-try-catch-err", err)
   }
 };
 module.exports = {
@@ -234,6 +238,7 @@ module.exports = {
   },
   createDoctorDetails: async function (req, res) {
     try {
+      console.log("createDoctorDetails-req.body", req.body);
       await Doctordetails.update(
         {
           gender: req.body.gender,

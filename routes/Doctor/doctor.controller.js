@@ -212,8 +212,9 @@ module.exports = {
           },
         ],
       });
+      console.log("getDoctorDetails-user",rest)
       const result = JSON.parse(JSON.stringify(rest));
-
+      console.log("getDoctorDetails-result",result)
       return res.status(200).json({
         data: result,
       });
