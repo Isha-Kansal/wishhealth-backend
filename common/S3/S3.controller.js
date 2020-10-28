@@ -22,7 +22,7 @@ module.exports = {
 				Body: buffer,
 				Bucket: 'wishhealth-images',
 				ContentType: 'image/png',
-				Key: `${new Date().getTime() + 'image'}.${'png'}`,
+				Key: `${new Date().getTime() + 'doctor_image'}.${'png'}`,
 			};
 			const data = await s3.upload(params).promise();
 			console.log('uploadImage-data', data);
