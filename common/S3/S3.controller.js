@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const Doctordetails = require("../../models/wh_doctor_details");
 
 module.exports = {
 	uploadImage: async function (req, res) {
