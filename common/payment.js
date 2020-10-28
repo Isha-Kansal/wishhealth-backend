@@ -171,6 +171,8 @@ module.exports = {
   },
   paymentCapture: function (req, res) {
     try {
+      console.log("paymentCapture-req.params", req.params);
+      console.log("paymentCapture-req.body", req.body);
       return request(
         {
           method: "POST",
@@ -181,22 +183,29 @@ module.exports = {
           },
         },
         async function (err, response, body) {
-          console.log(err, response, body, "err, response, body");
+          console.log("paymentCapture-response", response);
+          console.log("paymentCapture-body", body);
           if (err) {
+            console.log("paymentCapture-err", err);
             return res.status(500).json({
               message: "Something Went Wrong",
             });
           }
-          console.log("Status:", response.statusCode);
-          console.log("Headers:", JSON.stringify(response.headers));
+          console.log("paymentCapture-response.statusCode", response.statusCode);
+          console.log("paymentCapture-response.headers",  JSON.stringify(response.headers));
           let data = JSON.parse(body);
-          console.log("Response:", data, data.status);
+          console.log("paymentCapture-data",  data);
+          console.log("paymentCapture-data.status",  data.status);
           if (data.status === "captured") {
             let obj = {
               amount: req.params.amount,
               payment_id: req.params.paymentId,
             };
-            await BookingPayments.create(obj);
+            await BookingPayments.create(obj).then(result => {
+              console.log("paymentCapture-BookingPayments-result", result);
+            }).catch(err => {
+              console.log("paymentCapture-BookingPayments-err",  err);
+            });
             return res.status(200).json({
               message: "success",
             });
