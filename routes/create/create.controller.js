@@ -19,6 +19,9 @@ const ClinicImages = require("../../models/wh_clinic_images");
 const commonController = require("../../common/payment");
 const { urlencoded } = require("body-parser");
 const { Op } = sequelize;
+const axios = require("axios");
+const url = require('../../config/baseUrl');
+
 const createSpecialities = async function (req, id) {
   try {
     req.body.specialities &&
@@ -99,12 +102,18 @@ const createRegistration = async function (req, id) {
       },
     });
     console.log(council, "councilcouncilcouncil", req.body, id);
+    const reg_proof = req.body.reg_proof ? await axios.post(`${url.apiUrl}/s3/uploadImage`, { base64: req.body.reg_proof.uri }) : "";
+    const govt_id_proof = req.body.govt_id_proof ? await axios.post(`${url.apiUrl}/s3/uploadImage`, { base64: req.body.govt_id_proof.uri }) : "";
+    console.log('createRegistration-reg_proof', reg_proof);
+    console.log('createRegistration-govt_id_proof', govt_id_proof);
     let obj = {
       reg_number: req.body.reg_number,
       council: council.id,
       year: req.body.year,
-      reg_proof: req.body.reg_proof ? req.body.reg_proof.uri : "",
-      govt_id_proof: req.body.govt_id_proof ? req.body.govt_id_proof.uri : "",
+      // reg_proof: req.body.reg_proof ? req.body.reg_proof.uri : "",
+      reg_proof: reg_proof && reg_proof.data && reg_proof.data.url ? reg_proof.data.url : "",
+      // govt_id_proof: req.body.govt_id_proof ? req.body.govt_id_proof.uri : "",
+      govt_id_proof: govt_id_proof && govt_id_proof.data && govt_id_proof.data.url ? govt_id_proof.data.url : "",
       user_id: id,
       reg_proof_size: req.body.reg_proof_size ? req.body.reg_proof_size : "",
       govt_id_proof_size: req.body.govt_id_proof_size
@@ -266,13 +275,15 @@ module.exports = {
   },
   EducationDetails: async function (req, res) {
     try {
+      const attachment = req.body.reg_proof ? await axios.post(`${url.apiUrl}/s3/uploadImage`, { base64: req.body.reg_proof.uri }) : "";
       let values = {
         user_id: req.body.user_id,
         degree: req.body.degree,
         college: req.body.college,
         year: req.body.year,
         index: req.body.index,
-        attachment: req.body.proof ? req.body.proof.uri : "",
+        // attachment: req.body.proof ? req.body.proof.uri : "",
+        attachment: attachment && attachment.data && attachment.data.url ? attachment.data.url : "",
         attachment_size: req.body.attachment_size
           ? req.body.attachment_size
           : "",
@@ -301,6 +312,7 @@ module.exports = {
   },
   ClinicBasic: async function (req, res) {
     try {
+      const reg_proof = req.body.reg_proof ? await axios.post(`${url.apiUrl}/s3/uploadImage`, { base64: req.body.reg_proof.uri }) : "";
       let values = {
         admin_id: req.body.user_id,
         name: req.body.name,
@@ -319,7 +331,8 @@ module.exports = {
         clinic_type: req.body.clinic_type,
         latitude: req.body.latitude ? req.body.latitude : "",
         longitude: req.body.longitude ? req.body.longitude : "",
-        reg_proof: req.body.reg_proof ? req.body.reg_proof.uri : "",
+        // reg_proof: req.body.reg_proof ? req.body.reg_proof.uri : "",
+        reg_proof: reg_proof && reg_proof.data && reg_proof.data.url ? reg_proof.data.url : "",
       };
       console.log(req.body, "req.bodyreq.bodyreq.bodyreq.body");
       Clinics.create(values).then(async (resp) => {
