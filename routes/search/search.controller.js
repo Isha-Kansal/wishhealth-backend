@@ -900,6 +900,7 @@ module.exports = {
 	},
 	searchClinics: async function (req, res) {
 		try {
+			console.log('searchClinics-req', req);
 			const { clinicName, location, user_id } = req.body;
 			const cond = {};
 			if (clinicName) {
@@ -916,9 +917,12 @@ module.exports = {
 				cond.admin_id = user_id;
 			}
 			console.log('searchClinics-cond', cond);
-			const clinics = await Clinics.findAll({ where: cond });
+			const clinics = await Clinics.findAndCountAll({
+				where: cond,
+				attributes: ['clinic_id', 'name', 'address'],
+			});
 			return res.status(200).json({
-				data: { listing: clinics || [] },
+				data: { count: clinics.count, listing: clinics.rows || [] },
 			});
 		} catch (err) {
 			console.log(err, 'err');
