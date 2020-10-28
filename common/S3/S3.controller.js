@@ -3,9 +3,9 @@ const AWS = require('aws-sdk');
 module.exports = {
 	uploadImage: async function (req, res) {
 		try {
-			// const doctorId = req.params.id;
+			const doctorId = req.params.id;
 			console.log('uploadDoctorImage-req.body', req.body);
-			// console.log('uploadDoctorImage-req.params', req.params);
+			console.log('uploadDoctorImage-req.params', req.params);
 			const { base64 } = req.body;
 			AWS.config.update({
 				accessKeyId: 'AKIAVFNR42VWVSCWYXM4',
@@ -32,16 +32,16 @@ module.exports = {
 				});
 			}
 			const { Location } = data;
-			// await Doctordetails.update(
-			// 	{
-			// 		profile_pic: Location,
-			// 	},
-			// 	{
-			// 		where: {
-			// 			user_id: doctorId,
-			// 		},
-			// 	}
-			// );
+			await Doctordetails.update(
+				{
+					profile_pic: Location,
+				},
+				{
+					where: {
+						user_id: doctorId,
+					},
+				}
+			);
 			return res.status(200).json({
 				message: 'Doctor profile uploaded successfully.',
 				data: { url: Location },
