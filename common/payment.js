@@ -205,9 +205,7 @@ module.exports = {
             message: "failure",
           });
         }
-      ).catch(err => { 
-        console.log('paymentCapture-api-catch-err', err);
-      });
+      )
     } catch (err) {
       console.log('paymentCapture-err', err);
       return res.status(500).json({
