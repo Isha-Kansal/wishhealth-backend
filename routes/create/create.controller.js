@@ -245,10 +245,13 @@ module.exports = {
 	createDoctorDetails: async function (req, res) {
 		try {
 			console.log('createDoctorDetails-req.body', req.body);
+			const profile_pic = req.body.image
+				? await s3BucketUploader(req.body.image.uri)
+				: '';
 			await Doctordetails.update(
 				{
 					gender: req.body.gender,
-					profile_pic: req.body.image ? req.body.image.uri : '',
+					profile_pic,
 					prefix: req.body.prefix,
 					city_id: req.body.city_id,
 					state_id: req.body.state_id,
