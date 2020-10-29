@@ -1,5 +1,12 @@
 const AWS = require('aws-sdk');
-const Doctordetails = require("../../models/wh_doctor_details");
+const Doctordetails = require('../../models/wh_doctor_details');
+require('dotenv').config();
+
+const {
+	AWS_ACCESS_KEY_ID,
+	AWS_SECRET_ACCESS_KEY,
+	AWS_S3_BUCKET_NAME,
+} = process.env;
 
 module.exports = {
 	uploadImage: async function (req, res) {
@@ -9,8 +16,8 @@ module.exports = {
 			console.log('uploadDoctorImage-req.params', req.params);
 			const { base64 } = req.body;
 			AWS.config.update({
-				accessKeyId: 'AKIAVFNR42VWVSCWYXM4',
-				secretAccessKey: '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',
+				accessKeyId: AWS_ACCESS_KEY_ID,
+				secretAccessKey: AWS_SECRET_ACCESS_KEY,
 			});
 			const s3 = new AWS.S3();
 			const buffer = new Buffer.from(
@@ -21,7 +28,7 @@ module.exports = {
 			const params = {
 				ACL: 'public-read',
 				Body: buffer,
-				Bucket: 'wishhealth-images',
+				Bucket: AWS_S3_BUCKET_NAME,
 				ContentType: 'image/png',
 				Key: `${new Date().getTime() + 'doctor_image'}.${'png'}`,
 			};
