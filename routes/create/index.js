@@ -7,4 +7,5 @@ router.post("/createDoctorDetails", controller.createDoctorDetails);
 router.post("/RegistrationDetails", controller.RegistrationDetails);
 router.post("/EducationDetails", controller.EducationDetails);
 router.post("/ClinicBasic", controller.ClinicBasic);
+router.post("/bookAppointment", controller.bookAppointment);
 module.exports = router;
