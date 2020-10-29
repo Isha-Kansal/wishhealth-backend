@@ -289,6 +289,7 @@ module.exports = {
 	},
 	EducationDetails: async function (req, res) {
 		try {
+			console.log("EducationDetails-req.body", req.body);
 			const attachment = req.body.reg_proof
 				? await s3BucketUploader(req.body.reg_proof.uri)
 				: '';

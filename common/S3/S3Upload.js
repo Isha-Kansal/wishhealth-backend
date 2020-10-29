@@ -9,6 +9,7 @@ const {
 
 const uploader = async (base64) => {
 	try {
+		console.log("uploader-base64", base64);
 		if (!base64) return '';
 		AWS.config.update({
 			accessKeyId: AWS_ACCESS_KEY_ID,
@@ -27,6 +28,7 @@ const uploader = async (base64) => {
 			Key: `${new Date().getTime() + 'doctor_image'}.${'jpeg'}`,
 		};
 		const data = await s3.upload(params).promise();
+		console.log("uploader-data", data);
 		return (data && data.Location) || '';
 	} catch (error) {
 		console.log('s3BucketUploader-try-catch', error);
