@@ -98,9 +98,12 @@ const sendOtp = async function (url, obj) {
       async function (err, response, body) {
         console.log(err, response, body, "err, response, body");
         if (err) {
-          return res.status(500).json({
+          // return res.status(500).json({
+          //   message: "Something Went Wrong",
+          // });
+          return {
             message: "Something Went Wrong",
-          });
+          };
         }
 
         let data = JSON.parse(body);
