@@ -660,12 +660,12 @@ module.exports = {
         },
         include: [{ model: Council, attributes: ["name"] }],
       });
+      console.log("getDoctorRegistrationDetails-CouncilRegistration-data", data);
       let finalData = JSON.parse(JSON.stringify(data));
       if (finalData && !finalData.wh_medical_council) {
         let obj = {
           name: "Delhi Medical Council",
         };
-
         finalData.wh_medical_council = obj;
       }
       return res.status(200).json({
