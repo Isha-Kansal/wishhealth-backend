@@ -27,6 +27,8 @@ const VideoConsultation = require("../../models/wh_video_consultation_times");
 const DoctorBankDetails = require("../../models/wh_doctor_bank_details");
 const DoctorClinics = require("../../models/wh_doctor_clinics");
 const { Op } = Sequelize;
+const { s3BucketUploader } = require("../../common/S3/S3Upload");
+
 module.exports = {
   updateDoctorDetails: async function (req, res) {
     try {
