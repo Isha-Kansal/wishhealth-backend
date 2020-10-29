@@ -471,10 +471,11 @@ module.exports = {
     try {
       const doctorId = req.params.user_id;
       const id = req.params.id;
-
+      const attachment = req.body.proof ? await s3BucketUploader(req.body.proof.uri) : '';
       let obj = {
         year: req.body.year,
-        attachment: req.body.proof ? req.body.proof.uri : "",
+        // attachment: req.body.proof ? req.body.proof.uri : "",
+        attachment,
         degree: req.body.degree,
         college: req.body.college,
         user_id: doctorId,
