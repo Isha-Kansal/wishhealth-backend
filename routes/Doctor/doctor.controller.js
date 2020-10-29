@@ -647,12 +647,12 @@ module.exports = {
           },
         ],
       });
-      console.log(data, "datadatadatadata");
+      console.log("getDoctorEducationDetails-data", data);
       return res.status(200).json({
         data: data ? data : [],
       });
     } catch (err) {
-      console.log(err, "err");
+      console.log("getDoctorEducationDetails-err", err);
       return res.status(500).json({
         message: "Something Went Wrong",
       });

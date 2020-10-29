@@ -37,15 +37,18 @@ const createQuickBlox = async function (obj) {
       async function (err, response, body) {
         console.log(err, response, body, "err, response, body");
         if (err) {
-          return res.status(500).json({
+          return {
             message: "Something Went Wrong",
-          });
+          };
+          // return res.status(500).json({
+          //   message: "Something Went Wrong",
+          // });
         }
         console.log("dfsfs", response);
         console.log("Headers:", JSON.stringify(response.headers));
         let data = JSON.parse(body);
         console.log("reewee", data);
-        const token = data.session.token;
+        const token = (data && data.session && data.session.token) || '';
         return request(
           {
             method: "POST",
