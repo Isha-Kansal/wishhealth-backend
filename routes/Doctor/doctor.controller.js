@@ -104,21 +104,25 @@ module.exports = {
           user_id: req.body.user_id,
         },
       });
+      console.log("verifyOtp-user", user);
       const verify = await commonController.verify({
         otp: req.body.otp,
         user_id: req.body.user_id,
       });
-      console.log(verify, "verifyverifyverifyverify");
+      console.log("verifyOtp-verify", verify);
       if (verify) {
+        console.log("verifyOtp-verify", verify);
         message = "otp valid";
+        console.log("verifyOtp-message", message);
         const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${user.contact_no}&from=WishPL&templatename=doctorSignUpSuccess&var1=${user.name}`;
         const session = await commonController.sendOtp(url);
+        console.log("verifyOtp-after-session");
       }
       return res.status(200).json({
         message: message,
       });
     } catch (err) {
-      console.log(err, "err");
+      console.log("verifyOtp-err", err);
       return res.status(500).json({
         message: "Something Went Wrong",
       });
