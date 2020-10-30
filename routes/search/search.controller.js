@@ -405,7 +405,6 @@ const getDoctorData = async function (req) {
 			offset: req.body.offset,
 			order: [['rankings', 'DESC']],
 		});
-		console.log('doctorsdoctorsdoctors', doctors);
 		return { data: doctors.rows, count: doctors.count };
 	} catch (err) {
 		console.log(err, 'err');
