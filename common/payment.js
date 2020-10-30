@@ -10,19 +10,27 @@ const instance = new Razorpay({
   key_id: `rzp_test_5G5VyL9K8BPPNJ`,
   key_secret: `Ynzgwz8hhTezffS3cG1iiDWk`,
 });
-const now = new Date();
-const timestamp = now.setMinutes(now.getMinutes() - 30); // timestamp
-const QBcredentials = {
-  application_id: 85060,
-  auth_key: "Hu527uvYdY7GfyT",
-  nonce: 4321,
-  authSecret: "a2EvU4g3E-cju3F",
-  // timestamp: parseInt(Math.round(timestamp / 1000)),
-  timestamp: new Date().getTime()
-};
+// const now = new Date();
+// const timestamp = now.setMinutes(now.getMinutes() - 30); // timestamp
+// const QBcredentials = {
+//   application_id: 85060,
+//   auth_key: "Hu527uvYdY7GfyT",
+//   nonce: 4321,
+//   authSecret: "a2EvU4g3E-cju3F",
+//   // timestamp: parseInt(Math.round(timestamp / 1000)),
+//   // timestamp: new Date().getTime()
+// };
 const otpData = [];
 const createQuickBlox = async function (obj) {
   try {
+    const QBcredentials = {
+      application_id: 85060,
+      auth_key: "Hu527uvYdY7GfyT",
+      nonce: 4321,
+      authSecret: "a2EvU4g3E-cju3F",
+      // timestamp: parseInt(Math.round(timestamp / 1000)),
+      timestamp: new Date().getTime()
+    };
     console.log("createQuickBlox-obj", obj);
     console.log("createQuickBlox-QBcredentials", QBcredentials);
     const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
