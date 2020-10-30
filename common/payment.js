@@ -24,7 +24,8 @@ const createQuickBlox = async function (obj) {
   try {
     const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
     const signature = CryptoJS.HmacSHA1(signData, QBcredentials.authSecret);
-
+    console.log("createQuickBlox-signData", signData);
+    console.log("createQuickBlox-signature", signature);
     return request(
       {
         method: "POST",
@@ -40,15 +41,13 @@ const createQuickBlox = async function (obj) {
           return {
             message: "Something Went Wrong",
           };
-          // return res.status(500).json({
-          //   message: "Something Went Wrong",
-          // });
         }
-        console.log("dfsfs", response);
-        console.log("Headers:", JSON.stringify(response.headers));
+        console.log("createQuickBlox-response", response);
+        console.log("createQuickBloxheaders-headers", JSON.stringify(response.headers));
         let data = JSON.parse(body);
-        console.log("reewee", data);
+        console.log("createQuickBlox-data", data);
         const token = (data && data.session && data.session.token) || '';
+        console.log("createQuickBlox-token", token);
         return request(
           {
             method: "POST",
@@ -64,16 +63,18 @@ const createQuickBlox = async function (obj) {
             },
           },
           async function (err, response, body) {
-            console.log(err, response, body, "err, response, body");
+            console.log("createQuickBlox-response", response);
+            console.log("createQuickBlox-body", body);
             if (err) {
-              return res.status(500).json({
+              console.log("createQuickBlox-err", err);
+              return {
                 message: "Something Went Wrong",
-              });
+              };
             }
-            console.log("dfsfs", response);
-            console.log("Headers:", JSON.stringify(response.headers));
+            console.log("createQuickBlox-response", response);
+            console.log("createQuickBlox-response.headers", JSON.stringify(response.headers));
             let data = JSON.parse(body);
-            console.log("reewee1111111", data);
+            console.log("createQuickBlox-data", data);
             await Doctordetails.update(
               { quickblox_id: data.user.id, quickblox_login: data.user.login },
               {
@@ -81,14 +82,18 @@ const createQuickBlox = async function (obj) {
                   user_id: obj.user_id,
                 },
               }
-            );
+            ).then(result => {
+              console.log("createQuickBlox-result", result);
+            }).catch(err => {
+              console.log("createQuickBlox-api-err", err);
+            });
             return { message: "Success" };
           }
         );
       }
     );
   } catch (err) {
-    console.log(err, "err");
+    console.log("createQuickBlox-catch-err", err);
   }
 };
 const sendOtp = async function (url, obj) {

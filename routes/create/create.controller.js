@@ -403,43 +403,39 @@ module.exports = {
 				status,
 				booked_by,
 				modify_by,
+				user_id,
 			} = req.body;
+
 			let data = {
-				// id: '',
 				doctor_id,
 				clinic_id,
 				date,
-				date2: '',
+				date2: moment(date + time, 'D-MMM-YYYYh:m A').format(),
 				time,
-				patient_id: '',
+				patient_id: user_id,
 				codeused_id: 0,
 				status,
 				user_type,
 				modify_by,
 				booked_by,
-				booked_category: '',
-				// created_at: '',
-				// modified_at: '',
+				booked_category: 'General',
 				read_status: 0,
-				receptionist_id: '',
-				type: '',
-				// advance_fees: '',
-				doctor_confirmation: '',
+				doctor_confirmation: 0,
 			};
-			PatientDoctorBookings.create(data)
-				.then((result) => {
-					console.log('bookAppointment-api-result', result);
-					return res.status(200).json({
-						data: result,
-						message: 'Appointment Booked Successfully.',
-					});
-				})
-				.catch((err) => {
-					console.log('bookAppointment-api-err', err);
-					return res.status(500).json({
-						message: 'Something Went Wrong',
-					});
-				});
+			// PatientDoctorBookings.create(data)
+			// 	.then((result) => {
+			// 		console.log('bookAppointment-api-result', result);
+			// 		return res.status(200).json({
+			// 			data: result,
+			// 			message: 'Appointment Booked Successfully.',
+			// 		});
+			// 	})
+			// 	.catch((err) => {
+			// 		console.log('bookAppointment-api-err', err);
+			// 		return res.status(500).json({
+			// 			message: 'Something Went Wrong',
+			// 		});
+			// 	});
 		} catch (err) {
 			console.log('bookAppointment-err', err);
 			return res.status(500).json({
