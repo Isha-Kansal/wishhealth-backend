@@ -156,7 +156,7 @@ module.exports = {
 
       const rest = await Users.findOne({
         where: {
-          user_id: doctorId,
+          user_id: parseInt(doctorId),
         },
         attributes: ["name", "user_id"],
         include: [
