@@ -21,6 +21,7 @@ const ClinicTimings = require('../../models/wh_clinic_timings');
 const Feedback = require('../../models/wh_feedback');
 const VideoConsultation = require('../../models/wh_video_consultation_times');
 const Cities = require('../../models/wh_cities');
+const States = require('../../models/wh_states');
 const { Op } = Sequelize;
 const getLiveDoctorData = async function (req) {
 	try {
@@ -337,6 +338,14 @@ const getDoctorData = async function (req) {
 									: [0, 1],
 						},
 					},
+					include: [
+						{
+							model: Cities,
+						},
+						{
+							model: States,
+						},
+					],
 				},
 				{
 					model: Feedback,
@@ -396,6 +405,7 @@ const getDoctorData = async function (req) {
 			offset: req.body.offset,
 			order: [['rankings', 'DESC']],
 		});
+		console.log('doctorsdoctorsdoctors', doctors);
 		return { data: doctors.rows, count: doctors.count };
 	} catch (err) {
 		console.log(err, 'err');
