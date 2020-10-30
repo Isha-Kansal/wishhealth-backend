@@ -277,6 +277,7 @@ module.exports = {
 	},
 	RegistrationDetails: async function (req, res) {
 		try {
+			console.log("RegistrationDetails-req.body", req.body)
 			await createRegistration(req, req.body.user_id);
 			return res.status(200).json({
 				message: 'Created Successfully',
