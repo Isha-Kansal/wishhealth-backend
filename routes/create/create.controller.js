@@ -333,6 +333,7 @@ module.exports = {
 	},
 	ClinicBasic: async function (req, res) {
 		try {
+			console.log('ClinicBasic-req.body', req.body);
 			const reg_proof = req.body.reg_proof
 				? await s3BucketUploader(req.body.reg_proof.uri)
 				: '';
