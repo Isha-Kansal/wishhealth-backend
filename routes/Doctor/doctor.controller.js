@@ -573,6 +573,18 @@ module.exports = {
   },
   updateDoctorRegistrationDetails: async function (req, res) {
     try {
+      if (req.body.practice_start_year) {
+        await Doctordetails.update(
+          {
+            practice_start_year: req.body.practice_start_year,
+          },
+          {
+            where: {
+              user_id: req.body.user_id,
+            },
+          }
+        );
+      }
       await CouncilRegistration.destroy({
         where: { user_id: req.params.id },
       });
@@ -681,6 +693,13 @@ module.exports = {
         };
         finalData.wh_medical_council = obj;
       }
+      const details = await Doctordetails.findOne({
+        where: {
+          user_id: doctorId,
+        },
+      });
+      const doctor = JSON.parse(JSON.stringify(details));
+      finalData.practice_start_year = doctor.practice_start_year;
       return res.status(200).json({
         data: finalData ? finalData : {},
       });
