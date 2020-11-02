@@ -218,9 +218,9 @@ module.exports = {
           },
         ],
       });
-      console.log("getDoctorDetails-user",rest)
+      console.log("getDoctorDetails-user", rest);
       const result = JSON.parse(JSON.stringify(rest));
-      console.log("getDoctorDetails-result",result)
+      console.log("getDoctorDetails-result", result);
       return res.status(200).json({
         data: result,
       });
@@ -440,6 +440,7 @@ module.exports = {
         doc_interval: 0,
         availability_days: "",
         availability_time: "",
+        fees: 0,
       });
       return res.status(200).json({
         message: "Joined Successfully",
@@ -473,7 +474,9 @@ module.exports = {
     try {
       const doctorId = req.params.user_id;
       const id = req.params.id;
-      const attachment = req.body.proof ? await s3BucketUploader(req.body.proof.uri) : '';
+      const attachment = req.body.proof
+        ? await s3BucketUploader(req.body.proof.uri)
+        : "";
       let obj = {
         year: req.body.year,
         // attachment: req.body.proof ? req.body.proof.uri : "",
@@ -667,7 +670,10 @@ module.exports = {
         },
         include: [{ model: Council, attributes: ["name"] }],
       });
-      console.log("getDoctorRegistrationDetails-CouncilRegistration-data", data);
+      console.log(
+        "getDoctorRegistrationDetails-CouncilRegistration-data",
+        data
+      );
       let finalData = JSON.parse(JSON.stringify(data));
       if (finalData && !finalData.wh_medical_council) {
         let obj = {
