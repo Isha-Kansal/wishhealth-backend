@@ -580,7 +580,7 @@ module.exports = {
           },
           {
             where: {
-              user_id: req.body.user_id,
+              user_id: req.params.id,
             },
           }
         );
