@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const PatientDetails = require("../../models/wh_patient_details");
+const Bookings = require("../../models/wh_patient_doctor_bookings");
 module.exports = {
   getPatientExistence: async function (req, res) {
     try {
@@ -13,6 +14,24 @@ module.exports = {
       return res.status(200).json({
         data: patient,
         message: patient ? "already registered" : "not registered",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
+  getPatientBookings: async function (req, res) {
+    try {
+      console.log(req.body, "reqreqreqreq");
+      const patient = await Bookings.findAll({
+        where: {
+          patient_id: req.params.patient_id,
+        },
+      });
+      return res.status(200).json({
+        data: patient,
       });
     } catch (err) {
       console.log(err, "err");
