@@ -129,4 +129,7 @@ Users.hasMany(Bookings, {
   sourceKey: "user_id",
   as: "bookings",
 });
+Bookings.belongsTo(Users, {
+  foreignKey: "doctor_id",
+});
 module.exports = Users;
