@@ -9,7 +9,7 @@ const Doctorspecialities = db.define(
     id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       autoIncrement: true,
       foreignKey: [Object],
@@ -17,13 +17,13 @@ const Doctorspecialities = db.define(
     user_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     speciality_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     created_date: {

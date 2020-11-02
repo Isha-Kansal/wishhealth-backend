@@ -7,7 +7,7 @@ const Qualifications = db.define(
     id: {
       type: "INT(50)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
       autoIncrement: true,
@@ -15,7 +15,7 @@ const Qualifications = db.define(
     degree: {
       type: "VARCHAR(50)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     status: {

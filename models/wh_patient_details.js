@@ -7,7 +7,7 @@ const PatientDetails = db.define(
     id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
       autoIncrement: true,
@@ -15,7 +15,7 @@ const PatientDetails = db.define(
     user_id: {
       type: "INT(11)",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     uniqueId: {
@@ -27,19 +27,19 @@ const PatientDetails = db.define(
     phone: {
       type: "CHAR(20)",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     email: {
       type: "VARCHAR(1150)",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     gender: {
       type: "VARCHAR(50)",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     dob: {
@@ -75,49 +75,49 @@ const PatientDetails = db.define(
     name: {
       type: "VARCHAR(50)",
       allowNull: true,
-      defaultValue: null,
+      defaultValue: '',
       primaryKey: false,
     },
     created_date: {
       type: "DATETIME",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     modified_date: {
       type: "DATETIME",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     occupation: {
       type: "VARCHAR(500)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     address: {
       type: "VARCHAR(500)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     email2: {
       type: "VARCHAR(500)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     phone2: {
       type: "CHAR(20)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     age: {
       type: "VARCHAR(255)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     doctor_uniqueId: {
@@ -129,19 +129,19 @@ const PatientDetails = db.define(
     age_conf: {
       type: "VARCHAR(255)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     quickblox_id: {
       type: "BIGINT(20)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     quickblox_login: {
       type: "VARCHAR(225)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
   },

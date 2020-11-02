@@ -10,7 +10,7 @@ const Cities = db.define(
     id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
       autoIncrement: true,
@@ -18,13 +18,13 @@ const Cities = db.define(
     name: {
       type: "VARCHAR(30)",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: '',
       primaryKey: false,
     },
     state_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
   },

@@ -10,20 +10,20 @@ const ClinicServices = db.define(
       type: "INT(11)",
       allowNull: false,
       autoIncrement: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
     },
     clinic_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     service_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     created_date: {

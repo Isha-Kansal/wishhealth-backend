@@ -6,7 +6,7 @@ const DoctorBankDetails = db.define(
     id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
       autoIncrement: true,
@@ -14,25 +14,25 @@ const DoctorBankDetails = db.define(
     doctor_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     account_number: {
       type: "BIGINT(20)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     ifsc: {
       type: "VARCHAR(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     bank_acct_holder_name: {
       type: "VARCHAR(225)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     created_at: {

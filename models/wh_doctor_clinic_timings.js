@@ -7,7 +7,7 @@ const DoctorClinicTimings = db.define(
     id: {
       type: "BIGINT(255)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
       autoIncrement: true,
@@ -15,19 +15,19 @@ const DoctorClinicTimings = db.define(
     clinic_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     doctor_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     day: {
       type: "ENUM('1','2','3','4','5','6','7')",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     "00:00 AM": {

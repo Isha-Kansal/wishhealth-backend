@@ -10,27 +10,27 @@ const instance = new Razorpay({
   key_id: `rzp_test_5G5VyL9K8BPPNJ`,
   key_secret: `Ynzgwz8hhTezffS3cG1iiDWk`,
 });
-// const now = new Date();
-// const timestamp = now.setMinutes(now.getMinutes() - 30); // timestamp
-// const QBcredentials = {
-//   application_id: 85060,
-//   auth_key: "Hu527uvYdY7GfyT",
-//   nonce: 4321,
-//   authSecret: "a2EvU4g3E-cju3F",
-//   // timestamp: parseInt(Math.round(timestamp / 1000)),
-//   // timestamp: new Date().getTime()
-// };
+const now = new Date();
+const timestamp = now.setMinutes(now.getMinutes() - 30); // timestamp
+const QBcredentials = {
+  application_id: 85060,
+  auth_key: "Hu527uvYdY7GfyT",
+  nonce: 4321,
+  authSecret: "a2EvU4g3E-cju3F",
+  timestamp: parseInt(Math.round(timestamp / 1000)),
+  // timestamp: new Date().getTime()
+};
 const otpData = [];
 const createQuickBlox = async function (obj) {
   try {
-    const QBcredentials = {
-      application_id: 85060,
-      auth_key: "Hu527uvYdY7GfyT",
-      nonce: 4321,
-      authSecret: "a2EvU4g3E-cju3F",
-      // timestamp: parseInt(Math.round(timestamp / 1000)),
-      timestamp: new Date().getTime()
-    };
+    // const QBcredentials = {
+    //   application_id: 85060,
+    //   auth_key: "Hu527uvYdY7GfyT",
+    //   nonce: 4321,
+    //   authSecret: "a2EvU4g3E-cju3F",
+    //   // timestamp: parseInt(Math.round(timestamp / 1000)),
+    //   timestamp: new Date().getTime()
+    // };
     console.log("createQuickBlox-obj", obj);
     console.log("createQuickBlox-QBcredentials", QBcredentials);
     const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
@@ -86,18 +86,20 @@ const createQuickBlox = async function (obj) {
             console.log("createQuickBlox-response.headers", JSON.stringify(response.headers));
             let data = JSON.parse(body);
             console.log("createQuickBlox-data", data);
-            await Doctordetails.update(
-              { quickblox_id: data.user.id, quickblox_login: data.user.login },
-              {
-                where: {
-                  user_id: obj.user_id,
-                },
-              }
-            ).then(result => {
-              console.log("createQuickBlox-result", result);
-            }).catch(err => {
-              console.log("createQuickBlox-api-err", err);
-            });
+            if(data.user) { 
+              await Doctordetails.update(
+                { quickblox_id: data.user.id, quickblox_login: data.user.login },
+                {
+                  where: {
+                    user_id: obj.user_id,
+                  },
+                }
+              ).then(result => {
+                console.log("createQuickBlox-result", result);
+              }).catch(err => {
+                console.log("createQuickBlox-api-err", err);
+              });
+            }
             return { message: "Success" };
           }
         );

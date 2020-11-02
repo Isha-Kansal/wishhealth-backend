@@ -7,7 +7,7 @@ const Council = db.define(
     id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
       autoIncrement: true,
@@ -15,13 +15,13 @@ const Council = db.define(
     name: {
       type: "VARCHAR(225)",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: '',
       primaryKey: false,
     },
     status: {
       type: "TINYINT(2)",
       allowNull: false,
-      defaultValue: "0",
+      defaultValue: 0,
       primaryKey: false,
     },
     created_at: {

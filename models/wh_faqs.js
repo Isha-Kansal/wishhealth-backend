@@ -8,7 +8,7 @@ const Faqs = db.define(
       type: "INT(11)",
       allowNull: false,
       autoIncrement: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
     },

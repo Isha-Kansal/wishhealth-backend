@@ -10,15 +10,15 @@ const States = db.define(
     id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
-      autoIncrement: true,
+      // defaultValue: null,
+      // autoIncrement: true,
       primaryKey: true,
       foreignKey: [Object],
     },
     name: {
       type: "VARCHAR(30)",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: '',
       primaryKey: false,
     },
   },

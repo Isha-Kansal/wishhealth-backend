@@ -10,7 +10,7 @@ const Doctordetails = db.define(
 		id: {
 			type: 'INT(11)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: true,
 			foreignKey: [Object],
 			autoIncrement: true,
@@ -18,49 +18,49 @@ const Doctordetails = db.define(
 		user_id: {
 			type: 'INT(11)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		email: {
 			type: 'VARCHAR(50)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		username: {
 			type: 'VARCHAR(50)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		password: {
 			type: 'VARCHAR(50)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		phone: {
 			type: 'VARCHAR(15)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		secondaryphone: {
 			type: 'VARCHAR(15)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		secondaryphone_sendmess: {
 			type: 'INT(11)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		secretKey: {
 			type: 'VARCHAR(50)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		description: {
@@ -72,7 +72,7 @@ const Doctordetails = db.define(
 		gender: {
 			type: "ENUM('M','F')",
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		prefix: {
@@ -102,7 +102,7 @@ const Doctordetails = db.define(
 		profile_pic: {
 			type: 'VARCHAR(100)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		phone_visible: {
@@ -120,43 +120,43 @@ const Doctordetails = db.define(
 		address: {
 			type: 'VARCHAR(225)',
 			allowNull: true,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		area: {
 			type: 'VARCHAR(225)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		city_id: {
 			type: 'INT(11)',
 			allowNull: true,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		state_id: {
 			type: 'INT(11)',
 			allowNull: true,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		city: {
 			type: 'VARCHAR(100)',
 			allowNull: false,
-			defaultValue: null,
+			defaultValue: '',
 			primaryKey: false,
 		},
 		profile_status: {
 			type: "ENUM('1','0','')",
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		degree: {
 			type: 'VARCHAR(50)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		practice_start_year: {
@@ -186,7 +186,7 @@ const Doctordetails = db.define(
 		doc_advance_fees: {
 			type: 'INT(11)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		notification: {
@@ -222,13 +222,13 @@ const Doctordetails = db.define(
 		quickblox_id: {
 			type: 'BIGINT(20)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		quickblox_login: {
 			type: 'VARCHAR(225)',
 			allowNull: false,
-			defaultValue: null,
+			// defaultValue: null,
 			primaryKey: false,
 		},
 		is_verified: {

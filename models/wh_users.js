@@ -21,7 +21,7 @@ const Users = db.define(
     user_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
       autoIncrement: true,
@@ -29,7 +29,7 @@ const Users = db.define(
     name: {
       type: "VARCHAR(100)",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: '',
       primaryKey: false,
     },
     creation_date: {
@@ -47,7 +47,7 @@ const Users = db.define(
     role: {
       type: "ENUM('patient','doctor','receptionist','pharmacist')",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     contact_no: {
@@ -59,7 +59,7 @@ const Users = db.define(
     status: {
       type: "ENUM('1','0','')",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: '',
       primaryKey: false,
     },
     doc_profile_status: {
@@ -77,7 +77,7 @@ const Users = db.define(
     offers: {
       type: "VARCHAR(255)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     rankings: {

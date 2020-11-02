@@ -7,7 +7,7 @@ const Videos = db.define(
     id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       autoIncrement: true,
       primaryKey: true,
       foreignKey: [Object],
@@ -15,13 +15,13 @@ const Videos = db.define(
     title: {
       type: "VARCHAR(225)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     link: {
       type: "VARCHAR(225)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     category: {
@@ -33,7 +33,7 @@ const Videos = db.define(
     status: {
       type: "TINYINT(2)",
       allowNull: false,
-      defaultValue: "1",
+      defaultValue: 1,
       primaryKey: false,
     },
     created_at: {

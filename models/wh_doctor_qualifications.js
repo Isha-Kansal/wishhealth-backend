@@ -8,7 +8,7 @@ const Doctorqualifications = db.define(
     id: {
       type: "INT(50)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
       autoIncrement: true,
@@ -16,31 +16,33 @@ const Doctorqualifications = db.define(
     user_id: {
       type: "INT(50)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     index: {
       type: "INT(10)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     degree: {
-      type: "VARCHAR(100)",
+      // type: "VARCHAR(100)",
+      type: "INT(50)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     college: {
-      type: "VARCHAR(255)",
+      // type: "VARCHAR(255)",
+      type: "INT(50)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     year: {
       type: "VARCHAR(50)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     attachment: {
@@ -52,7 +54,7 @@ const Doctorqualifications = db.define(
     attachment_size: {
       type: "VARCHAR(15)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
   },

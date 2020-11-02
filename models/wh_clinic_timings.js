@@ -7,7 +7,7 @@ const ClinicTimings = db.define(
     id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       autoIncrement: true,
       foreignKey: [Object],
@@ -15,37 +15,37 @@ const ClinicTimings = db.define(
     clinic_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     day: {
       type: "INT(5)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     start_time: {
       type: "VARCHAR(100)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     end_time: {
       type: "VARCHAR(100)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     break_start_time: {
       type: "VARCHAR(100)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     break_end_time: {
       type: "VARCHAR(100)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     created_at: {

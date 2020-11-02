@@ -1,30 +1,38 @@
 const mysql = require("mysql");
 require("dotenv").config();
 const Sequelize = require("sequelize");
+
 const {
   SERVER_ENVIRONMENT,
   LOCAL_DATABASE_HOST,
+  LOCAL_DATABASE_NAME,
   LOCAL_DATABASE_USER,
   LOCAL_DATABASE_PASSWORD,
+  LOCAL_DATABASE_PORT,
+
   LIVE_DATABASE_HOST,
   LIVE_DATABASE_NAME,
   LIVE_DATABASE_USER,
   LIVE_DATABASE_PASSWORD,
+  LIVE_DATABASE_PORT
 } = process.env;
+
 const SequelizeAuto = require("sequelize-auto-models");
 const config =
   SERVER_ENVIRONMENT === "local"
     ? {
         host: LOCAL_DATABASE_HOST,
+        database: LOCAL_DATABASE_NAME,
         user: LOCAL_DATABASE_USER,
         password: LOCAL_DATABASE_PASSWORD,
+        port: LOCAL_DATABASE_PORT,
       }
     : {
         host: LIVE_DATABASE_HOST,
         database: LIVE_DATABASE_NAME,
         user: LIVE_DATABASE_USER,
         password: LIVE_DATABASE_PASSWORD,
-        port: 3306,
+        port: LIVE_DATABASE_PORT,
       };
 console.log(config, "configconfigconfig");
 const sequelize = new Sequelize(config.database, config.user, config.password, {
@@ -42,6 +50,7 @@ sequelize
   .authenticate()
   .then(() => {
     sequelize.sync();
+    // require('../dbInitialization').initialization(sequelize);
     console.log(
       `Connection has been established successfully to ${config.database}`
     );
@@ -64,7 +73,9 @@ let auto = new SequelizeAuto(config.database, config.user, config.password, {
   //...
 });
 auto.run(function (err) {
-  if (err) throw err;
+  if (err) { 
+    throw err;
+  };
 
   console.log(auto.tables, "dhasugdghfgdsgfhs"); // table list
   console.log(auto.foreignKeys); // foreign key list

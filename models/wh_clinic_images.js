@@ -7,7 +7,7 @@ const ClinicImages = db.define(
     id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       autoIncrement: true,
       primaryKey: true,
       foreignKey: [Object],
@@ -15,13 +15,13 @@ const ClinicImages = db.define(
     clinic_id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     image_url: {
       type: "VARCHAR(300)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     feature_image: {
@@ -33,13 +33,13 @@ const ClinicImages = db.define(
     creation_date: {
       type: "DATETIME",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     modified_date: {
       type: "DATETIME",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
   },

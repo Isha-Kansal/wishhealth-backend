@@ -8,7 +8,7 @@ const VideoConsultation = db.define(
     id: {
       type: "INT(11)",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: true,
       autoIncrement: true,
       foreignKey: [Object],
@@ -16,7 +16,7 @@ const VideoConsultation = db.define(
     doctor_id: {
       type: "INT(11)",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     days: {
@@ -34,25 +34,25 @@ const VideoConsultation = db.define(
     start_time: {
       type: "VARCHAR(255)",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     end_time: {
       type: "VARCHAR(255)",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     break_start_time: {
       type: "VARCHAR(255)",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     break_end_time: {
       type: "VARCHAR(255)",
       allowNull: true,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     fees: {
