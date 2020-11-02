@@ -7,6 +7,7 @@ const Doctorqualifications = require("../../models/wh_doctor_qualifications");
 const Qualifications = require("../../models/wh_qualifications");
 const Doctorspecialities = require("../../models/wh_doctor_specialities");
 const Specialities = require("../../models/wh_specialities");
+const { Op } = Sequelize;
 module.exports = {
   getPatientExistence: async function (req, res) {
     try {
