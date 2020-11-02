@@ -30,7 +30,61 @@ module.exports = {
         where: {
           patient_id: req.params.patient_id,
         },
-        include: [{ model: Users }],
+        include: [
+          {
+            model: Users,
+            include: [
+              {
+                model: Doctordetails,
+                required: false,
+              },
+              // {
+              //   model: Doctorlanguages,
+              //   required: false,
+              //   include: [
+              //     {
+              //       model: Languages,
+              //       required: false,
+              //       attributes: ["name"],
+              //       where: {
+              //         name: {
+              //           [Op.ne]: null,
+              //         },
+              //       },
+              //     },
+              //   ],
+              // },
+              {
+                model: Doctorqualifications,
+                required: false,
+                include: [
+                  {
+                    model: Qualifications,
+                    required: false,
+                    attributes: ["degree"],
+                    where: {
+                      degree: {
+                        [Op.ne]: null,
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                model: Doctorspecialities,
+                required: false,
+                where: specialityObj,
+                include: [
+                  {
+                    model: Specialities,
+                    required: true,
+                    attributes: ["title"],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
       return res.status(200).json({
         data: patient,
