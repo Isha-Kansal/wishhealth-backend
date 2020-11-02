@@ -2,6 +2,11 @@ const Sequelize = require("sequelize");
 const PatientDetails = require("../../models/wh_patient_details");
 const Bookings = require("../../models/wh_patient_doctor_bookings");
 const Users = require("../../models/wh_users");
+const Doctordetails = require("../../models/wh_doctor_details");
+const Doctorqualifications = require("../../models/wh_doctor_qualifications");
+const Qualifications = require("../../models/wh_qualifications");
+const Doctorspecialities = require("../../models/wh_doctor_specialities");
+const Specialities = require("../../models/wh_specialities");
 module.exports = {
   getPatientExistence: async function (req, res) {
     try {
@@ -73,7 +78,6 @@ module.exports = {
               {
                 model: Doctorspecialities,
                 required: false,
-                where: specialityObj,
                 include: [
                   {
                     model: Specialities,
