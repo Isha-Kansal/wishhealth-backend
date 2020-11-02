@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const PatientDetails = require("../../models/wh_patient_details");
 const Bookings = require("../../models/wh_patient_doctor_bookings");
+const Users = require("../../models/wh_users");
 module.exports = {
   getPatientExistence: async function (req, res) {
     try {
@@ -29,6 +30,7 @@ module.exports = {
         where: {
           patient_id: req.params.patient_id,
         },
+        include: [{ model: Users }],
       });
       return res.status(200).json({
         data: patient,
