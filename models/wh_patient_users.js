@@ -137,9 +137,7 @@ PatientUsers.hasMany(Bookings, {
   sourceKey: "id",
   as: "patient_users",
 });
-// PatientUsers.hasMany(Bookings, {
-//   foreignKey: "patient_id",
-// });
+
 Bookings.belongsTo(PatientUsers, {
   foreignKey: "patient_id",
 });
