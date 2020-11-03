@@ -132,11 +132,11 @@ const PatientUsers = db.define(
     timestamps: false,
   }
 );
-Bookings.hasOne(PatientUsers, {
-  foreignKey: "id",
-  sourceKey: "patient_id",
-  as: "patient_users",
-});
+// Bookings.hasOne(PatientUsers, {
+//   foreignKey: "id",
+//   sourceKey: "patient_id",
+//   as: "patient_users",
+// });
 
 PatientUsers.belongsTo(Bookings, {
   foreignKey: "patient_id",
