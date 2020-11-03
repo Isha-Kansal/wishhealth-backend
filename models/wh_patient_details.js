@@ -151,10 +151,10 @@ const PatientDetails = db.define(
   }
 );
 
-PatientUsers.hasOne(PatientDetails, {
-  foreignKey: "user_id",
-  sourceKey: "patient_id",
-  as: "patient_details",
-});
+// PatientUsers.hasOne(PatientDetails, {
+//   foreignKey: "user_id",
+//   sourceKey: "patient_id",
+//   as: "patient_details",
+// });
 
 module.exports = PatientDetails;
