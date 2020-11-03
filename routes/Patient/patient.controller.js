@@ -77,9 +77,9 @@ module.exports = {
           {
             model: PatientUsers,
             required: false,
-            include: [
-              { model: PatientDetails, required: false, as: "patient_details" },
-            ],
+            // include: [
+            //   { model: PatientDetails, required: false, as: "patient_details" },
+            // ],
           },
         ],
       });
