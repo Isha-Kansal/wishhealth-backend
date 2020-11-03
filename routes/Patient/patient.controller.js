@@ -74,13 +74,13 @@ module.exports = {
               },
             ],
           },
-          // {
-          //   model: PatientUsers,
-          //   required: false,
-          // include: [
-          //   { model: PatientDetails, required: false, as: "patient_details" },
-          // ],
-          // },
+          {
+            model: PatientUsers,
+            required: false,
+            // include: [
+            //   { model: PatientDetails, required: false, as: "patient_details" },
+            // ],
+          },
         ],
       });
       return res.status(200).json({
