@@ -131,6 +131,7 @@ const Bookings = db.define(
   },
   {
     timestamps: false,
+    freezeTableName: true,
   }
 );
 PatientUsers.hasMany(Bookings, {
