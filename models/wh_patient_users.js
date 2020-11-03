@@ -130,14 +130,15 @@ const PatientUsers = db.define(
   },
   {
     timestamps: false,
+    freezeTableName: true,
   }
 );
+
 PatientUsers.hasMany(Bookings, {
   foreignKey: "patient_id",
   sourceKey: "id",
-  as: "patient_users",
+  as: "patient_bookings",
 });
-
 Bookings.belongsTo(PatientUsers, {
   foreignKey: "patient_id",
 });
