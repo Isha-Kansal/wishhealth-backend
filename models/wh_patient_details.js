@@ -150,6 +150,15 @@ const PatientDetails = db.define(
     freezeTableName: true,
   }
 );
-PatientUsers.hasOne(PatientDetails, { foreignKey: "user_id" });
+Users.hasMany(Bookings, {
+  foreignKey: "doctor_id",
+  sourceKey: "user_id",
+  as: "bookings",
+});
+PatientUsers.hasOne(PatientDetails, {
+  foreignKey: "user_id",
+  sourceKey: "id",
+  as: "patient_details",
+});
 
 module.exports = PatientDetails;
