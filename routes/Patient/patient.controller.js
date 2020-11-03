@@ -7,6 +7,7 @@ const Doctorqualifications = require("../../models/wh_doctor_qualifications");
 const Qualifications = require("../../models/wh_qualifications");
 const Doctorspecialities = require("../../models/wh_doctor_specialities");
 const Specialities = require("../../models/wh_specialities");
+const PatientUsers = require("../../models/wh_patient_users");
 const { Op } = Sequelize;
 module.exports = {
   getPatientExistence: async function (req, res) {
@@ -44,22 +45,6 @@ module.exports = {
                 model: Doctordetails,
                 required: false,
               },
-              // {
-              //   model: Doctorlanguages,
-              //   required: false,
-              //   include: [
-              //     {
-              //       model: Languages,
-              //       required: false,
-              //       attributes: ["name"],
-              //       where: {
-              //         name: {
-              //           [Op.ne]: null,
-              //         },
-              //       },
-              //     },
-              //   ],
-              // },
               {
                 model: Doctorqualifications,
                 required: false,
@@ -88,6 +73,11 @@ module.exports = {
                 ],
               },
             ],
+          },
+          {
+            model: PatientUsers,
+            required: false,
+            include: [{ model: PatientDetails, required: false }],
           },
         ],
       });

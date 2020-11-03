@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
-
+const PatientUsers = require("../models/wh_patient_users");
 const PatientDetails = db.define(
   "wh_patient_details",
   {
@@ -150,5 +150,6 @@ const PatientDetails = db.define(
     freezeTableName: true,
   }
 );
+PatientUsers.hasOne(PatientDetails, { foreignKey: "user_id" });
 
 module.exports = PatientDetails;
