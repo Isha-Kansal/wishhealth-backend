@@ -150,11 +150,7 @@ const PatientDetails = db.define(
     freezeTableName: true,
   }
 );
-Users.hasMany(Bookings, {
-  foreignKey: "doctor_id",
-  sourceKey: "user_id",
-  as: "bookings",
-});
+
 PatientUsers.hasOne(PatientDetails, {
   foreignKey: "user_id",
   sourceKey: "id",
