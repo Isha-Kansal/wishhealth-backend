@@ -1,7 +1,5 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
-const PatientUsers = require("./wh_patient_users");
-const Users = require("./wh_users");
 
 const BookingPrescription = db.define(
   "wh_booking_prescriptions",
