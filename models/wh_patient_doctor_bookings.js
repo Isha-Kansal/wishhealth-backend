@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
+const PatientDetails = require("./wh_patient_details");
 const PatientUsers = require("./wh_patient_users");
 
 const Bookings = db.define(
@@ -133,9 +134,9 @@ const Bookings = db.define(
     freezeTableName: true,
   }
 );
-PatientUsers.hasMany(Bookings, {
+PatientDetails.hasMany(Bookings, {
   foreignKey: "patient_id",
-  sourceKey: "user_id",
+  sourceKey: "id",
   as: "patient_bookings",
 });
 

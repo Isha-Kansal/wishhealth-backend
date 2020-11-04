@@ -19,9 +19,9 @@ const BookingPrescription = db.define(
       primaryKey: false,
     },
     prescription_date: {
-      type: "VARCHAR(50)",
+      type: "TIMESTAMP",
       allowNull: false,
-      defaultValue: null,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       primaryKey: false,
     },
     prescription: {

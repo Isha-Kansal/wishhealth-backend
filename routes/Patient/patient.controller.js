@@ -34,9 +34,9 @@ module.exports = {
     try {
       console.log("getPatientBookings-req.body", req.body);
       console.log("getPatientBookings-req.params", req.params);
-      const patient = await PatientUsers.findOne({
+      const patient = await PatientDetails.findOne({
         where: {
-          user_id: parseInt(req.params.patient_id),
+          id: parseInt(req.params.patient_id),
         },
         include: [
           {
@@ -99,6 +99,10 @@ module.exports = {
     try {
       console.log(req.body, "reqreqreqreq");
       if (req.body.name) {
+        await PatientUsers.create({
+          name: req.body.name,
+          phone: req.body.phone,
+        });
         await PatientDetails.create({
           name: req.body.name,
           phone: req.body.phone,
