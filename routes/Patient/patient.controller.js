@@ -34,7 +34,7 @@ module.exports = {
     try {
       console.log("getPatientBookings-req.body", req.body);
       console.log("getPatientBookings-req.params", req.params);
-      const patient = PatientUsers.findOne({
+      const patient = await PatientUsers.findOne({
         where: {
           user_id: parseInt(req.params.patient_id),
         },
