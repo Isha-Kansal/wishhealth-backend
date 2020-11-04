@@ -8,7 +8,9 @@ const PatientUsers = db.define(
       type: "INT(11)",
       allowNull: false,
       defaultValue: null,
-      primaryKey: false,
+      primaryKey: true,
+      foreignKey: [Object],
+      autoIncrement: true,
     },
     email: {
       type: "VARCHAR(50)",
