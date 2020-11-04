@@ -38,51 +38,51 @@ module.exports = {
         where: {
           user_id: parseInt(req.params.patient_id),
         },
-        // include: [
-        //   {
-        //     model: Bookings,
-        //     as: "patient_bookings",
-        //     required: false,
-        //     include: [
-        //       {
-        //         model: Users,
-        //         include: [
-        //           {
-        //             model: Doctordetails,
-        //             required: false,
-        //           },
-        //           {
-        //             model: Doctorqualifications,
-        //             required: false,
-        //             include: [
-        //               {
-        //                 model: Qualifications,
-        //                 required: false,
-        //                 attributes: ["degree"],
-        //                 where: {
-        //                   degree: {
-        //                     [Op.ne]: null,
-        //                   },
-        //                 },
-        //               },
-        //             ],
-        //           },
-        //           {
-        //             model: Doctorspecialities,
-        //             required: false,
-        //             include: [
-        //               {
-        //                 model: Specialities,
-        //                 required: true,
-        //                 attributes: ["title"],
-        //               },
-        //             ],
-        //           },
-        //         ],
-        //       },
-        //     ],
-        //   },
-        // ],
+        include: [
+          {
+            model: Bookings,
+            as: "patient_bookings",
+            required: false,
+            include: [
+              {
+                model: Users,
+                include: [
+                  {
+                    model: Doctordetails,
+                    required: false,
+                  },
+                  {
+                    model: Doctorqualifications,
+                    required: false,
+                    include: [
+                      {
+                        model: Qualifications,
+                        required: false,
+                        attributes: ["degree"],
+                        where: {
+                          degree: {
+                            [Op.ne]: null,
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    model: Doctorspecialities,
+                    required: false,
+                    include: [
+                      {
+                        model: Specialities,
+                        required: true,
+                        attributes: ["title"],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
       console.log(patient, "patientpatientpatientpatient");
       return res.status(200).json({
