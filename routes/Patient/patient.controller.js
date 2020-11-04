@@ -79,6 +79,7 @@ module.exports = {
           {
             model: PatientUsers,
             required: false,
+            as: "patient",
             where: {
               id: {
                 [Op.col]: "wh_patient_doctor_bookings.patient_id",
