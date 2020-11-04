@@ -34,64 +34,113 @@ module.exports = {
     try {
       console.log("getPatientBookings-req.body", req.body);
       console.log("getPatientBookings-req.params", req.params);
-
-      const patient = await Bookings.findAll({
+      const patient = PatientUsers.findOne({
         where: {
-          patient_id: parseInt(req.params.patient_id),
+          id: req.params.patient_id,
         },
         include: [
           {
-            model: Users,
+            model: Bookings,
+            as: "patient_bookings",
+            required: false,
             include: [
               {
-                model: Doctordetails,
-                required: false,
-              },
-              {
-                model: Doctorqualifications,
-                required: false,
+                model: Users,
                 include: [
                   {
-                    model: Qualifications,
+                    model: Doctordetails,
                     required: false,
-                    attributes: ["degree"],
-                    where: {
-                      degree: {
-                        [Op.ne]: null,
-                      },
-                    },
                   },
-                ],
-              },
-              {
-                model: Doctorspecialities,
-                required: false,
-                include: [
                   {
-                    model: Specialities,
-                    required: true,
-                    attributes: ["title"],
+                    model: Doctorqualifications,
+                    required: false,
+                    include: [
+                      {
+                        model: Qualifications,
+                        required: false,
+                        attributes: ["degree"],
+                        where: {
+                          degree: {
+                            [Op.ne]: null,
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    model: Doctorspecialities,
+                    required: false,
+                    include: [
+                      {
+                        model: Specialities,
+                        required: true,
+                        attributes: ["title"],
+                      },
+                    ],
                   },
                 ],
               },
             ],
           },
-          {
-            model: PatientUsers,
-            required: false,
-            as: "patient",
-            where: {
-              id: {
-                [Op.col]: "wh_patient_doctor_bookings.patient_id",
-              },
-            },
-
-            // include: [
-            //   { model: PatientDetails, required: false, as: "patient_details" },
-            // ],
-          },
         ],
       });
+      // const patient = await Bookings.findAll({
+      //   where: {
+      //     patient_id: parseInt(req.params.patient_id),
+      //   },
+      //   include: [
+      //     {
+      //       model: Users,
+      //       include: [
+      //         {
+      //           model: Doctordetails,
+      //           required: false,
+      //         },
+      //         {
+      //           model: Doctorqualifications,
+      //           required: false,
+      //           include: [
+      //             {
+      //               model: Qualifications,
+      //               required: false,
+      //               attributes: ["degree"],
+      //               where: {
+      //                 degree: {
+      //                   [Op.ne]: null,
+      //                 },
+      //               },
+      //             },
+      //           ],
+      //         },
+      //         {
+      //           model: Doctorspecialities,
+      //           required: false,
+      //           include: [
+      //             {
+      //               model: Specialities,
+      //               required: true,
+      //               attributes: ["title"],
+      //             },
+      //           ],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       model: PatientUsers,
+      //       required: false,
+      //       as: "patient",
+      //       where: {
+      //         id: {
+      //           [Op.col]: "wh_patient_doctor_bookings.patient_id",
+      //         },
+      //       },
+
+      //       // include: [
+      //       //   { model: PatientDetails, required: false, as: "patient_details" },
+      //       // ],
+      //     },
+      //   ],
+      // });
       return res.status(200).json({
         data: patient,
       });
