@@ -36,7 +36,7 @@ const PatientUsers = db.define(
       defaultValue: null,
       primaryKey: false,
     },
-    created_date: {
+    creation_date: {
       type: "DATETIME",
       allowNull: false,
       defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
