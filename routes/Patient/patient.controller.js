@@ -36,7 +36,7 @@ module.exports = {
       console.log("getPatientBookings-req.params", req.params);
       const patient = PatientUsers.findOne({
         where: {
-          user_id: req.params.patient_id,
+          user_id: parseInt(req.params.patient_id),
         },
         // include: [
         //   {
