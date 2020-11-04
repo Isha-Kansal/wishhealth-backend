@@ -34,6 +34,7 @@ module.exports = {
     try {
       console.log("getPatientBookings-req.body", req.body);
       console.log("getPatientBookings-req.params", req.params);
+
       const patient = await Bookings.findAll({
         where: {
           patient_id: parseInt(req.params.patient_id),
@@ -78,7 +79,14 @@ module.exports = {
           {
             model: PatientUsers,
             required: false,
-            as: "patient",
+            where: {
+              id: {
+                [Op.col]: "wh_patient_doctor_bookings.patient_id",
+              },
+            },
+            where:{
+              id:
+            }
             // include: [
             //   { model: PatientDetails, required: false, as: "patient_details" },
             // ],

@@ -47,7 +47,7 @@ const Bookings = db.define(
     patient_id: {
       type: "INT(11)",
       allowNull: false,
-      // defaultValue: null,
+      defaultValue: null,
       primaryKey: false,
     },
     codeused_id: {
