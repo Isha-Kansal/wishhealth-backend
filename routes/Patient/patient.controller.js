@@ -32,7 +32,8 @@ module.exports = {
   },
   getPatientBookings: async function (req, res) {
     try {
-      console.log(req.body, "reqreqreqreq");
+      console.log("getPatientBookings-req.body", req.body);
+      console.log("getPatientBookings-req.params", req.params);
       const patient = await Bookings.findAll({
         where: {
           patient_id: req.params.patient_id,
