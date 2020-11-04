@@ -84,9 +84,7 @@ module.exports = {
                 [Op.col]: "wh_patient_doctor_bookings.patient_id",
               },
             },
-            where:{
-              id:
-            }
+
             // include: [
             //   { model: PatientDetails, required: false, as: "patient_details" },
             // ],
