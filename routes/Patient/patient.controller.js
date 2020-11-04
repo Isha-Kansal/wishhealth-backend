@@ -36,7 +36,7 @@ module.exports = {
       console.log("getPatientBookings-req.params", req.params);
       const patient = await Bookings.findAll({
         where: {
-          patient_id: req.params.patient_id,
+          patient_id: parseInt(req.params.patient_id),
         },
         include: [
           {
