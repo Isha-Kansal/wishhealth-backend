@@ -84,7 +84,7 @@ module.exports = {
         //   },
         // ],
       });
-
+      console.log(patient, "patientpatientpatientpatient");
       return res.status(200).json({
         data: patient,
       });
