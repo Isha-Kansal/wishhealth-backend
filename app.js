@@ -14,10 +14,11 @@ const port = process.env.SERVER_PORT || 5000;
 // body parser
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
+const BookingPrescription = require("./models/wh_booking_prescriptions");
+BookingPrescription.sync().then(function () {});
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-const models = require("./models/wh_booking_prescriptions");
-models.sequelize.sync().then(function () {});
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
