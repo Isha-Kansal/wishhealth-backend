@@ -117,13 +117,13 @@ const PatientUsers = db.define(
     advance_fees: {
       type: "DECIMAL(11,2)",
       allowNull: true,
-      defaultValue: "0.00",
+      defaultValue: 0.00,
       primaryKey: false,
     },
     doctor_confirmation: {
       type: "INT(5)",
       allowNull: false,
-      defaultValue: "0",
+      defaultValue: 0,
       primaryKey: false,
     },
   },

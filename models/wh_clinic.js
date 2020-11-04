@@ -60,7 +60,7 @@ const Clinics = db.define(
     days: {
       type: "TEXT",
       allowNull: false,
-      defaultValue: null,
+      // defaultValue: null,
       primaryKey: false,
     },
     start_time: {
@@ -91,18 +91,6 @@ const Clinics = db.define(
       type: "INT(11)",
       allowNull: false,
       // defaultValue: null,
-      primaryKey: false,
-    },
-    creation_date: {
-      type: "DATETIME",
-      allowNull: false,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-      primaryKey: false,
-    },
-    modified_date: {
-      type: "DATETIME",
-      allowNull: false,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       primaryKey: false,
     },
     image: {
@@ -139,6 +127,28 @@ const Clinics = db.define(
       type: "VARCHAR(11)",
       allowNull: false,
       // defaultValue: null,
+      primaryKey: false,
+    },
+    admin_fees: {
+      type: "INT(11)",
+      // allowNull: false,
+      primaryKey: false,
+    },
+    admin_advance_fees: {
+      type: "INT(11)",
+      // allowNull: false,
+      primaryKey: false,
+    },
+    creation_date: {
+      type: "DATETIME",
+      allowNull: false,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      primaryKey: false,
+    },
+    modified_date: {
+      type: "DATETIME",
+      allowNull: false,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       primaryKey: false,
     },
   },

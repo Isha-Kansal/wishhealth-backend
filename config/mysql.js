@@ -50,7 +50,6 @@ sequelize
   .authenticate()
   .then(() => {
     sequelize.sync();
-    // require('../dbInitialization').initialization(sequelize);
     console.log(
       `Connection has been established successfully to ${config.database}`
     );

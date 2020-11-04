@@ -27,9 +27,6 @@ app.use(logger("dev"));
 
 app.use(expressValidator());
 
-// db.sync();
-// require('./dbInitialization').initialization();
-
 require("./routes")(app);
 app.use((err, req, res, next) => {
   console.log("error", err);

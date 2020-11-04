@@ -27,6 +27,11 @@ const Cities = db.define(
       // defaultValue: null,
       primaryKey: false,
     },
+    priority: {
+      type: "INT(11)",
+      allowNull: false,
+      primaryKey: false,
+    }
   },
   {
     timestamps: false,

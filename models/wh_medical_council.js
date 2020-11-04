@@ -10,7 +10,7 @@ const Council = db.define(
       // defaultValue: null,
       primaryKey: true,
       foreignKey: [Object],
-      autoIncrement: true,
+      // autoIncrement: true,
     },
     name: {
       type: "VARCHAR(225)",
