@@ -157,7 +157,7 @@ Clinics.hasMany(ClinicTimings, { foreignKey: "clinic_id" });
 Clinics.hasMany(ClinicServices, { foreignKey: "clinic_id" });
 Clinics.hasMany(ClinicSpecialities, { foreignKey: "clinic_id" });
 States.hasMany(Clinics, { foreignKey: "state_id" });
-Clinics.hasMany(Bookings, { foreignKey: "clinic_id" });
+// Clinics.hasMany(Bookings, { foreignKey: "clinic_id" });
 Clinics.belongsTo(States, { foreignKey: "state_id" });
 Users.hasMany(Clinics, {
   foreignKey: "admin_id",
