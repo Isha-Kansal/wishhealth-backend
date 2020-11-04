@@ -141,6 +141,7 @@ const Bookings = db.define(
 // });
 Bookings.hasOne(PatientUsers, {
   foreignKey: "patient_id",
+  sourceKey: "id",
   as: "patient",
 });
 // Bookings.belongsTo(PatientUsers, {
