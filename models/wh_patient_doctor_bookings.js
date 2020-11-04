@@ -136,15 +136,11 @@ const Bookings = db.define(
 );
 PatientUsers.hasMany(Bookings, {
   foreignKey: "patient_id",
-  sourceKey: "id",
+  sourceKey: "user_id",
   as: "patient_bookings",
 });
-// Bookings.hasOne(PatientUsers, {
-//   foreignKey: "patient_id",
-//   sourceKey: "id",
-//   as: "patient",
-// });
-// Bookings.belongsTo(PatientUsers, {
-//   foreignKey: "patient_id",
-// });
+
+Bookings.belongsTo(PatientUsers, {
+  foreignKey: "patient_id",
+});
 module.exports = Bookings;
