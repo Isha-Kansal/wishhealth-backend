@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const PatientDetails = require("../../models/wh_patient_details");
+const commonController = require("../../common/payment");
 const Bookings = require("../../models/wh_patient_doctor_bookings");
 const Doctordetails = require("../../models/wh_doctor_details");
 
