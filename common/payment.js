@@ -10,16 +10,7 @@ const instance = new Razorpay({
   key_id: `rzp_test_5G5VyL9K8BPPNJ`,
   key_secret: `Ynzgwz8hhTezffS3cG1iiDWk`,
 });
-// const now = new Date();
-// const timestamp = now.setMinutes(now.getMinutes() - 30); // timestamp
-// const QBcredentials = {
-//   application_id: 85060,
-//   auth_key: "Hu527uvYdY7GfyT",
-//   nonce: 4321,
-//   authSecret: "a2EvU4g3E-cju3F",
-//   // timestamp: parseInt(Math.round(timestamp / 1000)),
-//   // timestamp: new Date().getTime()
-// };
+
 const otpData = [];
 const createQuickBlox = async function (obj) {
   try {
@@ -28,15 +19,10 @@ const createQuickBlox = async function (obj) {
       auth_key: "Hu527uvYdY7GfyT",
       nonce: 4321,
       authSecret: "a2EvU4g3E-cju3F",
-      // timestamp: parseInt(Math.round(timestamp / 1000)),
-      timestamp: new Date().getTime()
+      timestamp: new Date().getTime(),
     };
-    console.log("createQuickBlox-obj", obj);
-    console.log("createQuickBlox-QBcredentials", QBcredentials);
     const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
     const signature = CryptoJS.HmacSHA1(signData, QBcredentials.authSecret);
-    console.log("createQuickBlox-signData", signData);
-    console.log("createQuickBlox-signature", signature);
     return request(
       {
         method: "POST",
@@ -54,10 +40,13 @@ const createQuickBlox = async function (obj) {
           };
         }
         console.log("createQuickBlox-response", response);
-        console.log("createQuickBloxheaders-headers", JSON.stringify(response.headers));
+        console.log(
+          "createQuickBloxheaders-headers",
+          JSON.stringify(response.headers)
+        );
         let data = JSON.parse(body);
         console.log("createQuickBlox-data", data);
-        const token = (data && data.session && data.session.token) || '';
+        const token = (data && data.session && data.session.token) || "";
         console.log("createQuickBlox-token", token);
         return request(
           {
@@ -83,7 +72,10 @@ const createQuickBlox = async function (obj) {
               };
             }
             console.log("createQuickBlox-response", response);
-            console.log("createQuickBlox-response.headers", JSON.stringify(response.headers));
+            console.log(
+              "createQuickBlox-response.headers",
+              JSON.stringify(response.headers)
+            );
             let data = JSON.parse(body);
             console.log("createQuickBlox-data", data);
             await Doctordetails.update(
@@ -93,11 +85,13 @@ const createQuickBlox = async function (obj) {
                   user_id: obj.user_id,
                 },
               }
-            ).then(result => {
-              console.log("createQuickBlox-result", result);
-            }).catch(err => {
-              console.log("createQuickBlox-api-err", err);
-            });
+            )
+              .then((result) => {
+                console.log("createQuickBlox-result", result);
+              })
+              .catch((err) => {
+                console.log("createQuickBlox-api-err", err);
+              });
             return { message: "Success" };
           }
         );
@@ -117,9 +111,6 @@ const sendOtp = async function (url, obj) {
       async function (err, response, body) {
         console.log(err, response, body, "err, response, body");
         if (err) {
-          // return res.status(500).json({
-          //   message: "Something Went Wrong",
-          // });
           return {
             message: "Something Went Wrong",
           };
@@ -213,21 +204,29 @@ module.exports = {
               message: "Something Went Wrong",
             });
           }
-          console.log("paymentCapture-response.statusCode", response.statusCode);
-          console.log("paymentCapture-response.headers",  JSON.stringify(response.headers));
+          console.log(
+            "paymentCapture-response.statusCode",
+            response.statusCode
+          );
+          console.log(
+            "paymentCapture-response.headers",
+            JSON.stringify(response.headers)
+          );
           let data = JSON.parse(body);
-          console.log("paymentCapture-data",  data);
-          console.log("paymentCapture-data.status",  data.status);
+          console.log("paymentCapture-data", data);
+          console.log("paymentCapture-data.status", data.status);
           if (data.status === "captured") {
             let obj = {
               amount: req.params.amount,
               payment_id: req.params.paymentId,
             };
-            await BookingPayments.create(obj).then(result => {
-              console.log("paymentCapture-BookingPayments-result", result);
-            }).catch(err => {
-              console.log("paymentCapture-BookingPayments-err",  err);
-            });
+            await BookingPayments.create(obj)
+              .then((result) => {
+                console.log("paymentCapture-BookingPayments-result", result);
+              })
+              .catch((err) => {
+                console.log("paymentCapture-BookingPayments-err", err);
+              });
             return res.status(200).json({
               message: "success",
             });
@@ -236,9 +235,9 @@ module.exports = {
             message: "failure",
           });
         }
-      )
+      );
     } catch (err) {
-      console.log('paymentCapture-err', err);
+      console.log("paymentCapture-err", err);
       return res.status(500).json({
         message: "Something Went Wrong",
       });
