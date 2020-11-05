@@ -381,6 +381,9 @@ module.exports = {
       const reg_proof = req.body.reg_proof
         ? await s3BucketUploader(req.body.reg_proof.uri)
         : "";
+      const clinic_images = req.body.clinic_images
+      ? await s3BucketUploader(req.body.clinic_images.uri)
+      : "";
       let values = {
         admin_id: req.body.user_id,
         name: req.body.name,
@@ -393,7 +396,7 @@ module.exports = {
         end_time: "",
         break_start_time: "",
         break_end_time: "",
-        image: "",
+        image: clinic_images,
         doc_interval: 0,
         pin_code: req.body.pin_code ? req.body.pin_code : "",
         clinic_type: req.body.clinic_type,
