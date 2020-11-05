@@ -12,6 +12,7 @@ const instance = new Razorpay({
 });
 
 const otpData = [];
+const now = new Date();
 const timestamp = now.setMinutes(now.getMinutes() - 30); // timestamp
 const createQuickBlox = async function (obj) {
   try {
