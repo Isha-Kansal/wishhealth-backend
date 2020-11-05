@@ -12,6 +12,7 @@ const instance = new Razorpay({
 });
 
 const otpData = [];
+const timestamp = now.setMinutes(now.getMinutes() - 30); // timestamp
 const createQuickBlox = async function (obj) {
   try {
     const QBcredentials = {
@@ -19,7 +20,7 @@ const createQuickBlox = async function (obj) {
       auth_key: "Hu527uvYdY7GfyT",
       nonce: 4321,
       authSecret: "a2EvU4g3E-cju3F",
-      timestamp: new Date().getTime(),
+      timestamp: parseInt(Math.round(timestamp / 1000)),
     };
     const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
     const signature = CryptoJS.HmacSHA1(signData, QBcredentials.authSecret);
