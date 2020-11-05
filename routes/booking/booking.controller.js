@@ -18,7 +18,6 @@ module.exports = {
       const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${user.contact_no}&from=WishPL&templatename=Delete Appointment&var1=${booking.date2}&var2=${booking.time}&var3=${patient.name}`;
       const session = await commonController.sendOtp(url);
       await Bookings.destroy({ where: { id: req.body.booking_id } });
-
       return res.status(200).json({
         message: "Deleted Successfully",
       });

@@ -694,6 +694,7 @@ module.exports = {
         },
       });
       const doctor = JSON.parse(JSON.stringify(details));
+      console.log(doctor, "doctordoctordoctor");
       finalData.practice_start_year = doctor.practice_start_year;
       return res.status(200).json({
         data: finalData ? finalData : {},
