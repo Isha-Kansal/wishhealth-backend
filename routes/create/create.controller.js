@@ -21,6 +21,7 @@ const { urlencoded } = require("body-parser");
 const { Op } = sequelize;
 const { s3BucketUploader } = require("../../common/S3/S3Upload");
 const PatientDoctorBookings = require("../../models/wh_patient_doctor_bookings");
+const Prescription = require("../../models/wh_booking_prescriptions");
 
 const createSpecialities = async function (req, id) {
   try {
@@ -336,6 +337,37 @@ module.exports = {
         },
         message: "Created Successfully",
       });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
+  createPrescription: async function (req, res) {
+    try {
+      req.body.prescriptions &&
+        req.body.prescriptions.length > 0 &&
+        req.body.prescriptions.map(async (data) => {
+          const prescription = await s3BucketUploader(data.uri);
+          let values = {
+            booking_id: req.body.booking_id,
+            prescription,
+            prescription_date: new Date(),
+          };
+          console.log(req.body, "req.bodyreq.bodyreq.bodyreq.body");
+          Prescription.create(values)
+            .then(async (resp) => {
+              const response = JSON.parse(JSON.stringify(resp));
+
+              return res.status(200).json({
+                message: "Created Successfully",
+              });
+            })
+            .catch((err) => {
+              console.log("createPrescription-err", err);
+            });
+        });
     } catch (err) {
       console.log(err, "err");
       return res.status(500).json({

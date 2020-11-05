@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
 
-const BookingPrescription = db.define(
-  "wh_booking_prescriptions",
+const Prescription = db.define(
+  "wh_prescription",
   {
     id: {
       type: "INT(11)",
@@ -43,4 +43,4 @@ const BookingPrescription = db.define(
   }
 );
 
-module.exports = BookingPrescription;
+module.exports = Prescription;
