@@ -19,7 +19,7 @@ const createQuickBlox = async function (obj) {
     const QBcredentials = {
       application_id: 85060,
       auth_key: "Hu527uvYdY7GfyT",
-      nonce: 4321,
+      nonce: Math.floor(1000 + Math.random() * 9000),
       authSecret: "a2EvU4g3E-cju3F",
       timestamp: parseInt(Math.round(timestamp / 1000)),
     };
