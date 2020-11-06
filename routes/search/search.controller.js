@@ -909,9 +909,11 @@ module.exports = {
 	},
 	searchClinics: async function (req, res) {
 		try {
-			console.log('searchClinics-req', req);
-			const { clinicName, location, user_id } = req.body;
+			console.log('searchClinics-req.body', req.body);
+			console.log('searchClinics-req.params', req.params);
+			const { clinicName, location, user_id, latitude, longitude } = req.body;
 			const cond = {};
+			let orderby = '';
 			if (clinicName) {
 				cond.name = {
 					[Op.like]: '%' + clinicName + '%',
@@ -925,10 +927,17 @@ module.exports = {
 			if (user_id) {
 				cond.admin_id = user_id;
 			}
+			if (latitude && longitude) {
+				orderby = Sequelize.literal(
+					`6371 * acos(cos(radians(${latitude})) * cos(radians(latitude)) * cos(radians(${longitude}) - radians(longitude)) + sin(radians(${latitude})) * sin(radians(latitude))) ASC`
+				);
+			}
 			console.log('searchClinics-cond', cond);
+			console.log('searchClinics-orderby', orderby);
 			const clinics = await Clinics.findAndCountAll({
 				where: cond,
-				attributes: ['clinic_id', 'name', 'address'],
+				order: orderby,
+				attributes: ['clinic_id', 'name', 'address', 'latitude', 'longitude'],
 			});
 			return res.status(200).json({
 				data: { count: clinics.count, listing: clinics.rows || [] },
