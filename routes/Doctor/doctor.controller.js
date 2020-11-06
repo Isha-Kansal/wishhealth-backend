@@ -509,6 +509,9 @@ module.exports = {
 				const clinic_images = req.body.clinic_images
 					? await s3BucketUploader(req.body.clinic_images.uri)
 					: '';
+				const reg_proof = req.body.reg_proof
+				? await s3BucketUploader(req.body.reg_proof.uri)
+				: '';
 				let data = {
 					name: req.body.name,
 					address: req.body.address,
@@ -523,6 +526,9 @@ module.exports = {
 				};
 				if (clinic_images) {
 					data.image = clinic_images;
+				}
+				if (reg_proof) {
+					data.reg_proof = reg_proof;
 				}
 				await Clinics.update(data, {
 					where: {
