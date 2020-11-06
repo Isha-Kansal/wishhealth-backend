@@ -937,7 +937,7 @@ module.exports = {
 			const clinics = await Clinics.findAndCountAll({
 				where: cond,
 				order: orderby,
-				attributes: ['clinic_id', 'name', 'address', 'latitude', 'longitude'],
+				attributes: ['clinic_id', 'name', 'address'],
 			});
 			return res.status(200).json({
 				data: { count: clinics.count, listing: clinics.rows || [] },
