@@ -10,7 +10,8 @@ module.exports = {
 			const { username, password, phone } = req.body;
 			console.log('login-req.body', req.body);
 			let data = null;
-			let message = null;
+			let message = 'Not Registered';
+			let status = 500;
 			if (username && password) {
 				const doctor = await Doctordetails.findOne({
 					where: {
@@ -21,8 +22,7 @@ module.exports = {
 				if (doctor) {
 					data = { ...JSON.parse(JSON.stringify(doctor)) };
 					message = 'login successfully';
-				} else {
-					message = 'Not Registered';
+					status = 200;
 				}
 			} else if (phone) {
 				const user = await Users.findOne({
@@ -37,13 +37,13 @@ module.exports = {
 						otp: otp.toString(),
 						user_id: user.user_id,
 					});
-					message = 'Sent OTP Successfully';
-				} else {
-					message = 'Not Registered';
+					message = 'OTP send successfully';
+					status = 200;
 				}
 			}
-			return res.status(200).json({
+			return res.status(status).json({
 				data,
+				status: status === 200 ? 'success' : 'fail',
 				message,
 			});
 		} catch (err) {
