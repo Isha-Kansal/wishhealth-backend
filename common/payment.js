@@ -3,7 +3,8 @@
 // const stripe = require("stripe")(config.stripeKey);
 const Razorpay = require("razorpay");
 const request = require("request");
-const QB = require("quickblox");
+// const QB = require("quickblox");
+const QB = require("quickblox").QuickBlox;
 const BookingPayments = require("../models/wh_booking_payments");
 const CryptoJS = require("crypto-js");
 const Doctordetails = require("../models/wh_doctor_details");
