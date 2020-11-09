@@ -23,6 +23,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
+    "quickblox": "^2.13.0",
     "razorpay": "^2.0.6",
     "request": "^2.88.2",
     "reverse-md5": "0.0.4",
