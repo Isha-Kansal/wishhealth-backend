@@ -23,96 +23,86 @@ const createQuickBlox = async function (obj) {
       auth_key: "Hu527uvYdY7GfyT",
       nonce: Math.floor(1000 + Math.random() * 9000),
       authSecret: "a2EvU4g3E-cju3F",
-      timestamp: parseInt(Math.round(timestamp / 1000)),
+      timestamp: Math.floor(new Date().getTime() / 1000),
     };
     const signData = `application_id=${QBcredentials.application_id}&auth_key=${QBcredentials.auth_key}&nonce=${QBcredentials.nonce}&timestamp=${QBcredentials.timestamp}`;
     const signature = CryptoJS.HmacSHA1(signData, QBcredentials.authSecret);
     console.log(QB, "hdfjsgfsdf", QB.users);
-    QB.users.create({ login: obj.username, password: "password" }, function (
-      err,
-      res
-    ) {
-      if (err) {
-        done.fail("Create user error: " + JSON.stringify(err));
-      } else {
-        console.log(res, "hdfjhdjfhjd");
-      }
-    });
-    // return request(
-    //   {
-    //     method: "POST",
-    //     url: `https://api.quickblox.com/session.json`,
-    //     form: {
-    //       ...QBcredentials,
-    //       signature: signature.toString(),
-    //     },
-    //   },
-    //   async function (err, response, body) {
-    //     console.log(err, response, body, "err, response, body");
-    //     if (err) {
-    //       return {
-    //         message: "Something Went Wrong",
-    //       };
-    //     }
-    //     console.log("createQuickBlox-response", response);
-    //     console.log(
-    //       "createQuickBloxheaders-headers",
-    //       JSON.stringify(response.headers)
-    //     );
-    //     let data = JSON.parse(body);
-    //     console.log("createQuickBlox-data", data);
-    //     const token = (data && data.session && data.session.token) || "";
-    //     console.log("createQuickBlox-token", token);
+    return request(
+      {
+        method: "POST",
+        url: `https://api.quickblox.com/session.json`,
+        form: {
+          ...QBcredentials,
+          signature: signature.toString(),
+        },
+      },
+      async function (err, response, body) {
+        console.log(err, response, body, "err, response, body");
+        if (err) {
+          return {
+            message: "Something Went Wrong",
+          };
+        }
+        console.log("createQuickBlox-response", response);
+        console.log(
+          "createQuickBloxheaders-headers",
+          JSON.stringify(response.headers)
+        );
+        let data = JSON.parse(body);
+        console.log("createQuickBlox-data", data);
+        const token = (data && data.session && data.session.token) || "";
+        console.log("createQuickBlox-token", token);
 
-    //     return request(
-    //       {
-    //         method: "POST",
-    //         url: `https://api.quickblox.com/users.json`,
-    //         headers: {
-    //           "QB-Token": token,
-    //         },
-    //         form: {
-    //           user: {
-    //             login: obj.username,
-    //             password: "password",
-    //           },
-    //         },
-    //       },
-    //       async function (err, response, body) {
-    //         console.log("createQuickBlox-response", response);
-    //         console.log("createQuickBlox-body", body);
-    //         if (err) {
-    //           console.log("createQuickBlox-err", err);
-    //           return {
-    //             message: "Something Went Wrong",
-    //           };
-    //         }
-    //         console.log("createQuickBlox-response", response);
-    //         console.log(
-    //           "createQuickBlox-response.headers",
-    //           JSON.stringify(response.headers)
-    //         );
-    //         let data = JSON.parse(body);
-    //         console.log("createQuickBlox-data", data);
-    //         await Doctordetails.update(
-    //           { quickblox_id: data.user.id, quickblox_login: data.user.login },
-    //           {
-    //             where: {
-    //               user_id: obj.user_id,
-    //             },
-    //           }
-    //         )
-    //           .then((result) => {
-    //             console.log("createQuickBlox-result", result);
-    //           })
-    //           .catch((err) => {
-    //             console.log("createQuickBlox-api-err", err);
-    //           });
-    //         return { message: "Success" };
-    //       }
-    //     );
-    //   }
-    // );
+        return request(
+          {
+            method: "POST",
+            url: `https://api.quickblox.com/users.json`,
+            headers: {
+              "QB-Token": token,
+            },
+            form: {
+              user: {
+                login: obj.username,
+                password: "password",
+              },
+            },
+          },
+          async function (err, response, body) {
+            console.log("createQuickBlox-response", response);
+            console.log("createQuickBlox-body", body);
+            if (err) {
+              console.log("createQuickBlox-err", err);
+              return {
+                message: "Something Went Wrong",
+              };
+            }
+            console.log("createQuickBlox-response", response);
+            console.log(
+              "createQuickBlox-response.headers",
+              JSON.stringify(response.headers)
+            );
+            let data = JSON.parse(body);
+            console.log("createQuickBlox-data", data);
+            await Doctordetails.update(
+              { quickblox_id: data.user.id, quickblox_login: data.user.login },
+              {
+                where: {
+                  user_id: obj.user_id,
+                },
+              }
+            )
+              .then((result) => {
+                console.log("createQuickBlox-result", result);
+              })
+              .catch((err) => {
+                console.log("createQuickBlox-api-err", err);
+              });
+            return { message: "Success" };
+          }
+        );
+      }
+    );
   } catch (err) {
     console.log("createQuickBlox-catch-err", err);
   }
