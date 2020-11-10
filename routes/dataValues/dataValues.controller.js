@@ -10,6 +10,8 @@ const Videos = require('../../models/wh_videos');
 const Faqs = require('../../models/wh_faqs');
 const Testimonials = require('../../models/wh_testimonials');
 const Council = require('../../models/wh_medical_council');
+const MedicalShots = require('../../models/wh_medical_shots');
+
 module.exports = {
 	getDegrees: async function (req, res) {
 		try {
@@ -157,6 +159,23 @@ module.exports = {
 			});
 		} catch (err) {
 			console.log(err, 'err');
+			return res.status(500).json({
+				message: 'Something Went Wrong',
+			});
+		}
+	},
+	medicalShots: async (req, res) => {
+		try {
+			const medicalShots = await MedicalShots.findAll();
+			return res.status(200).json({
+				data: {
+					medicalshot: medicalShots || [],
+					message: 'List of medical shots',
+					status: 'success',
+				},
+			});
+		} catch (err) {
+			console.log('medicalShots-err', err);
 			return res.status(500).json({
 				message: 'Something Went Wrong',
 			});
