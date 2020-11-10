@@ -956,24 +956,24 @@ module.exports = {
 			const { clinic_id, type } = req.body;
 			console.log('searchClinics-req.body', req.body);
 			let cond = {};
-			const date = new Date();
+			const date = moment();
 			let bookings = [];
 			if (type) {
 				switch (type) {
 					case 'past':
 						cond.created_at = {
-							$lte: date,
+							[Op.lte]: date.toDate(),
 						};
 						break;
 					case 'today':
 						cond.created_at = {
-							$gte: date,
-							$lte: date,
+							[Op.gte]: date.startOf('day').toDate(),
+							[Op.lte]: date.endOf('day').toDate(),
 						};
 						break;
 					case 'future':
 						cond.created_at = {
-							$gte: date,
+							[Op.gte]: date.toDate(),
 						};
 				}
 			}
