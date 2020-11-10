@@ -52,6 +52,7 @@ module.exports = {
           gender: req.body.gender,
           city_id: req.body.city_id,
           state_id: req.body.state_id,
+          profile_pic: req.body.file ? req.body.file.uri : "",
         },
         {
           where: {
