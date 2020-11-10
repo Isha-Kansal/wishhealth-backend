@@ -33,6 +33,60 @@ module.exports = {
       });
     }
   },
+  getBookingDetails: async function (req, res) {
+    try {
+      const bookingData = await Bookings.findOne({
+        where: { id: req.params.id },
+        include: [
+          {
+            model: Users,
+            include: [
+              {
+                model: Doctordetails,
+                required: false,
+              },
+              {
+                model: Doctorqualifications,
+                required: false,
+                include: [
+                  {
+                    model: Qualifications,
+                    required: false,
+                    attributes: ["degree"],
+                    where: {
+                      degree: {
+                        [Op.ne]: null,
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                model: Doctorspecialities,
+                required: false,
+                include: [
+                  {
+                    model: Specialities,
+                    required: true,
+                    attributes: ["title"],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      return res.status(200).json({
+        data: bookingData,
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   updateBooking: async function (req, res) {
     try {
       const bookingData = await Bookings.findOne({
