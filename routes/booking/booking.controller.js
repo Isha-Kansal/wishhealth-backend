@@ -3,7 +3,11 @@ const PatientDetails = require("../../models/wh_patient_details");
 const commonController = require("../../common/payment");
 const Bookings = require("../../models/wh_patient_doctor_bookings");
 const Doctordetails = require("../../models/wh_doctor_details");
-
+const Users = require("../../models/wh_users");
+const Doctorqualifications = require("../../models/wh_doctor_qualifications");
+const Qualifications = require("../../models/wh_qualifications");
+const Doctorspecialities = require("../../models/wh_doctor_specialities");
+const Specialities = require("../../models/wh_specialities");
 const { Op } = Sequelize;
 module.exports = {
   deleteBooking: async function (req, res) {
