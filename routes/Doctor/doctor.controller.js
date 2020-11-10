@@ -34,6 +34,9 @@ module.exports = {
     try {
       const doctorId = req.params.id;
       console.log("updateDoctorDetails", req.body, req.params);
+      const attachment = req.body.file
+        ? await s3BucketUploader(req.body.file.uri)
+        : "";
       await Users.update(
         {
           name: req.body.name,
@@ -52,7 +55,7 @@ module.exports = {
           gender: req.body.gender,
           city_id: req.body.city_id,
           state_id: req.body.state_id,
-          profile_pic: req.body.file ? req.body.file.uri : "",
+          profile_pic: attachment,
         },
         {
           where: {
