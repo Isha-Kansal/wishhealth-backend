@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 const Doctordetails = require('../../models/wh_doctor_details');
 const { sendOtp } = require('../../common/payment');
 const Users = require('../../models/wh_users');
+const { Op } = Sequelize;
 
 module.exports = {
 	login: async (req, res) => {
@@ -48,6 +49,34 @@ module.exports = {
 			});
 		} catch (err) {
 			console.log('login-err', err);
+			return res.status(500).json({
+				message: 'Something Went Wrong',
+			});
+		}
+	},
+	checkDocPhnMailUsrname: async (req, res) => {
+		try {
+			const { username, email, phone } = req.body;
+			console.log('checkDocPhnMailUsrname-req.body', req.body);
+			let message = 'Not Registered',
+				status = 'success';
+			const data = await Doctordetails.findOne({
+				where: { [Op.or]: [{ username }, { email }, { phone }] },
+				attributes: ['username', 'email', 'phone'],
+			});
+			const doctor = JSON.parse(JSON.stringify(data));
+			console.log('checkDocPhnMailUsrname-doctor', doctor);
+			if (doctor) {
+				if (doctor.username === 'username') {
+					
+				}
+			}
+			return res.status(200).json({
+				status,
+				message,
+			});
+		} catch (err) {
+			console.log('checkDocPhnMailUsrname-err', err);
 			return res.status(500).json({
 				message: 'Something Went Wrong',
 			});
