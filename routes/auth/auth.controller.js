@@ -59,22 +59,32 @@ module.exports = {
 			const { username, email, phone } = req.body;
 			console.log('checkDocPhnMailUsrname-req.body', req.body);
 			let message = 'Not Registered',
-				status = 'success';
+				status = 'error';
+			const fields = [];
 			const data = await Doctordetails.findOne({
 				where: { [Op.or]: [{ username }, { email }, { phone }] },
 				attributes: ['username', 'email', 'phone'],
 			});
-			const doctor = JSON.parse(JSON.stringify(data));
-			console.log('checkDocPhnMailUsrname-doctor', doctor);
-			if (doctor) {
-				if (doctor.username === 'username') {
-					
+
+			if (data) {
+				const doctor = JSON.parse(JSON.stringify(data));
+				console.log('checkDocPhnMailUsrname-doctor', doctor);
+				if (doctor.username === username) {
+					fields.push('Username');
+				}
+				if (doctor.email === email) {
+					fields.push('Email');
+				}
+				if (doctor.phone === phone) {
+					fields.push('Phone');
 				}
 			}
-			return res.status(200).json({
-				status,
-				message,
-			});
+			if (fields.length > 0) {
+				message = fields.toString() + ' already exist';
+			} else {
+				status = 'success';
+			}
+			return res.status(200).json({ status, message });
 		} catch (err) {
 			console.log('checkDocPhnMailUsrname-err', err);
 			return res.status(500).json({
