@@ -698,14 +698,17 @@ module.exports = {
         };
         finalData.wh_medical_council = obj;
       }
-      const details = await Doctordetails.findOne({
-        where: {
-          user_id: doctorId,
-        },
-      });
-      const doctor = JSON.parse(JSON.stringify(details));
-      console.log(doctor, "doctordoctordoctor");
-      finalData.practice_start_year = doctor.practice_start_year;
+      if (finalData) {
+        const details = await Doctordetails.findOne({
+          where: {
+            user_id: doctorId,
+          },
+        });
+        const doctor = JSON.parse(JSON.stringify(details));
+        console.log(doctor, "doctordoctordoctor");
+        finalData.practice_start_year = doctor.practice_start_year;
+      }
+
       return res.status(200).json({
         data: finalData ? finalData : {},
       });
