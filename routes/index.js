@@ -10,6 +10,7 @@ const auth = require("./auth");
 const s3 = require("../common/S3");
 const booking = require("./booking");
 const version = require("../common/version");
+const clinic = require("./clinic");
 
 module.exports = function (app) {
   app.use("/order", common);
@@ -22,4 +23,5 @@ module.exports = function (app) {
   app.use("/s3", s3);
   app.use("/booking", booking);
   app.use("/version", version);
+  app.use("/clinic", clinic);
 };
