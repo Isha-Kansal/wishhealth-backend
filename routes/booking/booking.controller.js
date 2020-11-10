@@ -67,4 +67,18 @@ module.exports = {
       });
     }
   },
+  appointmentDetail: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const booking = await Bookings.findOne({ where :{id} });
+      return res.status(200).json({
+        data: booking,
+      });
+    } catch (err) {
+      console.log("appointmentDetail-err", err);
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
 };
