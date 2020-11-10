@@ -299,7 +299,7 @@ const getDoctorData = async function (req) {
     let orderby = [["rankings", "DESC"]];
     if (req.body.latitude && req.body.longitude) {
       orderby = Sequelize.literal(
-        `6371 * acos(cos(radians(${latitude})) * cos(radians(latitude)) * cos(radians(${longitude}) - radians(longitude)) + sin(radians(${latitude})) * sin(radians(latitude))) ASC`
+        `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(latitude)) * cos(radians(${req.body.longitude}) - radians(longitude)) + sin(radians(${req.body.latitude})) * sin(radians(latitude))) ASC`
       );
     }
     let userArr = [
@@ -463,7 +463,7 @@ const getSpecialityData = async function (req, arr) {
     let orderby = [["rankings", "DESC"]];
     if (req.body.latitude && req.body.longitude) {
       orderby = Sequelize.literal(
-        `6371 * acos(cos(radians(${latitude})) * cos(radians(latitude)) * cos(radians(${longitude}) - radians(longitude)) + sin(radians(${latitude})) * sin(radians(latitude))) ASC`
+        `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(latitude)) * cos(radians(${req.body.longitude}) - radians(longitude)) + sin(radians(${req.body.latitude})) * sin(radians(latitude))) ASC`
       );
     }
     let userArr = [{ role: "doctor" }, { status: "1" }];
