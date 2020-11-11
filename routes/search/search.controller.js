@@ -321,12 +321,7 @@ const getDoctorData = async function (req) {
       },
     });
     const docabc = JSON.parse(JSON.stringify(doc));
-    let typeArr =
-      req.body.type === "video"
-        ? [1]
-        : req.body.type === "clinic"
-        ? [0]
-        : [0, 1];
+    let typeArr = req.body.type === "video" ? [1] : [0, 1];
     console.log(typeArr, "typeArrtypeArr", docabc);
     const doctors = await Users.findAndCountAll({
       where: {
@@ -338,11 +333,11 @@ const getDoctorData = async function (req) {
           model: Doctordetails,
           required:
             req.body.type !== "" || req.body.location !== "" ? true : false,
-          // where: {
-          //   video_consultation: {
-          //     [Op.in]: typeArr,
-          //   },
-          // },
+          where: {
+            video_consultation: {
+              [Op.in]: typeArr,
+            },
+          },
           include: [
             {
               model: Cities,
