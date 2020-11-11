@@ -338,11 +338,11 @@ const getDoctorData = async function (req) {
           model: Doctordetails,
           required:
             req.body.type !== "" || req.body.location !== "" ? true : false,
-          where: {
-            video_consultation: {
-              [Op.in]: typeArr,
-            },
-          },
+          // where: {
+          //   video_consultation: {
+          //     [Op.in]: typeArr,
+          //   },
+          // },
           include: [
             {
               model: Cities,
