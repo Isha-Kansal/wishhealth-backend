@@ -39,8 +39,6 @@ const getLiveDoctorData = async function (req) {
       });
       console.log("getLiveDoctorData-doctorTimings", doctorTimings);
       const doctorTime = JSON.parse(JSON.stringify(doctorTimings));
-      // for (let j = 0; j < doctorTime.length; j++) {
-      // let timing = doctorTime[j];
 
       let currentday = moment().day();
       console.log("getLiveDoctorData-currentday", currentday);
@@ -311,7 +309,12 @@ const getDoctorData = async function (req) {
       });
     }
     console.log(userArr, "userArruserArr");
-
+    let days = ["1", "2", "3", "4", "5", "6", "7"];
+    if (req.body.consult) {
+      days = [];
+      let day = moment().day();
+      days.push(day.toString());
+    }
     const doctors = await Users.findAndCountAll({
       where: {
         [Op.and]: userArr,
@@ -340,6 +343,15 @@ const getDoctorData = async function (req) {
               model: States,
             },
           ],
+        },
+        {
+          model: DoctorClinicTimings,
+          required: false,
+          where: {
+            day: {
+              [Op.in]: days,
+            },
+          },
         },
         {
           model: Feedback,
