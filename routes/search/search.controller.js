@@ -27,7 +27,7 @@ const getLiveDoctorData = async function (req) {
   try {
     const doctorsData = await getDoctorData(req);
     const doctors = doctorsData.data;
-    console.log("getLiveDoctorData-doctors", doctors);
+    console.log("getLiveDoctorData-doctors", doctorsData);
     const finalArr = [];
     for (let i = 0; i < doctors.length; i++) {
       let doctor = doctors[i];
