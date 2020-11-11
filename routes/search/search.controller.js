@@ -351,16 +351,16 @@ const getDoctorData = async function (req) {
             },
           ],
         },
-        {
-          model: DoctorClinicTimings,
-          required: req.body.consult === true ? true : false,
-          as: "clinic_timings",
-          where: {
-            day: {
-              [Op.in]: days,
-            },
-          },
-        },
+        // {
+        //   model: DoctorClinicTimings,
+        //   required: req.body.consult === true ? true : false,
+        //   as: "clinic_timings",
+        //   where: {
+        //     day: {
+        //       [Op.in]: days,
+        //     },
+        //   },
+        // },
         {
           model: Feedback,
           as: "feedback",
