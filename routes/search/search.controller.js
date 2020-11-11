@@ -347,6 +347,7 @@ const getDoctorData = async function (req) {
         {
           model: DoctorClinicTimings,
           required: false,
+          as: "clinic_timings",
           where: {
             day: {
               [Op.in]: days,
