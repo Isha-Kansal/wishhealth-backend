@@ -310,7 +310,7 @@ const getDoctorData = async function (req) {
     }
     console.log(userArr, "userArruserArr");
     let days = ["1", "2", "3", "4", "5", "6", "7"];
-    if (req.body.consult) {
+    if (req.body.consult === true) {
       days = [];
       let day = moment().day();
       days.push(day.toString());
@@ -347,7 +347,7 @@ const getDoctorData = async function (req) {
         },
         {
           model: DoctorClinicTimings,
-          required: req.body.consult ? true : false,
+          required: req.body.consult === true ? true : false,
           as: "clinic_timings",
           where: {
             day: {
@@ -610,7 +610,7 @@ module.exports = {
       console.log(req.body, "dgsyhgfshgdh");
       let specialityExist = [];
       let array = [];
-      if (!req.body.consult) {
+      if (!req.body.consult === true) {
         if (req.body.doctorParams !== "") {
           specialityExist = await Specialities.findAll({
             where: {
