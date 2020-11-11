@@ -4,5 +4,6 @@ const router = express.Router();
 
 router.post("/login", controller.login);
 router.get("/checkDocPhnMailUsrname", controller.checkDocPhnMailUsrname);
+router.get("/sendAppLink", controller.sendAppLink);
 
 module.exports = router;
