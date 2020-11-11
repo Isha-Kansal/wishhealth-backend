@@ -257,6 +257,7 @@ module.exports = {
           prefix: req.body.prefix,
           city_id: req.body.city_id,
           state_id: req.body.state_id,
+          description: req.body.description,
         },
         {
           where: {
@@ -382,8 +383,8 @@ module.exports = {
         ? await s3BucketUploader(req.body.reg_proof.uri)
         : "";
       const clinic_images = req.body.clinic_images
-      ? await s3BucketUploader(req.body.clinic_images.uri)
-      : "";
+        ? await s3BucketUploader(req.body.clinic_images.uri)
+        : "";
       let values = {
         admin_id: req.body.user_id,
         name: req.body.name,

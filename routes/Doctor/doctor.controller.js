@@ -56,6 +56,7 @@ module.exports = {
           city_id: req.body.city_id,
           state_id: req.body.state_id,
           profile_pic: attachment,
+          description: req.body.description,
         },
         {
           where: {
@@ -173,6 +174,7 @@ module.exports = {
               "gender",
               "profile_pic",
               "state_id",
+              "description",
             ],
             required: true,
             include: [
