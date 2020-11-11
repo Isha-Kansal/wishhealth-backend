@@ -332,7 +332,6 @@ const getDoctorData = async function (req) {
       where: {
         [Op.and]: userArr,
       },
-      distinct: true,
       include: [
         {
           model: Doctordetails,
