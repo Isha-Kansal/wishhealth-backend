@@ -53,7 +53,10 @@ const getLiveDoctorData = async function (req) {
       const doctorAvailabilityTiming = [];
       if (doctorTodayTimings) {
         Object.keys(doctorTodayTimings).filter((ele) => {
-          if (doctorTodayTimings[ele] === "1") {
+          if (
+            (ele.includes("AM") || ele.includes("PM")) &&
+            doctorTodayTimings[ele] === "1"
+          ) {
             doctorAvailabilityTiming.push(ele);
           }
         });
@@ -77,24 +80,9 @@ const getLiveDoctorData = async function (req) {
           finalArr.push(doctor);
         }
       }
-      console.log("getLiveDoctorData-finalArr", finalArr);
-      // Object.keys(timing).map((time) => {
-      // 	console.log(time, 'timetimetime');
-      // 	if (
-      // 		time.includes('AM') ||
-      // 		(time.includes('PM') && timing[time] === 1)
-      // 	) {
-      // 		let hours = moment(time, ['h:mm A']).format('HH');
-      // 		console.log(hours, 'hourshourshours');
-      // 		if (new Date().setHours(hours, 0, 0) <= new Date()) {
-      // 			finalArr.push(doctor);
-      // 		}
-      // 	}
-      // });
-      // }
     }
 
-    return finalArr;
+    return { data: finalArr, count: doctorsData.count };
   } catch (err) {
     console.log(err, "err1111");
     return [];
@@ -644,8 +632,8 @@ module.exports = {
         }
       } else {
         const livedoctorData = await getLiveDoctorData(req);
-        arr = [...livedoctorData];
-        count = arr.length;
+        arr = [...livedoctorData.data];
+        count = livedoctorData.count;
       }
 
       return res.status(200).json({
