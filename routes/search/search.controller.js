@@ -315,6 +315,7 @@ const getDoctorData = async function (req) {
       let day = moment().day();
       days.push(day.toString());
     }
+    console.log(days, "daysdaysdaysdays");
     const doctors = await Users.findAndCountAll({
       where: {
         [Op.and]: userArr,
