@@ -315,7 +315,19 @@ const getDoctorData = async function (req) {
       let day = moment().day();
       days.push(day.toString());
     }
-    console.log(days, "daysdaysdaysdays");
+    const doc = await Doctordetails.findOne({
+      where: {
+        user_id: 510,
+      },
+    });
+    const docabc = JSON.parse(JSON.stringify(doc));
+    let typeArr =
+      req.body.type === "video"
+        ? [1]
+        : req.body.type === "clinic"
+        ? [0]
+        : [0, 1];
+    console.log(typeArr, "typeArrtypeArr", docabc);
     const doctors = await Users.findAndCountAll({
       where: {
         [Op.and]: userArr,
@@ -328,12 +340,7 @@ const getDoctorData = async function (req) {
             req.body.type !== "" || req.body.location !== "" ? true : false,
           where: {
             video_consultation: {
-              [Op.in]:
-                req.body.type === "video"
-                  ? [1]
-                  : req.body.type === "clinic"
-                  ? [0]
-                  : [0, 1],
+              [Op.in]: typeArr,
             },
           },
           include: [
