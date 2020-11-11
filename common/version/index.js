@@ -19,6 +19,6 @@ const forceUpdate = (req, res) => {
 	}
 };
 
-router.get('/force-update', forceUpdate);
+router.get('/forceUpdate', forceUpdate);
 
 module.exports = router;

@@ -4,7 +4,7 @@ const DoctorClinicTimings = require('../../models/wh_doctor_clinic_timings');
 const patientDoctorBookings = require('../../models/wh_patient_doctor_bookings');
 
 module.exports = {
-	doctorClinics: async (req, res) => {
+	doctorsAllClinics: async (req, res) => {
 		try {
 			const { id } = req.params;
 			const clinics = await Clinics.findAll({
