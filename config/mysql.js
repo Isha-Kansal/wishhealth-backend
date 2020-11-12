@@ -16,8 +16,10 @@ const config =
   SERVER_ENVIRONMENT === "local"
     ? {
         host: LOCAL_DATABASE_HOST,
+        database: LOCAL_DATABASE_NAME,
         user: LOCAL_DATABASE_USER,
         password: LOCAL_DATABASE_PASSWORD,
+        port: 3306,
       }
     : {
         host: LIVE_DATABASE_HOST,
