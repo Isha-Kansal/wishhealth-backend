@@ -289,7 +289,7 @@ const getLocationData = async function (req) {
               attributes: [
                 [
                   Sequelize.literal(
-                    `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(wh_users.clinic_timings.wh_clinic.latitude)) * cos(radians(${req.body.longitude}) - radians(wh_users.clinic_timings.wh_clinic.longitude)) + sin(radians(${req.body.latitude})) * sin(radians(wh_users.clinic_timings.wh_clinic.latitude)))`
+                    `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(latitude)) * cos(radians(${req.body.longitude}) - radians(longitude)) + sin(radians(${req.body.latitude})) * sin(radians(latitude)))`
                   ),
                   "distance",
                 ],
