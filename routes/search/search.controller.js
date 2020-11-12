@@ -357,7 +357,7 @@ const getLocationData = async function (req) {
     console.log(doctorData, "doctorDatadoctorDatadoctorDatadoctorData");
     let result = doctorData.sort(function (a, b) {
       return (
-        a.clinic_timings.wh_clinic.distance <
+        a.clinic_timings.wh_clinic.distance >
         b.clinic_timings.wh_clinic.distance
       );
     });
@@ -691,7 +691,7 @@ const getLocationSpecialityData = async function (req, arr) {
     console.log(doctorsData, "doctorsDatadoctorsDatadoctorsData");
     let result = doctorData.sort(function (a, b) {
       return (
-        a.clinic_timings.wh_clinic.distance <
+        a.clinic_timings.wh_clinic.distance >
         b.clinic_timings.wh_clinic.distance
       );
     });
