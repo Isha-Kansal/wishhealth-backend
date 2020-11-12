@@ -388,6 +388,9 @@ const getLocationData = async function (req) {
         }
 
         if (aSum > bSum) {
+          if (result.includes(docB)) {
+            break;
+          }
           final = docB;
           docA = docB;
         } else {
