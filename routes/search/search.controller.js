@@ -379,6 +379,7 @@ const getLocationData = async function (req) {
           bSum = bResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
         }
       }
+      console.log(aSum, "aSumaSumaSum", bSum);
       return aSum > bSum;
     });
     let finalResult = [];
