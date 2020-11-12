@@ -361,8 +361,12 @@ const getLocationData = async function (req) {
         " a.clinic_timings. a.clinic_timings.",
         b.clinic_timings
       );
-      let aSum = a.clinic_timings.wh_clinic.distance;
-      let bSum = b.clinic_timings.wh_clinic.distance;
+      let aSum = a.clinic_timings.wh_clinic.distance
+        ? a.clinic_timings.wh_clinic.distance
+        : null;
+      let bSum = b.clinic_timings.wh_clinic.distance
+        ? b.clinic_timings.wh_clinic.distance
+        : null;
       if (!aSum || !bSum) {
         if (!aSum) {
           let aResult = a.clinic_timings.wh_clinic.sort(function (c, d) {
@@ -713,8 +717,12 @@ const getLocationSpecialityData = async function (req, arr) {
         " a.clinic_timings. a.clinic_timings.",
         b.clinic_timings
       );
-      let aSum = a.clinic_timings.wh_clinic.distance;
-      let bSum = b.clinic_timings.wh_clinic.distance;
+      let aSum = a.clinic_timings.wh_clinic.distance
+        ? a.clinic_timings.wh_clinic.distance
+        : null;
+      let bSum = b.clinic_timings.wh_clinic.distance
+        ? b.clinic_timings.wh_clinic.distance
+        : null;
       if (!aSum || !bSum) {
         if (!aSum) {
           let aResult = a.clinic_timings.wh_clinic.sort(function (c, d) {
