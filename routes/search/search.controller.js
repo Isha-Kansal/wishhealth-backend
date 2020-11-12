@@ -361,10 +361,23 @@ const getLocationData = async function (req) {
         " a.clinic_timings. a.clinic_timings.",
         b.clinic_timings
       );
-      return (
-        a.clinic_timings.wh_clinic.distance >
-        b.clinic_timings.wh_clinic.distance
-      );
+      let aSum = a.clinic_timings.wh_clinic.distance;
+      let bSum = b.clinic_timings.wh_clinic.distance;
+      if (!aSum || !bSum) {
+        if (!aSum) {
+          let aResult = a.clinic_timings.wh_clinic.sort(function (c, d) {
+            return c.distance > d.distance;
+          });
+          aSum = aResult.clinic_timings.wh_clinic[0].distance;
+        }
+        if (!bSum) {
+          let bResult = b.clinic_timings.wh_clinic.sort(function (c, d) {
+            return c.distance > d.distance;
+          });
+          aSum = bResult.clinic_timings.wh_clinic[0].distance;
+        }
+      }
+      return aSum > bSum;
     });
     let finalResult = [];
     for (
@@ -695,10 +708,28 @@ const getLocationSpecialityData = async function (req, arr) {
     const doctorsData = JSON.parse(JSON.stringify(doctors));
     console.log(doctorsData, "doctorsDatadoctorsDatadoctorsData");
     let result = doctorData.sort(function (a, b) {
-      return (
-        a.clinic_timings.wh_clinic.distance >
-        b.clinic_timings.wh_clinic.distance
+      console.log(
+        a.clinic_timings,
+        " a.clinic_timings. a.clinic_timings.",
+        b.clinic_timings
       );
+      let aSum = a.clinic_timings.wh_clinic.distance;
+      let bSum = b.clinic_timings.wh_clinic.distance;
+      if (!aSum || !bSum) {
+        if (!aSum) {
+          let aResult = a.clinic_timings.wh_clinic.sort(function (c, d) {
+            return c.distance > d.distance;
+          });
+          aSum = aResult.clinic_timings.wh_clinic[0].distance;
+        }
+        if (!bSum) {
+          let bResult = b.clinic_timings.wh_clinic.sort(function (c, d) {
+            return c.distance > d.distance;
+          });
+          aSum = bResult.clinic_timings.wh_clinic[0].distance;
+        }
+      }
+      return aSum > bSum;
     });
     let finalResult = [];
     for (
