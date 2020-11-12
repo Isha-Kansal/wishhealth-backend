@@ -371,16 +371,16 @@ const getLocationData = async function (req) {
           : null;
       if (!aSum || !bSum) {
         if (!aSum) {
-          let aResult = a.clinic_timings.wh_clinic.sort(function (c, d) {
-            return c.distance > d.distance;
+          let aResult = a.clinic_timings.sort(function (c, d) {
+            return c.wh_clinic.distance > d.wh_clinic.distance;
           });
           aSum = aResult.clinic_timings.wh_clinic[0].distance;
         }
         if (!bSum) {
-          let bResult = b.clinic_timings.wh_clinic.sort(function (c, d) {
-            return c.distance > d.distance;
+          let bResult = b.clinic_timings.sort(function (c, d) {
+            return c.wh_clinic.distance > d.wh_clinic.distance;
           });
-          aSum = bResult.clinic_timings.wh_clinic[0].distance;
+          bSum = bResult.clinic_timings.wh_clinic[0].distance;
         }
       }
       return aSum > bSum;
@@ -729,16 +729,16 @@ const getLocationSpecialityData = async function (req, arr) {
           : null;
       if (!aSum || !bSum) {
         if (!aSum) {
-          let aResult = a.clinic_timings.wh_clinic.sort(function (c, d) {
-            return c.distance > d.distance;
+          let aResult = a.clinic_timings.sort(function (c, d) {
+            return c.wh_clinic.distance > d.wh_clinic.distance;
           });
           aSum = aResult.clinic_timings.wh_clinic[0].distance;
         }
         if (!bSum) {
-          let bResult = b.clinic_timings.wh_clinic.sort(function (c, d) {
-            return c.distance > d.distance;
+          let bResult = b.clinic_timings.sort(function (c, d) {
+            return c.wh_clinic.distance > d.wh_clinic.distance;
           });
-          aSum = bResult.clinic_timings.wh_clinic[0].distance;
+          bSum = bResult.clinic_timings.wh_clinic[0].distance;
         }
       }
       return aSum > bSum;
