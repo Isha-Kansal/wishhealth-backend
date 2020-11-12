@@ -719,32 +719,42 @@ const getLocationSpecialityData = async function (req, arr) {
 
     const doctorsData = JSON.parse(JSON.stringify(doctors));
     console.log(doctorsData, "doctorsDatadoctorsDatadoctorsData");
-    let result = doctorData.sort(function (a, b) {
-      let aSum =
-        typeof a.clinic_timings.wh_clinic === "object"
-          ? a.clinic_timings.wh_clinic.distance
-          : null;
-      let bSum =
-        typeof b.clinic_timings.wh_clinic === "object"
-          ? b.clinic_timings.wh_clinic.distance
-          : null;
-      if (!aSum || !bSum) {
-        if (!aSum) {
-          let aResult = a.clinic_timings.sort(function (c, d) {
-            return c.wh_clinic.distance > d.wh_clinic.distance;
-          });
-          console.log(aResult, "aResultaResultaResult");
-          aSum = aResult.length > 0 ? aResult[0].wh_clinic.distance : 0;
+    let result = [];
+    for (let a = 0; a < doctorData.length; a++) {
+      let docA = doctorData[a];
+      let final = docA;
+      for (b = a + 1; b < doctorData.length; b++) {
+        let docB = doctorData[b];
+        let aSum =
+          typeof docA.clinic_timings.wh_clinic === "object"
+            ? docA.clinic_timings.wh_clinic.distance
+            : null;
+        let bSum =
+          typeof docB.clinic_timings.wh_clinic === "object"
+            ? docB.clinic_timings.wh_clinic.distance
+            : null;
+        if (!aSum || !bSum) {
+          if (!aSum) {
+            let aResult = docA.clinic_timings.sort(function (c, d) {
+              return c.wh_clinic.distance > d.wh_clinic.distance;
+            });
+            console.log(aResult, "aResultaResultaResult");
+            aSum = aResult.length > 0 ? aResult[0].wh_clinic.distance : 0;
+          }
+          if (!bSum) {
+            let bResult = docB.clinic_timings.sort(function (c, d) {
+              return c.wh_clinic.distance > d.wh_clinic.distance;
+            });
+            bSum = bResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
+          }
         }
-        if (!bSum) {
-          let bResult = b.clinic_timings.sort(function (c, d) {
-            return c.wh_clinic.distance > d.wh_clinic.distance;
-          });
-          bSum = bResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
+        if (aSum > bSum) {
+          final = docB;
         }
       }
-      return aSum > bSum;
-    });
+      result.push(final);
+    }
+
     let finalResult = [];
     for (
       let i = req.body.offset;
