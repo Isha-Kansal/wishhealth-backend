@@ -376,7 +376,7 @@ const getLocationData = async function (req) {
           let bResult = b.clinic_timings.sort(function (c, d) {
             return c.wh_clinic.distance > d.wh_clinic.distance;
           });
-          bSum = aResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
+          bSum = bResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
         }
       }
       return aSum > bSum;
@@ -730,7 +730,7 @@ const getLocationSpecialityData = async function (req, arr) {
           let bResult = b.clinic_timings.sort(function (c, d) {
             return c.wh_clinic.distance > d.wh_clinic.distance;
           });
-          bSum = aResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
+          bSum = bResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
         }
       }
       return aSum > bSum;
