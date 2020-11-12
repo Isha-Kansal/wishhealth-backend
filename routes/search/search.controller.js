@@ -918,16 +918,7 @@ module.exports = {
           data[found] = obj;
         }
       }
-      if (
-        data.length === 0 &&
-        doctorDetails &&
-        doctorDetails.video_consultation === 1
-      ) {
-        let obj = doctorDetails;
-        obj.videobookings = videobookings;
-        obj.video_timings = video_timings;
-        data.push(obj);
-      }
+
       // data.push(ownData);
       return res.status(200).json({
         data: data,
