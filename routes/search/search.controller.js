@@ -280,7 +280,7 @@ const getLocationData = async function (req) {
         },
         {
           model: DoctorClinicTimings,
-          required: req.body.consult ? true : false,
+          required: true,
           as: "clinic_timings",
           include: [
             {
@@ -665,7 +665,7 @@ const getLocationSpecialityData = async function (req, arr) {
         },
         {
           model: DoctorClinicTimings,
-          required: req.body.consult ? true : false,
+          required: true,
           as: "clinic_timings",
           include: [
             {
