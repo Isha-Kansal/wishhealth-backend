@@ -282,12 +282,7 @@ const getDoctorData = async function (req) {
           }
         });
     }
-    let orderby = [["rankings", "DESC"]];
-    if (req.body.latitude && req.body.longitude) {
-      orderby = Sequelize.literal(
-        `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(${clinic_timings.wh_clinic.latitude})) * cos(radians(${req.body.longitude}) - radians(${clinic_timings.wh_clinic.longitude})) + sin(radians(${req.body.latitude})) * sin(radians(${clinic_timings.wh_clinic.latitude}))) ASC`
-      );
-    }
+
     let userArr = [
       {
         name: {
@@ -407,7 +402,12 @@ const getDoctorData = async function (req) {
       ],
       limit: req.body.limit,
       offset: req.body.offset,
-      order: orderby,
+      order:
+        req.body.latitude && req.body.longitude
+          ? Sequelize.literal(
+              `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(${clinic_timings.wh_clinic.latitude})) * cos(radians(${req.body.longitude}) - radians(${clinic_timings.wh_clinic.longitude})) + sin(radians(${req.body.latitude})) * sin(radians(${clinic_timings.wh_clinic.latitude}))) ASC`
+            )
+          : [["rankings", "DESC"]],
     });
     return { data: doctors.rows, count: doctors.count };
   } catch (err) {
@@ -458,12 +458,7 @@ const getSpecialityData = async function (req, arr) {
           }
         });
     }
-    let orderby = [["rankings", "DESC"]];
-    if (req.body.latitude && req.body.longitude) {
-      orderby = Sequelize.literal(
-        `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(${clinic_timings.wh_clinic.latitude})) * cos(radians(${req.body.longitude}) - radians(${clinic_timings.wh_clinic.longitude})) + sin(radians(${req.body.latitude})) * sin(radians(${clinic_timings.wh_clinic.latitude}))) ASC`
-      );
-    }
+
     let userArr = [{ role: "doctor" }, { status: "1" }];
     if (req.body.location !== "") {
       userArr.push({
@@ -599,7 +594,12 @@ const getSpecialityData = async function (req, arr) {
       ],
       limit: req.body.limit,
       offset: req.body.offset,
-      order: orderby,
+      order:
+        req.body.latitude && req.body.longitude
+          ? Sequelize.literal(
+              `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(${clinic_timings.wh_clinic.latitude})) * cos(radians(${req.body.longitude}) - radians(${clinic_timings.wh_clinic.longitude})) + sin(radians(${req.body.latitude})) * sin(radians(${clinic_timings.wh_clinic.latitude}))) ASC`
+            )
+          : [["rankings", "DESC"]],
     });
     console.log(doctors.rows, "doctors.rowsdoctors.rowsdoctors.rows");
     return { data: doctors.rows, count: doc_speciality.count };
