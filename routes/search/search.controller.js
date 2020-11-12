@@ -356,7 +356,7 @@ const getLocationData = async function (req) {
     });
     const doctorData = JSON.parse(JSON.stringify(doctors));
     console.log(doctorData, "doctorDatadoctorDatadoctorDatadoctorData");
-    return { data: doctors.rows, count: doctors.length };
+    return { data: doctorData, count: doctors.length };
   } catch (err) {
     console.log(err, "err");
     return [];
