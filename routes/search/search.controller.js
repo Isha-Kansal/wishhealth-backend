@@ -355,7 +355,7 @@ const getLocationData = async function (req) {
     });
     const doctorData = JSON.parse(JSON.stringify(doctors));
     console.log(doctorData, "doctorDatadoctorDatadoctorDatadoctorData");
-    result = doctorData.sort(function (a, b) {
+    let result = doctorData.sort(function (a, b) {
       return (
         a.clinic_timings.wh_clinic.distance <
         b.clinic_timings.wh_clinic.distance
@@ -686,10 +686,24 @@ const getLocationSpecialityData = async function (req, arr) {
       ],
       order: [["rankings", "DESC"]],
     });
+
     const doctorsData = JSON.parse(JSON.stringify(doctors));
     console.log(doctorsData, "doctorsDatadoctorsDatadoctorsData");
-
-    return { data: doctorsData, count: doc_speciality.length };
+    let result = doctorData.sort(function (a, b) {
+      return (
+        a.clinic_timings.wh_clinic.distance <
+        b.clinic_timings.wh_clinic.distance
+      );
+    });
+    let finalResult = [];
+    for (
+      let i = req.body.offset;
+      i < req.body.offset + req.body.limit - 1;
+      i++
+    ) {
+      finalResult.push(result[i]);
+    }
+    return { data: finalResult, count: doc_speciality.length };
   } catch (err) {
     console.log(err, "err");
     return [];
