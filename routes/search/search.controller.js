@@ -390,9 +390,8 @@ const getLocationData = async function (req) {
           docA = docB;
         }
       }
-      if (!result.includes(docA)) {
-        result.push(docA);
-      }
+
+      result.push(docA);
     }
 
     let finalResult = [];
