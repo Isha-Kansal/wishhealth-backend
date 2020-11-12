@@ -305,7 +305,7 @@ const getDoctorData = async function (req) {
     }
     console.log(userArr, "userArruserArr");
     let days = ["1", "2", "3", "4", "5", "6", "7"];
-    if (req.body.consult === true) {
+    if (req.body.consult) {
       days = [];
       let day = moment().day();
       days.push(day.toString());
@@ -337,14 +337,19 @@ const getDoctorData = async function (req) {
         },
         {
           model: DoctorClinicTimings,
-          required: req.body.consult === true ? true : false,
+          required: req.body.consult ? true : false,
           as: "clinic_timings",
           where: {
             day: {
               [Op.in]: days,
             },
           },
-          include: [{ model: Clinics, required: true }],
+          include: [
+            {
+              model: Clinics,
+              required: true,
+            },
+          ],
         },
         {
           model: Feedback,
@@ -402,14 +407,151 @@ const getDoctorData = async function (req) {
       ],
       limit: req.body.limit,
       offset: req.body.offset,
-      order:
-        req.body.latitude && req.body.longitude
-          ? Sequelize.literal(
-              `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(wh_users.clinic_timings.wh_clinic.latitude)) * cos(radians(${req.body.longitude}) - radians(wh_users.clinic_timings.wh_clinic.longitude)) + sin(radians(${req.body.latitude})) * sin(radians(wh_users.clinic_timings.wh_clinic.latitude))) ASC`
-            )
-          : [["rankings", "DESC"]],
+      order: [["rankings", "DESC"]],
     });
     return { data: doctors.rows, count: doctors.count };
+  } catch (err) {
+    console.log(err, "err");
+    return [];
+  }
+};
+const getLocationData = async function (req, arr) {
+  try {
+    let userArr = [{ role: "doctor" }, { status: "1" }];
+    let days = ["1", "2", "3", "4", "5", "6", "7"];
+
+    const doc_speciality = await Doctorspecialities.findAll({
+      where: {
+        speciality_id: {
+          [Op.in]: arr,
+        },
+      },
+      distinct: true,
+      include: [
+        {
+          model: Users,
+          where: {
+            [Op.and]: userArr,
+          },
+          required: true,
+          include: [
+            {
+              model: Doctordetails,
+              required: req.body.type !== "" ? true : false,
+              where: {
+                video_consultation: {
+                  [Op.in]: req.body.type === "video" ? [1] : [0, 1],
+                },
+              },
+            },
+          ],
+        },
+      ],
+    });
+    const doctors = await Users.findAll({
+      where: {
+        [Op.and]: userArr,
+      },
+      distinct: true,
+      include: [
+        {
+          model: Doctordetails,
+          required: req.body.type !== "" ? true : false,
+          where: {
+            video_consultation: {
+              [Op.in]: req.body.type === "video" ? [1] : [0, 1],
+            },
+          },
+        },
+        {
+          model: Feedback,
+          as: "feedback",
+          required: false,
+        },
+        {
+          model: Doctorlanguages,
+          required: false,
+          include: [
+            {
+              model: Languages,
+              required: false,
+              attributes: ["name"],
+              where: {
+                name: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
+        {
+          model: Doctorqualifications,
+          required: false,
+          include: [
+            {
+              model: Qualifications,
+              required: false,
+              attributes: ["degree"],
+              where: {
+                degree: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
+        {
+          model: DoctorClinicTimings,
+          required: req.body.consult ? true : false,
+          as: "clinic_timings",
+          where: {
+            day: {
+              [Op.in]: days,
+            },
+          },
+          include: [
+            {
+              model: Clinics,
+              required: true,
+              attributes: [
+                [
+                  Sequelize.literal(
+                    `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(wh_users.clinic_timings.wh_clinic.latitude)) * cos(radians(${req.body.longitude}) - radians(wh_users.clinic_timings.wh_clinic.longitude)) + sin(radians(${req.body.latitude})) * sin(radians(wh_users.clinic_timings.wh_clinic.latitude)))`
+                  ),
+                  "distance",
+                ],
+              ],
+            },
+          ],
+        },
+        {
+          model: Doctorspecialities,
+          required: false,
+          where: {
+            speciality_id: {
+              [Op.in]: arr,
+            },
+          },
+          include: [
+            {
+              model: Specialities,
+              required: true,
+              attributes: ["title"],
+              where: {
+                title: {
+                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                },
+              },
+            },
+          ],
+        },
+      ],
+      order: [["rankings", "DESC"]],
+    });
+    const doctorsData = JSON.parse(JSON.stringify(doctors));
+    console.log(doctorsData, "doctorsDatadoctorsDatadoctorsData");
+
+    return { data: doctorsData, count: doc_speciality.length };
   } catch (err) {
     console.log(err, "err");
     return [];
@@ -460,6 +602,12 @@ const getSpecialityData = async function (req, arr) {
     }
 
     let userArr = [{ role: "doctor" }, { status: "1" }];
+    let days = ["1", "2", "3", "4", "5", "6", "7"];
+    if (req.body.consult) {
+      days = [];
+      let day = moment().day();
+      days.push(day.toString());
+    }
     if (req.body.location !== "") {
       userArr.push({
         user_id: {
@@ -488,12 +636,7 @@ const getSpecialityData = async function (req, arr) {
                 req.body.type !== "" || req.body.location !== "" ? true : false,
               where: {
                 video_consultation: {
-                  [Op.in]:
-                    req.body.type === "video"
-                      ? [1]
-                      : req.body.type === "clinic"
-                      ? [0]
-                      : [0, 1],
+                  [Op.in]: req.body.type === "video" ? [1] : [0, 1],
                 },
               },
             },
@@ -513,12 +656,7 @@ const getSpecialityData = async function (req, arr) {
             req.body.type !== "" || req.body.location !== "" ? true : false,
           where: {
             video_consultation: {
-              [Op.in]:
-                req.body.type === "video"
-                  ? [1]
-                  : req.body.type === "clinic"
-                  ? [0]
-                  : [0, 1],
+              [Op.in]: req.body.type === "video" ? [1] : [0, 1],
             },
           },
         },
@@ -561,14 +699,19 @@ const getSpecialityData = async function (req, arr) {
         },
         {
           model: DoctorClinicTimings,
-          required: req.body.consult === true ? true : false,
+          required: req.body.consult ? true : false,
           as: "clinic_timings",
           where: {
             day: {
               [Op.in]: days,
             },
           },
-          include: [{ model: Clinics, required: true }],
+          include: [
+            {
+              model: Clinics,
+              required: true,
+            },
+          ],
         },
         {
           model: Doctorspecialities,
@@ -594,12 +737,7 @@ const getSpecialityData = async function (req, arr) {
       ],
       limit: req.body.limit,
       offset: req.body.offset,
-      order:
-        req.body.latitude && req.body.longitude
-          ? Sequelize.literal(
-              `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(clinic_timings.wh_clinic.latitude)) * cos(radians(${req.body.longitude}) - radians(clinic_timings.wh_clinic.longitude)) + sin(radians(${req.body.latitude})) * sin(radians(clinic_timings.wh_clinic.latitude))) ASC`
-            )
-          : [["rankings", "DESC"]],
+      order: [["rankings", "DESC"]],
     });
     console.log(doctors.rows, "doctors.rowsdoctors.rowsdoctors.rows");
     return { data: doctors.rows, count: doc_speciality.count };
@@ -617,7 +755,7 @@ module.exports = {
       console.log(req.body, "dgsyhgfshgdh");
       let specialityExist = [];
       let array = [];
-      if (!req.body.consult === true) {
+      if (!req.body.consult) {
         if (req.body.doctorParams !== "") {
           specialityExist = await Specialities.findAll({
             where: {
@@ -637,6 +775,12 @@ module.exports = {
           console.log(array, "arrarrarr", speciality);
         }
         if (specialityExist.length > 0) {
+          if (req.body.latitude && req.body.longitude) {
+            const locationData = await getLocationData(req, array);
+            arr = [...locationData.data];
+
+            count = locationData.count;
+          }
           const specialityData = await getSpecialityData(req, array);
           arr = [...specialityData.data];
 
@@ -918,7 +1062,16 @@ module.exports = {
           data[found] = obj;
         }
       }
-
+      // if (
+      //   data.length === 0 &&
+      //   doctorDetails &&
+      //   doctorDetails.video_consultation === 1
+      // ) {
+      //   let obj = doctorDetails;
+      //   obj.videobookings = videobookings;
+      //   obj.video_timings = video_timings;
+      //   data.push(obj);
+      // }
       // data.push(ownData);
       return res.status(200).json({
         data: data,
