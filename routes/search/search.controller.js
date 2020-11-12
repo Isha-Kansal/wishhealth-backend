@@ -847,9 +847,8 @@ module.exports = {
         order: [["clinic_id", "ASC"]],
       });
 
-      let doc_clinics = JSON.parse(JSON.stringify(doctorClinicData));
+      let clinics = JSON.parse(JSON.stringify(doctorClinicData));
       let own = JSON.parse(JSON.stringify(ownClinicData));
-      let clinics = [...own, ...doc_clinics];
       let data = [];
       let obj = {};
       const videobookings = await Bookings.findAll({
@@ -863,16 +862,16 @@ module.exports = {
           doctor_id: req.params.user_id,
         },
       });
-      // let ownData = [];
-      // own &&
-      //   own.length > 0 &&
-      //   own.map((data) => {
-      //     let object = {
-      //       ...data,
-      //       videobookings,
-      //     };
-      //     ownData.push(object);
-      //   });
+      let ownData = [];
+      own &&
+        own.length > 0 &&
+        own.map((data) => {
+          let object = {
+            ...data,
+            videobookings,
+          };
+          ownData.push(object);
+        });
       for (let i = 0; i < clinics.length; i++) {
         const clinicData = clinics[i];
 
@@ -918,7 +917,7 @@ module.exports = {
           data[found] = obj;
         }
       }
-
+      data.push(ownData);
       return res.status(200).json({
         data: data,
       });
