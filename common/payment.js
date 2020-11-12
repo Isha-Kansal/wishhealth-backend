@@ -8,9 +8,16 @@ const QB = require("quickblox").QuickBlox;
 const BookingPayments = require("../models/wh_booking_payments");
 const CryptoJS = require("crypto-js");
 const Doctordetails = require("../models/wh_doctor_details");
+const { SERVER_ENVIRONMENT } = process.env;
 const instance = new Razorpay({
-  key_id: `rzp_test_5G5VyL9K8BPPNJ`,
-  key_secret: `Ynzgwz8hhTezffS3cG1iiDWk`,
+  key_id:
+    SERVER_ENVIRONMENT === "local"
+      ? `rzp_test_5G5VyL9K8BPPNJ`
+      : `rzp_live_OlRwttnj1mQtYv`,
+  key_secret:
+    SERVER_ENVIRONMENT === "local"
+      ? `Ynzgwz8hhTezffS3cG1iiDWk`
+      : `Nfqr6Abw7MCLpZr47XEd6hSd`,
 });
 
 const otpData = [];
