@@ -918,12 +918,14 @@ module.exports = {
           data[found] = obj;
         }
       }
-      if (data.length === 0) {
+      if (
+        data.length === 0 &&
+        doctorDetails &&
+        doctorDetails.video_consultation === 1
+      ) {
         let obj = doctorDetails;
-        if (doctorDetails && doctorDetails.video_consultation === 1) {
-          obj.videobookings = videobookings;
-          obj.video_timings = video_timings;
-        }
+        obj.videobookings = videobookings;
+        obj.video_timings = video_timings;
         data.push(obj);
       }
       // data.push(ownData);
