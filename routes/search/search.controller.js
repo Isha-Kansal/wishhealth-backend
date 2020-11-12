@@ -869,6 +869,7 @@ module.exports = {
           let object = {
             ...data,
             videobookings,
+            video_timings,
           };
           ownData.push(object);
         });
