@@ -27,55 +27,57 @@ const getLiveDoctorData = async function (req) {
   try {
     const doctorsData = await getDoctorData(req);
     const doctors = doctorsData.data;
-    console.log("getLiveDoctorData-doctors", doctorsData);
-    const finalArr = [];
-    for (let i = 0; i < doctors.length; i++) {
-      let doctor = doctors[i];
-      console.log("doctor: ", doctor);
-      const doctorTimings = await DoctorClinicTimings.findAll({
-        where: {
-          doctor_id: doctor.user_id,
-        },
-      });
-      console.log("getLiveDoctorData-doctorTimings", doctorTimings);
-      const doctorTime = JSON.parse(JSON.stringify(doctorTimings));
 
-      let currentday = moment().day();
-      console.log("getLiveDoctorData-currentday", currentday);
-      let doctorTodayTimings = doctorTime.find((item) => {
-        if (parseInt(item.day) === currentday) {
-          return true;
-        }
-      });
-      console.log("getLiveDoctorData-doctorTodayTimings", doctorTodayTimings);
-      const doctorAvailabilityTiming = [];
-      if (doctorTodayTimings) {
-        Object.keys(doctorTodayTimings).filter((ele) => {
-          if (
-            (ele.includes("AM") || ele.includes("PM")) &&
-            doctorTodayTimings[ele] === "1"
-          ) {
-            doctorAvailabilityTiming.push(ele);
+    const finalArr = [];
+    if (doctors.length > 0) {
+      for (let i = 0; i < doctors.length; i++) {
+        let doctor = doctors[i];
+        console.log("doctor: ", doctor);
+        const doctorTimings = await DoctorClinicTimings.findAll({
+          where: {
+            doctor_id: doctor.user_id,
+          },
+        });
+        console.log("getLiveDoctorData-doctorTimings", doctorTimings);
+        const doctorTime = JSON.parse(JSON.stringify(doctorTimings));
+
+        let currentday = moment().day();
+        console.log("getLiveDoctorData-currentday", currentday);
+        let doctorTodayTimings = doctorTime.find((item) => {
+          if (parseInt(item.day) === currentday) {
+            return true;
           }
         });
+        console.log("getLiveDoctorData-doctorTodayTimings", doctorTodayTimings);
+        const doctorAvailabilityTiming = [];
+        if (doctorTodayTimings) {
+          Object.keys(doctorTodayTimings).filter((ele) => {
+            if (
+              (ele.includes("AM") || ele.includes("PM")) &&
+              doctorTodayTimings[ele] === "1"
+            ) {
+              doctorAvailabilityTiming.push(ele);
+            }
+          });
 
-        const currenttime = moment().add(5, "hours").add(30, "minutes");
-        // const startTime = moment(doctorAvailabilityTiming[0], 'HH:mm A');
-        const startTime = moment(doctorAvailabilityTiming[0], "h:mm a");
-        const endTime = moment(
-          doctorAvailabilityTiming[doctorAvailabilityTiming.length - 1],
-          "h:mm a"
-        );
+          const currenttime = moment().add(5, "hours").add(30, "minutes");
+          // const startTime = moment(doctorAvailabilityTiming[0], 'HH:mm A');
+          const startTime = moment(doctorAvailabilityTiming[0], "h:mm a");
+          const endTime = moment(
+            doctorAvailabilityTiming[doctorAvailabilityTiming.length - 1],
+            "h:mm a"
+          );
 
-        console.log("getLiveDoctorData-currenttime", currenttime);
-        console.log("getLiveDoctorData-startTime", startTime);
-        console.log("getLiveDoctorData-endTime", endTime);
-        if (
-          doctorAvailabilityTiming.length > 0 &&
-          startTime.isBefore(currenttime) &&
-          currenttime.isBefore(endTime)
-        ) {
-          finalArr.push(doctor);
+          console.log("getLiveDoctorData-currenttime", currenttime);
+          console.log("getLiveDoctorData-startTime", startTime);
+          console.log("getLiveDoctorData-endTime", endTime);
+          if (
+            doctorAvailabilityTiming.length > 0 &&
+            startTime.isBefore(currenttime) &&
+            currenttime.isBefore(endTime)
+          ) {
+            finalArr.push(doctor);
+          }
         }
       }
     }
