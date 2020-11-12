@@ -721,9 +721,9 @@ const getLocationSpecialityData = async function (req, arr) {
       if (!aSum || !bSum) {
         if (!aSum) {
           let aResult = a.clinic_timings.sort(function (c, d) {
-            console.log(c, " a.clinic_timings. a.clinic_timings.", d);
             return c.wh_clinic.distance > d.wh_clinic.distance;
           });
+          console.log(aResult, "aResultaResultaResult");
           aSum = aResult.clinic_timings[0].wh_clinic.distance;
         }
         if (!bSum) {
