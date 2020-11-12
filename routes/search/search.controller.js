@@ -354,7 +354,7 @@ const getLocationData = async function (req) {
 
       order: [["rankings", "DESC"]],
     });
-    const doctorData = JSON.parse(JSON.stringify(doctorData));
+    const doctorData = JSON.parse(JSON.stringify(doctors));
     console.log(doctorData, "doctorDatadoctorDatadoctorDatadoctorData");
     return { data: doctors.rows, count: doctors.length };
   } catch (err) {
