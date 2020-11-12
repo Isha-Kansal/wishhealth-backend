@@ -358,9 +358,9 @@ const getLocationData = async function (req) {
     const doctorData = JSON.parse(JSON.stringify(doctors));
 
     let result = [];
+    let final = doctorData[0];
     for (let a = 0; a < doctorData.length; a++) {
       let docA = doctorData[a];
-      let final = docA;
       for (b = a + 1; b < doctorData.length; b++) {
         let docB = doctorData[b];
         let aSum =
@@ -387,7 +387,9 @@ const getLocationData = async function (req) {
           }
         }
         if (aSum > bSum) {
-          final = docB;
+          docA = docB;
+        } else {
+          final = docA;
         }
       }
       result.push(final);
