@@ -862,13 +862,14 @@ module.exports = {
           doctor_id: req.params.user_id,
         },
       });
-      // let ownData = [];
+      let ownData = [];
       // own &&
       //   own.length > 0 &&
       //   own.map((data) => {
       //     let object = {
       //       ...data,
       //       videobookings,
+      //       video_timings,
       //     };
       //     ownData.push(object);
       //   });
@@ -917,7 +918,7 @@ module.exports = {
           data[found] = obj;
         }
       }
-
+      // data.push(ownData);
       return res.status(200).json({
         data: data,
       });
