@@ -380,7 +380,7 @@ const getLocationData = async function (req) {
         }
       }
       console.log(aSum, "aSumaSumaSum", bSum);
-      return aSum > bSum;
+      return aSum < bSum;
     });
     let finalResult = [];
     for (
