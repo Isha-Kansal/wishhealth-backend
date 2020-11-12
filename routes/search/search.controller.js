@@ -724,11 +724,11 @@ const getLocationSpecialityData = async function (req, arr) {
     const doctorsData = JSON.parse(JSON.stringify(doctors));
 
     let result = [];
-    for (let a = 0; a < doctorData.length; a++) {
-      let docA = doctorData[a];
-      let final = docA;
-      for (b = a + 1; b < doctorData.length; b++) {
-        let docB = doctorData[b];
+    let final = doctorsData[0];
+    for (let a = 0; a < doctorsData.length; a++) {
+      let docA = doctorsData[a];
+      for (b = a + 1; b < doctorsData.length; b++) {
+        let docB = doctorsData[b];
         let aSum =
           typeof docA.clinic_timings.wh_clinic === "object"
             ? docA.clinic_timings.wh_clinic.distance
@@ -752,20 +752,28 @@ const getLocationSpecialityData = async function (req, arr) {
             bSum = bResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
           }
         }
+
         if (aSum > bSum) {
+          if (result.includes(docB)) {
+            break;
+          }
           final = docB;
+          docA = docB;
+        } else {
+          final = docA;
         }
       }
-      result.push(final);
+      console.log(final, "finalfinalfinalfinal");
+      if (!result.includes(final)) {
+        result.push(final);
+      }
     }
 
     let finalResult = [];
-    for (
-      let i = req.body.offset;
-      i < req.body.offset + req.body.limit - 1;
-      i++
-    ) {
-      finalResult.push(result[i]);
+    for (let i = req.body.offset; i < req.body.offset + req.body.limit; i++) {
+      if (result[i]) {
+        finalResult.push(result[i]);
+      }
     }
     return { data: finalResult, count: doc_speciality.length };
   } catch (err) {
