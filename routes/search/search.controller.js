@@ -357,10 +357,10 @@ const getLocationData = async function (req) {
     console.log(doctorData, "doctorDatadoctorDatadoctorDatadoctorData");
     let result = [];
     for (let a = 0; a < doctorData.length; a++) {
-      let docA = doctorsData[a];
+      let docA = doctorData[a];
       let final = docA;
       for (b = a + 1; b < doctorData.length; b++) {
-        let docB = doctorsData[b];
+        let docB = doctorData[b];
         let aSum =
           typeof docA.clinic_timings.wh_clinic === "object"
             ? docA.clinic_timings.wh_clinic.distance
