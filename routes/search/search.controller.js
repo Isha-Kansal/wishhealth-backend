@@ -863,16 +863,16 @@ module.exports = {
         },
       });
       let ownData = [];
-      own &&
-        own.length > 0 &&
-        own.map((data) => {
-          let object = {
-            ...data,
-            videobookings,
-            video_timings,
-          };
-          ownData.push(object);
-        });
+      // own &&
+      //   own.length > 0 &&
+      //   own.map((data) => {
+      //     let object = {
+      //       ...data,
+      //       videobookings,
+      //       video_timings,
+      //     };
+      //     ownData.push(object);
+      //   });
       for (let i = 0; i < clinics.length; i++) {
         const clinicData = clinics[i];
 
@@ -918,7 +918,7 @@ module.exports = {
           data[found] = obj;
         }
       }
-      data.push(ownData);
+      // data.push(ownData);
       return res.status(200).json({
         data: data,
       });
