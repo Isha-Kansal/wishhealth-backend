@@ -231,6 +231,137 @@ const recommendationsData = async function (req, arr) {
     return [];
   }
 };
+const getLocationData = async function (req) {
+  try {
+    let featured = req.body.featured
+      ? {
+          [Op.gte]: 1,
+        }
+      : {
+          [Op.ne]: null,
+        };
+
+    let userArr = [
+      {
+        name: {
+          [Op.like]: `%${req.body.doctorParams.trim()}%`,
+        },
+      },
+      { role: "doctor" },
+      { status: "1" },
+      {
+        rankings: featured,
+      },
+    ];
+
+    const doctors = await Users.findAll({
+      where: {
+        [Op.and]: userArr,
+      },
+      distinct: true,
+      include: [
+        {
+          model: Doctordetails,
+          required:
+            req.body.type !== "" || req.body.location !== "" ? true : false,
+          where: {
+            video_consultation: {
+              [Op.in]: req.body.type === "video" ? [1] : [0, 1],
+            },
+          },
+          include: [
+            {
+              model: Cities,
+            },
+            {
+              model: States,
+            },
+          ],
+        },
+        {
+          model: DoctorClinicTimings,
+          required: req.body.consult ? true : false,
+          as: "clinic_timings",
+          include: [
+            {
+              model: Clinics,
+              required: true,
+              attributes: [
+                [
+                  Sequelize.literal(
+                    `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(wh_users.clinic_timings.wh_clinic.latitude)) * cos(radians(${req.body.longitude}) - radians(wh_users.clinic_timings.wh_clinic.longitude)) + sin(radians(${req.body.latitude})) * sin(radians(wh_users.clinic_timings.wh_clinic.latitude)))`
+                  ),
+                  "distance",
+                ],
+              ],
+            },
+          ],
+        },
+        {
+          model: Feedback,
+          as: "feedback",
+          required: false,
+        },
+        {
+          model: Doctorlanguages,
+          required: false,
+          include: [
+            {
+              model: Languages,
+              required: false,
+              attributes: ["name"],
+              where: {
+                name: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
+        {
+          model: Doctorqualifications,
+          required: false,
+          include: [
+            {
+              model: Qualifications,
+              required: false,
+              attributes: ["degree"],
+              where: {
+                degree: {
+                  [Op.ne]: null,
+                },
+              },
+            },
+          ],
+        },
+        {
+          model: Doctorspecialities,
+          required: false,
+          include: [
+            {
+              model: Specialities,
+              required: false,
+              attributes: ["title"],
+              where: {
+                title: {
+                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                },
+              },
+            },
+          ],
+        },
+      ],
+
+      order: [["rankings", "DESC"]],
+    });
+    const doctorData = JSON.parse(JSON.stringify(doctorData));
+    console.log(doctorData, "doctorDatadoctorDatadoctorDatadoctorData");
+    return { data: doctors.rows, count: doctors.length };
+  } catch (err) {
+    console.log(err, "err");
+    return [];
+  }
+};
 const getDoctorData = async function (req) {
   try {
     let featured = req.body.featured
@@ -415,10 +546,9 @@ const getDoctorData = async function (req) {
     return [];
   }
 };
-const getLocationData = async function (req, arr) {
+const getLocationSpecialityData = async function (req, arr) {
   try {
     let userArr = [{ role: "doctor" }, { status: "1" }];
-    let days = ["1", "2", "3", "4", "5", "6", "7"];
 
     const doc_speciality = await Doctorspecialities.findAll({
       where: {
@@ -504,11 +634,6 @@ const getLocationData = async function (req, arr) {
           model: DoctorClinicTimings,
           required: req.body.consult ? true : false,
           as: "clinic_timings",
-          where: {
-            day: {
-              [Op.in]: days,
-            },
-          },
           include: [
             {
               model: Clinics,
@@ -776,20 +901,28 @@ module.exports = {
         }
         if (specialityExist.length > 0) {
           if (req.body.latitude && req.body.longitude) {
+            const locationData = await getLocationSpecialityData(req, array);
+            arr = [...locationData.data];
+
+            count = locationData.count;
+          } else {
+            const specialityData = await getSpecialityData(req, array);
+            arr = [...specialityData.data];
+
+            count = specialityData.count;
+          }
+        }
+        if (specialityExist.length === 0 || arr.length === 0) {
+          if (req.body.latitude && req.body.longitude) {
             const locationData = await getLocationData(req, array);
             arr = [...locationData.data];
 
             count = locationData.count;
+          } else {
+            const doctorData = await getDoctorData(req);
+            arr = [...doctorData.data];
+            count = doctorData.count;
           }
-          const specialityData = await getSpecialityData(req, array);
-          arr = [...specialityData.data];
-
-          count = specialityData.count;
-        }
-        if (specialityExist.length === 0 || arr.length === 0) {
-          const doctorData = await getDoctorData(req);
-          arr = [...doctorData.data];
-          count = doctorData.count;
         }
         console.log(arr, "arrarrarrarrarrarr", arr.length);
         if (arr.length === 0) {
