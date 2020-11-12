@@ -351,12 +351,25 @@ const getLocationData = async function (req) {
           ],
         },
       ],
-
       order: [["rankings", "DESC"]],
     });
     const doctorData = JSON.parse(JSON.stringify(doctors));
     console.log(doctorData, "doctorDatadoctorDatadoctorDatadoctorData");
-    return { data: doctorData, count: doctors.length };
+    result = doctorData.sort(function (a, b) {
+      return (
+        a.clinic_timings.wh_clinic.distance <
+        b.clinic_timings.wh_clinic.distance
+      );
+    });
+    let finalResult = [];
+    for (
+      let i = req.body.offset;
+      i < req.body.offset + req.body.limit - 1;
+      i++
+    ) {
+      finalResult.push(result[i]);
+    }
+    return { data: finalResult, count: doctors.length };
   } catch (err) {
     console.log(err, "err");
     return [];
@@ -641,7 +654,7 @@ const getLocationSpecialityData = async function (req, arr) {
               attributes: [
                 [
                   Sequelize.literal(
-                    `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(wh_users.clinic_timings.wh_clinic.latitude)) * cos(radians(${req.body.longitude}) - radians(wh_users.clinic_timings.wh_clinic.longitude)) + sin(radians(${req.body.latitude})) * sin(radians(wh_users.clinic_timings.wh_clinic.latitude)))`
+                    `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(latitude)) * cos(radians(${req.body.longitude}) - radians(longitude)) + sin(radians(${req.body.latitude})) * sin(radians(latitude)))`
                   ),
                   "distance",
                 ],
