@@ -370,13 +370,13 @@ const getLocationData = async function (req) {
             return c.wh_clinic.distance > d.wh_clinic.distance;
           });
           console.log(aResult, "aResultaResultaResult");
-          aSum = aResult[0].wh_clinic.distance;
+          aSum = aResult.length > 0 ? aResult[0].wh_clinic.distance : 0;
         }
         if (!bSum) {
           let bResult = b.clinic_timings.sort(function (c, d) {
             return c.wh_clinic.distance > d.wh_clinic.distance;
           });
-          bSum = bResult[0].wh_clinic.distance;
+          bSum = aResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
         }
       }
       return aSum > bSum;
@@ -724,13 +724,13 @@ const getLocationSpecialityData = async function (req, arr) {
             return c.wh_clinic.distance > d.wh_clinic.distance;
           });
           console.log(aResult, "aResultaResultaResult");
-          aSum = aResult[0].wh_clinic.distance;
+          aSum = aResult.length > 0 ? aResult[0].wh_clinic.distance : 0;
         }
         if (!bSum) {
           let bResult = b.clinic_timings.sort(function (c, d) {
             return c.wh_clinic.distance > d.wh_clinic.distance;
           });
-          bSum = bResult[0].wh_clinic.distance;
+          bSum = aResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
         }
       }
       return aSum > bSum;
