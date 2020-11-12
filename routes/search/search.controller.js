@@ -520,12 +520,6 @@ const getDoctorData = async function (req) {
               [Op.in]: days,
             },
           },
-          include: [
-            {
-              model: Clinics,
-              required: true,
-            },
-          ],
         },
         {
           model: Feedback,
@@ -920,12 +914,6 @@ const getSpecialityData = async function (req, arr) {
               [Op.in]: days,
             },
           },
-          include: [
-            {
-              model: Clinics,
-              required: true,
-            },
-          ],
         },
         {
           model: Doctorspecialities,
