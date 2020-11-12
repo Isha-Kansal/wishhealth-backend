@@ -386,20 +386,20 @@ const getLocationData = async function (req) {
             bSum = bResult.length > 0 ? bResult[0].wh_clinic.distance : 0;
           }
         }
+
         if (aSum > bSum) {
+          final = docB;
           docA = docB;
+        } else {
+          final = docA;
         }
       }
 
-      result.push(docA);
+      result.push(final);
     }
 
     let finalResult = [];
-    for (
-      let i = req.body.offset;
-      i < req.body.offset + req.body.limit - 1;
-      i++
-    ) {
+    for (let i = req.body.offset; i < req.body.offset + req.body.limit; i++) {
       finalResult.push(result[i]);
     }
     return { data: finalResult, count: doctors.length };
