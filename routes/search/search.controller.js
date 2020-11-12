@@ -354,7 +354,7 @@ const getLocationData = async function (req) {
       order: [["rankings", "DESC"]],
     });
     const doctorData = JSON.parse(JSON.stringify(doctors));
-    console.log(doctorData, "doctorDatadoctorDatadoctorDatadoctorData");
+
     let result = [];
     for (let a = 0; a < doctorData.length; a++) {
       let docA = doctorData[a];
@@ -374,7 +374,7 @@ const getLocationData = async function (req) {
             let aResult = docA.clinic_timings.sort(function (c, d) {
               return c.wh_clinic.distance > d.wh_clinic.distance;
             });
-            console.log(aResult, "aResultaResultaResult");
+
             aSum = aResult.length > 0 ? aResult[0].wh_clinic.distance : 0;
           }
           if (!bSum) {
@@ -718,7 +718,7 @@ const getLocationSpecialityData = async function (req, arr) {
     });
 
     const doctorsData = JSON.parse(JSON.stringify(doctors));
-    console.log(doctorsData, "doctorsDatadoctorsDatadoctorsData");
+
     let result = [];
     for (let a = 0; a < doctorData.length; a++) {
       let docA = doctorData[a];
@@ -738,7 +738,7 @@ const getLocationSpecialityData = async function (req, arr) {
             let aResult = docA.clinic_timings.sort(function (c, d) {
               return c.wh_clinic.distance > d.wh_clinic.distance;
             });
-            console.log(aResult, "aResultaResultaResult");
+
             aSum = aResult.length > 0 ? aResult[0].wh_clinic.distance : 0;
           }
           if (!bSum) {
