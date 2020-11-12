@@ -362,11 +362,11 @@ const getLocationData = async function (req) {
         b.clinic_timings
       );
       let aSum =
-        typeof a.clinic_timings.wh_clinic.distance === "object"
+        typeof a.clinic_timings.wh_clinic === "object"
           ? a.clinic_timings.wh_clinic.distance
           : null;
       let bSum =
-        typeof b.clinic_timings.wh_clinic.distance === "object"
+        typeof b.clinic_timings.wh_clinic === "object"
           ? b.clinic_timings.wh_clinic.distance
           : null;
       if (!aSum || !bSum) {
@@ -720,11 +720,11 @@ const getLocationSpecialityData = async function (req, arr) {
         b.clinic_timings
       );
       let aSum =
-        typeof a.clinic_timings.wh_clinic.distance === "object"
+        typeof a.clinic_timings.wh_clinic === "object"
           ? a.clinic_timings.wh_clinic.distance
           : null;
       let bSum =
-        typeof b.clinic_timings.wh_clinic.distance === "object"
+        typeof b.clinic_timings.wh_clinic === "object"
           ? b.clinic_timings.wh_clinic.distance
           : null;
       if (!aSum || !bSum) {
