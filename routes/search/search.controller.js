@@ -405,7 +405,9 @@ const getLocationData = async function (req) {
 
     let finalResult = [];
     for (let i = req.body.offset; i < req.body.offset + req.body.limit; i++) {
-      finalResult.push(result[i]);
+      if (result[i]) {
+        finalResult.push(result[i]);
+      }
     }
     return { data: finalResult, count: result.length };
   } catch (err) {
