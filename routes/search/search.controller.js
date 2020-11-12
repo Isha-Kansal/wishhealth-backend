@@ -397,7 +397,7 @@ const getLocationData = async function (req) {
           final = docA;
         }
       }
-      if (!result.includes(final)) {
+      if (!result.includes(final) && final) {
         result.push(final);
       }
     }
