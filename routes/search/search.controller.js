@@ -847,8 +847,9 @@ module.exports = {
         order: [["clinic_id", "ASC"]],
       });
 
-      let clinics = JSON.parse(JSON.stringify(doctorClinicData));
+      let doc_clinics = JSON.parse(JSON.stringify(doctorClinicData));
       let own = JSON.parse(JSON.stringify(ownClinicData));
+      let clinics = [...own, ...doc_clinics];
       let data = [];
       let obj = {};
       const videobookings = await Bookings.findAll({
