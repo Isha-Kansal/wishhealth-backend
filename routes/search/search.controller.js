@@ -405,7 +405,7 @@ const getDoctorData = async function (req) {
       order:
         req.body.latitude && req.body.longitude
           ? Sequelize.literal(
-              `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(clinic_timings.wh_clinic.latitude)) * cos(radians(${req.body.longitude}) - radians(clinic_timings.wh_clinic.longitude)) + sin(radians(${req.body.latitude})) * sin(radians(clinic_timings.wh_clinic.latitude))) ASC`
+              `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(wh_users.clinic_timings.wh_clinic.latitude)) * cos(radians(${req.body.longitude}) - radians(wh_users.clinic_timings.wh_clinic.longitude)) + sin(radians(${req.body.latitude})) * sin(radians(wh_users.clinic_timings.wh_clinic.latitude))) ASC`
             )
           : [["rankings", "DESC"]],
     });
