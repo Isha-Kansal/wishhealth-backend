@@ -356,6 +356,11 @@ const getLocationData = async function (req) {
     const doctorData = JSON.parse(JSON.stringify(doctors));
     console.log(doctorData, "doctorDatadoctorDatadoctorDatadoctorData");
     let result = doctorData.sort(function (a, b) {
+      console.log(
+        a.clinic_timings,
+        " a.clinic_timings. a.clinic_timings.",
+        b.clinic_timings
+      );
       return (
         a.clinic_timings.wh_clinic.distance >
         b.clinic_timings.wh_clinic.distance
