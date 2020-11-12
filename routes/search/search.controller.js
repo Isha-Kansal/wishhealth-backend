@@ -283,11 +283,11 @@ const getDoctorData = async function (req) {
         });
     }
     let orderby = [["rankings", "DESC"]];
-    // if (req.body.latitude && req.body.longitude) {
-    //   orderby = Sequelize.literal(
-    //     `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(latitude)) * cos(radians(${req.body.longitude}) - radians(longitude)) + sin(radians(${req.body.latitude})) * sin(radians(latitude))) ASC`
-    //   );
-    // }
+    if (req.body.latitude && req.body.longitude) {
+      orderby = Sequelize.literal(
+        `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(wh_clinic.latitude)) * cos(radians(${req.body.longitude}) - radians(wh_clinic.longitude)) + sin(radians(${req.body.latitude})) * sin(radians(wh_clinic.latitude))) ASC`
+      );
+    }
     let userArr = [
       {
         name: {
@@ -349,6 +349,7 @@ const getDoctorData = async function (req) {
               [Op.in]: days,
             },
           },
+          include: [{ model: Clinics, required: true }],
         },
         {
           model: Feedback,
@@ -458,11 +459,11 @@ const getSpecialityData = async function (req, arr) {
         });
     }
     let orderby = [["rankings", "DESC"]];
-    // if (req.body.latitude && req.body.longitude) {
-    //   orderby = Sequelize.literal(
-    //     `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(latitude)) * cos(radians(${req.body.longitude}) - radians(longitude)) + sin(radians(${req.body.latitude})) * sin(radians(latitude))) ASC`
-    //   );
-    // }
+    if (req.body.latitude && req.body.longitude) {
+      orderby = Sequelize.literal(
+        `6371 * acos(cos(radians(${req.body.latitude})) * cos(radians(wh_clinic.latitude)) * cos(radians(${req.body.longitude}) - radians(wh_clinic.longitude)) + sin(radians(${req.body.latitude})) * sin(radians(wh_clinic.latitude))) ASC`
+      );
+    }
     let userArr = [{ role: "doctor" }, { status: "1" }];
     if (req.body.location !== "") {
       userArr.push({
@@ -562,6 +563,17 @@ const getSpecialityData = async function (req, arr) {
               },
             },
           ],
+        },
+        {
+          model: DoctorClinicTimings,
+          required: req.body.consult === true ? true : false,
+          as: "clinic_timings",
+          where: {
+            day: {
+              [Op.in]: days,
+            },
+          },
+          include: [{ model: Clinics, required: true }],
         },
         {
           model: Doctorspecialities,
