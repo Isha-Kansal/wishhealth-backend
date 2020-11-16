@@ -279,7 +279,6 @@ module.exports = {
   },
   RegistrationDetails: async function (req, res) {
     try {
-      console.log("RegistrationDetails-req.body", req.body);
       if (req.body.practice_start_year) {
         await Doctordetails.update(
           {
@@ -363,6 +362,7 @@ module.exports = {
 
               return res.status(200).json({
                 message: "Created Successfully",
+                data: response,
               });
             })
             .catch((err) => {
