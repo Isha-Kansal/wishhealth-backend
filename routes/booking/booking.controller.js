@@ -53,7 +53,7 @@ module.exports = {
   },
   getPrescription: async function (req, res) {
     try {
-      const prescription = await Prescription.findOne({
+      const prescription = await Prescription.findAll({
         where: { booking_id: req.params.booking_id },
       });
       return res.status(200).json({
