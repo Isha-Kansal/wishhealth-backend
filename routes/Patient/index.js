@@ -6,4 +6,8 @@ router.post("/getPatientExistence", controller.getPatientExistence);
 router.post("/patientSave", controller.patientSave);
 router.post("/update", controller.updateProfile);
 router.get("/getPatientBookings/:patient_id", controller.getPatientBookings);
+router.get(
+  "/getLastBookedDoctors/:patient_id",
+  controller.getLastBookedDoctors
+);
 module.exports = router;

@@ -356,7 +356,7 @@ module.exports = {
             prescription_date: new Date(),
           };
           console.log(req.body, "req.bodyreq.bodyreq.bodyreq.body");
-          Prescription.create(values)
+          return Prescription.create(values)
             .then(async (resp) => {
               const response = JSON.parse(JSON.stringify(resp));
 

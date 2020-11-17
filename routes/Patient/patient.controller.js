@@ -99,6 +99,30 @@ module.exports = {
       });
     }
   },
+  getLastBookedDoctors: async function (req, res) {
+    try {
+      await PatientDetails.update(
+        {
+          name: req.body.name,
+          phone: req.body.phone,
+        },
+        {
+          where: {
+            id: req.body.id,
+          },
+        }
+      );
+
+      return res.status(200).json({
+        message: "Update Successfully",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   updateProfile: async function (req, res) {
     try {
       await PatientDetails.update(
