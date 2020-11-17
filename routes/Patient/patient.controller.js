@@ -200,19 +200,33 @@ module.exports = {
   patientSave: async function (req, res) {
     try {
       console.log(req.body, "reqreqreqreq");
+      let patientData;
       if (req.body.name) {
         await PatientUsers.create({
           name: req.body.name,
           phone: req.body.phone,
         });
-        await PatientDetails.create({
+        patientData = await PatientDetails.create({
           name: req.body.name,
           phone: req.body.phone,
         });
+      } else {
+        patientData = await PatientDetails.findOne({
+          where: {
+            phone: req.body.phone,
+          },
+        });
       }
+      let patient = JSON.parse(JSON.stringify(patientData));
+      const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
+      const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=otp2&var1=${otp}`;
+      const session = commonController.sendOtp(url, {
+        otp: otp.toString(),
+        user_id: patient.id,
+      });
+
       return res.status(200).json({
         data: patient,
-        message: patient ? "already registered" : "not registered",
       });
     } catch (err) {
       console.log(err, "err");
