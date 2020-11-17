@@ -246,7 +246,6 @@ module.exports = {
   },
   createDoctorDetails: async function (req, res) {
     try {
-      console.log("createDoctorDetails-req.body", req.body);
       const profile_pic = req.body.image
         ? await s3BucketUploader(req.body.image.uri)
         : "";
@@ -346,29 +345,33 @@ module.exports = {
   },
   createPrescription: async function (req, res) {
     try {
-      req.body.prescriptions &&
-        req.body.prescriptions.length > 0 &&
-        req.body.prescriptions.map(async (data) => {
-          const prescription = await s3BucketUploader(data.uri);
-          let values = {
-            booking_id: req.body.booking_id,
-            prescription,
-            prescription_date: new Date(),
-          };
-          console.log(req.body, "req.bodyreq.bodyreq.bodyreq.body");
-          return Prescription.create(values)
-            .then(async (resp) => {
-              const response = JSON.parse(JSON.stringify(resp));
+      // req.body.prescriptions &&
+      //   req.body.prescriptions.length > 0 &&
+      //   req.body.prescriptions.map(async (data) => {
+      for (let i = 0; i < req.body.prescriptions.length; i++) {
+        let data = req.body.prescriptions[i];
+        const prescription = await s3BucketUploader(data.uri);
+        let values = {
+          booking_id: req.body.booking_id,
+          prescription,
+          prescription_date: new Date(),
+        };
+        console.log(req.body, "req.bodyreq.bodyreq.bodyreq.body");
+        return Prescription.create(values)
+          .then(async (resp) => {
+            const response = JSON.parse(JSON.stringify(resp));
 
-              return res.status(200).json({
-                message: "Created Successfully",
-                data: response,
-              });
-            })
-            .catch((err) => {
-              console.log("createPrescription-err", err);
+            return res.status(200).json({
+              message: "Created Successfully",
+              data: response,
             });
-        });
+          })
+          .catch((err) => {
+            console.log("createPrescription-err", err);
+          });
+      }
+
+      // });
     } catch (err) {
       console.log(err, "err");
       return res.status(500).json({
