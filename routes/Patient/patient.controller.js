@@ -105,6 +105,7 @@ module.exports = {
         where: {
           patient_id: req.params.patient_id,
         },
+        distinct: true,
         attributes: ["id", "doctor_id"],
         include: [
           {
