@@ -114,6 +114,10 @@ module.exports = {
             distinct: true,
             include: [{ model: Doctordetails, required: true }],
           },
+          {
+            model: Clinics,
+            required: false,
+          },
         ],
       });
       let finalArr = [];
