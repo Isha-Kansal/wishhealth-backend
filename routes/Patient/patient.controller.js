@@ -110,6 +110,7 @@ module.exports = {
           {
             model: Users,
             required: true,
+            distinct: true,
             include: [{ model: Doctordetails, required: true }],
           },
         ],
