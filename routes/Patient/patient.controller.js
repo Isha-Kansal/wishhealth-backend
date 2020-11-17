@@ -101,20 +101,22 @@ module.exports = {
   },
   getLastBookedDoctors: async function (req, res) {
     try {
-      await PatientDetails.update(
-        {
-          name: req.body.name,
-          phone: req.body.phone,
+      const doctors = await Bookings.findAll({
+        where: {
+          patient_id: req.params.patient_id,
         },
-        {
-          where: {
-            id: req.body.id,
+        attributes: ["id", "doctor_id"],
+        include: [
+          {
+            model: Users,
+            required: true,
+            include: [{ model: Doctordetails, required: true }],
           },
-        }
-      );
+        ],
+      });
 
       return res.status(200).json({
-        message: "Update Successfully",
+        data: doctors,
       });
     } catch (err) {
       console.log(err, "err");
