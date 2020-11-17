@@ -116,9 +116,18 @@ module.exports = {
           },
         ],
       });
-
+      let finalArr = [];
+      for (let i = 0; i < doctors.length; i++) {
+        let doctor = doctors[i];
+        let index = finalArr.findIndex(function (final) {
+          return final.doctor_id === doctor.doctor_id;
+        });
+        if (index === -1) {
+          finalArr.push(doctor);
+        }
+      }
       return res.status(200).json({
-        data: doctors,
+        data: finalArr,
       });
     } catch (err) {
       console.log(err, "err");
