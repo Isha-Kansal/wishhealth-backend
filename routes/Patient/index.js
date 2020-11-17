@@ -5,6 +5,7 @@ const router = express.Router();
 router.post("/getPatientExistence", controller.getPatientExistence);
 router.post("/patientSave", controller.patientSave);
 router.post("/update", controller.updateProfile);
+router.post("/verifyOtp", controller.verifyOtp);
 router.get("/getPatientBookings/:patient_id", controller.getPatientBookings);
 router.get(
   "/getLastBookedDoctors/:patient_id",

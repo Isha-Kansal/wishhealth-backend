@@ -9,6 +9,7 @@ const Doctorspecialities = require("../../models/wh_doctor_specialities");
 const Specialities = require("../../models/wh_specialities");
 const PatientUsers = require("../../models/wh_patient_users");
 const Clinics = require("../../models/wh_clinic");
+const commonController = require("../../common/payment");
 const { Op } = Sequelize;
 module.exports = {
   getPatientExistence: async function (req, res) {
@@ -153,12 +154,44 @@ module.exports = {
           },
         }
       );
-
+      const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
+      const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=otp2&var1=${otp}`;
+      const session = commonController.sendOtp(url, {
+        otp: otp.toString(),
+        user_id: req.body.id,
+      });
       return res.status(200).json({
         message: "Update Successfully",
       });
     } catch (err) {
       console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
+  verifyOtp: async function (req, res) {
+    try {
+      let message = "otp invalid";
+      const user = await PatientDetails.findOne({
+        where: {
+          id: req.body.id,
+        },
+      });
+      console.log("verifyOtp-user", user);
+      const verify = await commonController.verify({
+        otp: req.body.otp,
+        user_id: req.body.id,
+      });
+      console.log("verifyOtp-verify", verify);
+      if (verify) {
+        message = "otp valid";
+      }
+      return res.status(200).json({
+        message: message,
+      });
+    } catch (err) {
+      console.log("verifyOtp-err", err);
       return res.status(500).json({
         message: "Something Went Wrong",
       });
