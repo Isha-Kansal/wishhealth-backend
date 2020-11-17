@@ -229,6 +229,7 @@ module.exports = {
         const quickblox = commonController.createQuickBlox({
           username: req.body.email,
           user_id: response.user_id,
+          type: "doctor",
         });
         return res.status(200).json({
           data: {

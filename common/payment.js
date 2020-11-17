@@ -8,6 +8,7 @@ const QB = require("quickblox").QuickBlox;
 const BookingPayments = require("../models/wh_booking_payments");
 const CryptoJS = require("crypto-js");
 const Doctordetails = require("../models/wh_doctor_details");
+const PatientDetails = require("../models/wh_patient_details");
 const { SERVER_ENVIRONMENT } = process.env;
 const instance = new Razorpay({
   key_id:
@@ -91,20 +92,44 @@ const createQuickBlox = async function (obj) {
             );
             let data = JSON.parse(body);
             console.log("createQuickBlox-data", data);
-            await Doctordetails.update(
-              { quickblox_id: data.user.id, quickblox_login: data.user.login },
-              {
-                where: {
-                  user_id: obj.user_id,
+            if (type === "doctor") {
+              await Doctordetails.update(
+                {
+                  quickblox_id: data.user.id,
+                  quickblox_login: data.user.login,
                 },
-              }
-            )
-              .then((result) => {
-                console.log("createQuickBlox-result", result);
-              })
-              .catch((err) => {
-                console.log("createQuickBlox-api-err", err);
-              });
+                {
+                  where: {
+                    user_id: obj.user_id,
+                  },
+                }
+              )
+                .then((result) => {
+                  console.log("createQuickBlox-result", result);
+                })
+                .catch((err) => {
+                  console.log("createQuickBlox-api-err", err);
+                });
+            } else {
+              await PatientDetails.update(
+                {
+                  quickblox_id: data.user.id,
+                  quickblox_login: data.user.login,
+                },
+                {
+                  where: {
+                    user_id: obj.user_id,
+                  },
+                }
+              )
+                .then((result) => {
+                  console.log("createQuickBlox-result", result);
+                })
+                .catch((err) => {
+                  console.log("createQuickBlox-api-err", err);
+                });
+            }
+
             return { message: "Success" };
           }
         );

@@ -224,7 +224,11 @@ module.exports = {
         otp: otp.toString(),
         user_id: patient.id,
       });
-
+      const quickblox = commonController.createQuickBlox({
+        username: req.body.name,
+        user_id: patient.id,
+        type: "patient",
+      });
       return res.status(200).json({
         data: patient,
       });
