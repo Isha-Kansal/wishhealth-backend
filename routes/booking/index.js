@@ -3,6 +3,8 @@ const express = require("express");
 const controller = require("./booking.controller");
 const router = express.Router();
 router.post("/delete", controller.deleteBooking);
+router.post("/deletePrescription", controller.deletePrescription);
 router.post("/update", controller.updateBooking);
 router.get("/:id", controller.getBookingDetails);
+router.get("/getPrescription/:booking_id", controller.getPrescription);
 module.exports = router;

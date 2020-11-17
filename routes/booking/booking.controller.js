@@ -8,6 +8,7 @@ const Doctorqualifications = require("../../models/wh_doctor_qualifications");
 const Qualifications = require("../../models/wh_qualifications");
 const Doctorspecialities = require("../../models/wh_doctor_specialities");
 const Specialities = require("../../models/wh_specialities");
+const Prescription = require("../../models/wh_booking_prescriptions");
 const { Op } = Sequelize;
 module.exports = {
   deleteBooking: async function (req, res) {
@@ -29,6 +30,34 @@ module.exports = {
       await Bookings.destroy({ where: { id: req.body.booking_id } });
       return res.status(200).json({
         message: "Deleted Successfully",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
+  deletePrescription: async function (req, res) {
+    try {
+      await Prescription.destroy({ where: { id: req.body.id } });
+      return res.status(200).json({
+        message: "Deleted Successfully",
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
+  getPrescription: async function (req, res) {
+    try {
+      const prescription = await Prescription.findOne({
+        where: { booking_id: req.params.booking_id },
+      });
+      return res.status(200).json({
+        data: prescription,
       });
     } catch (err) {
       console.log(err, "err");
