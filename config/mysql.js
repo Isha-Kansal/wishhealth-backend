@@ -97,12 +97,12 @@ let auto = new SequelizeAuto(config.database, config.user, config.password, {
 	additional: {
 		timestamps: false,
 	},
-	tables: ['wh_patient_users'],
+	tables: [],
 });
 auto.run(function (err) {
 	if (err) throw err;
-	console.log('database-table.schema', auto.tables); // table list
-	console.log('database-table.schema.foreignKeys', auto.foreignKeys); // foreign key list
+	console.log('database-tables', auto.tables); // table list
+	console.log('database-tables.foreignKeys', auto.foreignKeys); // foreign key list
 });
 
 module.exports = sequelize;
