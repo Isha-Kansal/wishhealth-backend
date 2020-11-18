@@ -9,4 +9,6 @@ router.post("/EducationDetails", controller.EducationDetails);
 router.post("/ClinicBasic", controller.ClinicBasic);
 router.post("/bookAppointment", controller.bookAppointment);
 router.post("/prescription", controller.createPrescription);
+
+router.post("/sendOtp", controller.sendOtp);
 module.exports = router;

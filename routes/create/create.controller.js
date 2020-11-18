@@ -218,14 +218,14 @@ module.exports = {
             // print the error details
             console.log("Doctordetails-err", err);
           });
-        const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
+        // const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
 
-        const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${obj.contact_no}&from=WishPL&templatename=docsignup&var1=${obj.name}&var2=${otp}`;
-        const session = commonController.sendOtp(url, {
-          otp: otp.toString(),
-          user_id: response.user_id,
-        });
-        console.log(session, "sessionsession");
+        // const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${obj.contact_no}&from=WishPL&templatename=docsignup&var1=${obj.name}&var2=${otp}`;
+        // const session = commonController.sendOtp(url, {
+        //   otp: otp.toString(),
+        //   user_id: response.user_id,
+        // });
+        // console.log(session, "sessionsession");
         const quickblox = commonController.createQuickBlox({
           username: req.body.email,
           user_id: response.user_id,
@@ -240,6 +240,25 @@ module.exports = {
       });
     } catch (err) {
       console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
+
+  sendOtp: async function (req, res) {
+    try {
+      const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
+      const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=otp2&var1=${otp}`;
+      const session = commonController.sendOtp(url, {
+        otp: otp.toString(),
+        user_id: req.body.phone,
+      });
+      return res.status(200).json({
+        message: "Otp Sent Successfully",
+      });
+    } catch (err) {
+      console.log("verifyOtp-err", err);
       return res.status(500).json({
         message: "Something Went Wrong",
       });
