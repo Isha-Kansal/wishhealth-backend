@@ -58,7 +58,7 @@ module.exports = {
 				{ where: { id: req.body.booking_id } }
 			);
 			return res.status(200).json({
-				message: 'Deleted Successfully',
+				message: 'Update Successfully',
 			});
 		} catch (err) {
 			console.log(err, 'err');
