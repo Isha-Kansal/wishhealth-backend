@@ -232,6 +232,7 @@ module.exports = {
 
       return res.status(200).json({
         data: patient,
+        message: "Otp Sent Successfully",
       });
     } catch (err) {
       console.log(err, "err");
