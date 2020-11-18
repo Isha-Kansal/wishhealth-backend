@@ -212,6 +212,14 @@ module.exports = {
           name: req.body.name,
           phone: req.body.phone,
           email: "",
+          occupation: "",
+          address: "",
+          email2: "",
+          phone: "",
+          age: "",
+          age_conf: "",
+          quickblox_login: "",
+          quickblox_id: 0,
         });
         const quickblox = commonController.createQuickBlox({
           username: req.body.name,
