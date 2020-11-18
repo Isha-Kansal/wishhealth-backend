@@ -215,6 +215,7 @@ module.exports = {
           age_conf: "",
           quickblox_login: "",
           quickblox_id: 0,
+          phone2: "",
         });
         const quickblox = commonController.createQuickBlox({
           username: req.body.name,
