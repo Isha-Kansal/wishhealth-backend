@@ -202,12 +202,12 @@ module.exports = {
       console.log(req.body, "reqreqreqreq");
       let patientData;
       if (req.body.name) {
-        await PatientUsers.create({
-          name: req.body.name,
-          phone: req.body.phone,
-          email: "",
-          password: "",
-        });
+        // await PatientUsers.create({
+        //   name: req.body.name,
+        //   phone: req.body.phone,
+        //   email: "",
+        //   password: "",
+        // });
         patientData = await PatientDetails.create({
           name: req.body.name,
           phone: req.body.phone,
