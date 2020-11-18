@@ -72,7 +72,7 @@ const createQuickBlox = async function (obj) {
             form: {
               user: {
                 login: obj.username,
-                password: "password",
+                password: "quickblox",
               },
             },
           },
