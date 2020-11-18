@@ -205,10 +205,12 @@ module.exports = {
         await PatientUsers.create({
           name: req.body.name,
           phone: req.body.phone,
+          email: "",
         });
         patientData = await PatientDetails.create({
           name: req.body.name,
           phone: req.body.phone,
+          email: "",
         });
         const quickblox = commonController.createQuickBlox({
           username: req.body.name,
