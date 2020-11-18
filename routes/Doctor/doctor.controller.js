@@ -136,7 +136,7 @@ module.exports = {
       const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=docsignup&var1=${req.body.name}&var2=${otp}`;
       const session = commonController.sendOtp(url, {
         otp: otp.toString(),
-        user_id: req.body.user_id,
+        user_id: req.body.phone,
       });
       console.log(session, "sessionsessionsession");
       return res.status(200).json({
