@@ -96,8 +96,9 @@ module.exports = {
 		try {
 			const { phone } = req.body;
 			console.log('sendAppLink-req.body', req.body);
-			// const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${phone}&from=WishPL&templatename=SendAppLink`;
-			// await sendOtp(url);
+			const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${phone}&from=WishPL&templatename=SendAppLink`;
+			// const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${phone}&from=WishPL&templatename=docsignup&var1=${'Raman'}&var2=${'56757'}`;
+			await sendOtp(url);
 			return res
 				.status(200)
 				.json({ status: 'success', message: 'App link send successfully' });
