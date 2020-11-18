@@ -206,6 +206,7 @@ module.exports = {
           name: req.body.name,
           phone: req.body.phone,
           email: "",
+          password: "",
         });
         patientData = await PatientDetails.create({
           name: req.body.name,
