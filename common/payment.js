@@ -92,7 +92,7 @@ const createQuickBlox = async function (obj) {
             );
             let data = JSON.parse(body);
             console.log("createQuickBlox-data", data);
-            if (type === "doctor") {
+            if (obj.type === "doctor") {
               await Doctordetails.update(
                 {
                   quickblox_id: data.user.id,
