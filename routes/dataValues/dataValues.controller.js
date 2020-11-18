@@ -12,6 +12,8 @@ const Testimonials = require('../../models/wh_testimonials');
 const Council = require('../../models/wh_medical_council');
 const MedicalShots = require('../../models/wh_medical_shots');
 const Blogs = require('../../models/wp_posts');
+const Clinics = require('../../models/wh_clinic');
+const Doctordetails = require('../../models/wh_doctor_details');
 
 module.exports = {
 	getDegrees: async function (req, res) {
@@ -193,6 +195,28 @@ module.exports = {
 			return res.status(200).json(blogs);
 		} catch (err) {
 			console.log('featuredBlogs-err', err);
+			return res.status(500).json({
+				message: 'Something Went Wrong',
+			});
+		}
+	},
+	cities: async function (req, res) {
+		try {
+			const cities = await Cities.findAll({
+				// include: [{ model: Doctordetails }],
+				// attributes: [
+				// 	[Sequelize.fn('count', Sequelize.col(Doctordetails.id)), 'doc_count'],
+				// ],
+			});
+			return res.status(200).json({
+				data: {
+					cities,
+					message: 'List of cities based on doctor clinic count',
+					status: 'success',
+				},
+			});
+		} catch (err) {
+			console.log(err, 'err');
 			return res.status(500).json({
 				message: 'Something Went Wrong',
 			});

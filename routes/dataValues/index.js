@@ -16,5 +16,6 @@ router.get("/testimonials", controller.getTestimonials);
 router.get("/council", controller.getCouncil);
 router.get("/medicalShots", controller.medicalShots);
 router.get("/featuredBlogs", controller.featuredBlogs);
+router.get("/cities", controller.cities);
 
 module.exports = router;
