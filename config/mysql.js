@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+// const mysql = require('mysql');
 require('dotenv').config();
 const Sequelize = require('sequelize');
 const SequelizeAuto = require('sequelize-auto-models');
@@ -96,7 +96,7 @@ let auto = new SequelizeAuto(config.database, config.user, config.password, {
 	},
 	tables: [],
 });
-auto.run(function (err) {
+auto.run((err) => {
 	if (err) throw err;
 	console.log('mysql-tables', auto.tables); // table list
 	console.log('mysql-tables.foreignKeys', auto.foreignKeys); // foreign key list
