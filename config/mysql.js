@@ -29,7 +29,12 @@ const {
 } = process.env;
 
 const getConfig = () => {
-	let cred = {};
+	let cred = {
+		host: LOCAL_DATABASE_HOST,
+		database: LOCAL_DATABASE_NAME,
+		user: LOCAL_DATABASE_USER,
+		password: LOCAL_DATABASE_PASSWORD,
+	};
 	switch (SERVER_ENVIRONMENT) {
 		case 'prod':
 			cred = {
@@ -47,14 +52,6 @@ const getConfig = () => {
 				user: UAT_DATABASE_USER,
 				password: UAT_DATABASE_PASSWORD,
 				port: UAT_DATABASE_PORT,
-			};
-			break;
-		default:
-			cred = {
-				host: LOCAL_DATABASE_HOST,
-				database: LOCAL_DATABASE_NAME,
-				user: LOCAL_DATABASE_USER,
-				password: LOCAL_DATABASE_PASSWORD,
 			};
 	}
 	return cred;
