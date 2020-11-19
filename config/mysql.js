@@ -58,7 +58,7 @@ const getConfig = () => {
 };
 
 const config = getConfig();
-console.log('database-config', config);
+console.log('mysql-config', config);
 
 const sequelize = new Sequelize(config.database, config.user, config.password, {
 	host: config.host,
@@ -98,8 +98,8 @@ let auto = new SequelizeAuto(config.database, config.user, config.password, {
 });
 auto.run(function (err) {
 	if (err) throw err;
-	console.log('database-tables', auto.tables); // table list
-	console.log('database-tables.foreignKeys', auto.foreignKeys); // foreign key list
+	console.log('mysql-tables', auto.tables); // table list
+	console.log('mysql-tables.foreignKeys', auto.foreignKeys); // foreign key list
 });
 
 module.exports = sequelize;
