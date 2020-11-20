@@ -574,11 +574,6 @@ const getDoctorData = async function (req) {
               model: Specialities,
               required: false,
               attributes: ["title"],
-              where: {
-                title: {
-                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
-                },
-              },
             },
           ],
         },
