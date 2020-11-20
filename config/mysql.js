@@ -13,6 +13,10 @@ const {
   LIVE_DATABASE_PASSWORD,
 } = process.env;
 const SequelizeAuto = require("sequelize-auto-models");
+console.log(
+  SERVER_ENVIRONMENT,
+  "SERVER_ENVIRONMENTSERVER_ENVIRONMENTSERVER_ENVIRONMENT"
+);
 const config =
   SERVER_ENVIRONMENT === "local"
     ? {
