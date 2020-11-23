@@ -230,6 +230,14 @@ module.exports = {
               },
             ],
           },
+          {
+            model: Doctorqualifications,
+            include: [
+              {
+                model: Qualifications,
+              },
+            ],
+          },
         ],
       });
       console.log("getDoctorDetails-user", rest);
