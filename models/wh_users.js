@@ -14,6 +14,7 @@ const Feedback = require("./wh_feedback");
 const VideoConsultation = require("./wh_video_consultation_times");
 const DoctorBankDetails = require("./wh_doctor_bank_details");
 const Clinics = require("./wh_clinic");
+const CouncilRegistration = require("./wh_medical_council_registration");
 
 const Users = db.define(
   "wh_users",
@@ -131,5 +132,9 @@ Users.hasMany(Bookings, {
 });
 Bookings.belongsTo(Users, {
   foreignKey: "doctor_id",
+});
+Users.hasOne(CouncilRegistration, {
+  foreignKey: "user_id",
+  sourceKey: "user_id",
 });
 module.exports = Users;

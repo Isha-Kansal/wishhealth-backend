@@ -28,6 +28,7 @@ const DoctorBankDetails = require("../../models/wh_doctor_bank_details");
 const DoctorClinics = require("../../models/wh_doctor_clinics");
 const { Op } = Sequelize;
 const { s3BucketUploader } = require("../../common/S3/S3Upload");
+const DoctorServices = require("../../models/wh_doctor_services");
 
 module.exports = {
   updateDoctorDetails: async function (req, res) {
@@ -208,6 +209,24 @@ module.exports = {
                     [Op.ne]: null,
                   },
                 },
+              },
+            ],
+          },
+          {
+            model: DoctorServices,
+            attributes: ["id", "service_id"],
+            include: [
+              {
+                model: Services,
+                attributes: ["name", 'image', 'priority'],
+              },
+            ],
+          },
+          {
+            model: CouncilRegistration,
+            include: [
+              {
+                model: Council,
               },
             ],
           },
