@@ -23,6 +23,9 @@ const VideoConsultation = require("../../models/wh_video_consultation_times");
 const Cities = require("../../models/wh_cities");
 const States = require("../../models/wh_states");
 const { Op } = Sequelize;
+const CouncilRegistration = require("../../models/wh_medical_council_registration");
+const Council = require("../../models/wh_medical_council");
+
 const getLiveDoctorData = async function (req) {
   try {
     const doctorsData = await getDoctorData(req);
@@ -1090,6 +1093,24 @@ module.exports = {
                 model: Specialities,
                 required: true,
                 attributes: ["title"],
+              },
+            ],
+          },
+          {
+            model: DoctorServices,
+            attributes: ["id", "service_id"],
+            include: [
+              {
+                model: Services,
+                attributes: ["name", 'image', 'priority'],
+              },
+            ],
+          },
+          {
+            model: CouncilRegistration,
+            include: [
+              {
+                model: Council,
               },
             ],
           },
