@@ -146,6 +146,7 @@ module.exports = {
       let obj = {
         ...req.body,
       };
+      console.log(obj, "objobj", req.body);
       await PatientDetails.update(obj, {
         where: {
           id: req.body.id,
