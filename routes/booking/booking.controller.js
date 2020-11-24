@@ -169,17 +169,20 @@ module.exports = {
     try {
       const bookingData = await Bookings.findOne({
         where: { id: req.body.booking_id },
+        include: [
+          {
+            model: Users,
+            required: true,
+          },
+          {
+            model: PatientDetails,
+            required: true,
+          },
+        ],
       });
       const booking = JSON.parse(JSON.stringify(bookingData));
-      const patientData = await PatientDetails.findOne({
-        where: { id: booking.patient_id },
-      });
-      const doctorData = await Doctordetails.findOne({
-        where: { user_id: booking.doctor_id },
-      });
-      const doctor = JSON.parse(JSON.stringify(doctorData));
-      const patient = JSON.parse(JSON.stringify(patientData));
-      const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${doctor.phone}&from=WishPL&templatename=DeleteAppointment&var1=${booking.date}&var2=${booking.time}&var3=${patient.name}`;
+
+      const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${booking.wh_user.contact_no}&from=WishPL&templatename=DeleteAppointment&var1=${booking.date}&var2=${booking.time}&var3=${booking.wh_patient_detail.name}`;
       const session = await commonController.sendOtp(url);
       await Bookings.update(
         {
