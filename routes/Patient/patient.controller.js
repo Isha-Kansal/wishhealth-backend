@@ -88,6 +88,7 @@ module.exports = {
               },
               {
                 model: Prescription,
+                as: "prescriptions",
               },
             ],
           },
