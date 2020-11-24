@@ -155,17 +155,24 @@ module.exports = {
       if (req.body.phone) {
         obj.phone = req.body.phone;
       }
+      let patientData = PatientDetails.findOne({
+        where: {
+          id: req.body.id,
+        },
+      });
+      console.log(patientData, "patientDatapatientDatapatientData");
       await PatientDetails.update(obj, {
         where: {
           id: req.body.id,
         },
       });
-      const patientData = PatientDetails.findOne({
+      patientData = PatientDetails.findOne({
         where: {
           id: req.body.id,
         },
       });
       let patient = JSON.parse(JSON.stringify(patientData));
+      console.log(patient, "patientpatientpatient");
       if (req.body.phone) {
         const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
         const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=otp2&var1=${otp}`;
