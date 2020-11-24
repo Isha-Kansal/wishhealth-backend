@@ -10,7 +10,6 @@ const Specialities = require("../../models/wh_specialities");
 const PatientUsers = require("../../models/wh_patient_users");
 const Clinics = require("../../models/wh_clinic");
 const commonController = require("../../common/payment");
-const { delete } = require("request");
 const { Op } = Sequelize;
 module.exports = {
   getPatientExistence: async function (req, res) {
