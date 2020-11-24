@@ -10,6 +10,7 @@ const Doctorspecialities = require("../../models/wh_doctor_specialities");
 const Specialities = require("../../models/wh_specialities");
 const Prescription = require("../../models/wh_booking_prescriptions");
 const { Op } = Sequelize;
+const { SERVER_ENVIRONMENT } = process.env;
 module.exports = {
   deleteBooking: async function (req, res) {
     try {
@@ -85,7 +86,10 @@ module.exports = {
         ],
       });
       const booking = JSON.parse(JSON.stringify(bookingData));
-      const paymenturl = "";
+      const paymenturl =
+        SERVER_ENVIRONMENT === "local"
+          ? `www.test.wishhealth.in/patient/dashboard/myAppointment/${req.params.booking_id}`
+          : `www.wishhealth.in/patient/dashboard/myAppointment/${req.params.booking_id}`;
       const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${booking.wh_patient_detail.phone}&from=WishPL&templatename=PaymentRequest&var1=${booking.wh_user.name}&var2=${booking.date}&var3=${booking.time}&var4=${paymenturl}`;
       const session = await commonController.sendOtp(url);
       return res.status(200).json({
