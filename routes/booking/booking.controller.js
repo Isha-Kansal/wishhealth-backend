@@ -69,7 +69,7 @@ module.exports = {
   requestPayment: async function (req, res) {
     try {
       const booking = await Bookings.findOne({
-        where: { booking_id: req.params.booking_id },
+        where: { id: req.params.booking_id },
         include: [
           {
             model: Users,
