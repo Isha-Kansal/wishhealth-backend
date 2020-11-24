@@ -102,7 +102,8 @@ const createQuickBlox = async function (obj) {
 								await Doctordetails.update(
 									{
 										quickblox_id: QBDetail.id,
-										quickblox_login: QBDetail.login,
+										// quickblox_login: QBDetail.login,
+										quickblox_login: obj.qbLogin,
 									},
 									{
 										where: {
@@ -120,7 +121,8 @@ const createQuickBlox = async function (obj) {
 								await PatientDetails.update(
 									{
 										quickblox_id: QBDetail.id,
-										quickblox_login: QBDetail.login,
+                    // quickblox_login: QBDetail.login,
+                    quickblox_login: obj.qbLogin,
 									},
 									{
 										where: {
