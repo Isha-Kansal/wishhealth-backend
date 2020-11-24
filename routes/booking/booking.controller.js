@@ -113,7 +113,7 @@ module.exports = {
         booking_id: req.params.booking_id,
         fees,
         additional_charges,
-        amount: additional_charges + fees,
+        amount: parseInt(additional_charges) + parseInt(fees),
         description,
       });
       return res.status(200).json({
