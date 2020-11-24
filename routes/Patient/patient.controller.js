@@ -224,6 +224,7 @@ module.exports = {
           username: req.body.name,
           user_id: patient.id,
           type: "patient",
+          qbLogin: req.body.name
         });
       }
       const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);

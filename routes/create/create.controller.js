@@ -230,6 +230,7 @@ module.exports = {
           username: req.body.email,
           user_id: response.user_id,
           type: "doctor",
+          qbLogin: req.body.email
         });
         const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${obj.contact_no}&from=WishPL&templatename=doctorSignUpSuccess&var1=${obj.name}`;
         const session = await commonController.sendOtp(url);
