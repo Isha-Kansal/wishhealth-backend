@@ -71,6 +71,21 @@ module.exports = {
       });
     }
   },
+  paymentDetails: async function (req, res) {
+    try {
+      const payment = await BookingPayments.findOne({
+        where: { booking_id: req.params.booking_id },
+      });
+      return res.status(200).json({
+        data: payment,
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   requestPayment: async function (req, res) {
     try {
       const { fees, additional_charges, description } = req.body;
