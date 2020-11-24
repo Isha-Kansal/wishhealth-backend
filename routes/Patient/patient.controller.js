@@ -154,7 +154,12 @@ module.exports = {
       delete obj.id;
       console.log(obj, "objobj", req.body);
 
-      const patientData = await PatientDetails.update(obj, {
+      await PatientDetails.update(obj, {
+        where: {
+          id: req.body.id,
+        },
+      });
+      const patientData = PatientDetails.findOne({
         where: {
           id: req.body.id,
         },
