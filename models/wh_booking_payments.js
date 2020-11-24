@@ -24,7 +24,25 @@ const BookingPayments = db.define(
       defaultValue: null,
       primaryKey: false,
     },
+    description: {
+      type: "TEXT",
+      allowNull: false,
+      defaultValue: null,
+      primaryKey: false,
+    },
     amount: {
+      type: "DECIMAL(11,2)",
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    fees: {
+      type: "DECIMAL(11,2)",
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+    },
+    additional_charges: {
       type: "DECIMAL(11,2)",
       allowNull: true,
       defaultValue: null,

@@ -9,6 +9,7 @@ const Qualifications = require("../../models/wh_qualifications");
 const Doctorspecialities = require("../../models/wh_doctor_specialities");
 const Specialities = require("../../models/wh_specialities");
 const Prescription = require("../../models/wh_booking_prescriptions");
+const BookingPayments = require("../../models/wh_booking_payments");
 const { Op } = Sequelize;
 const { SERVER_ENVIRONMENT } = process.env;
 module.exports = {
@@ -72,6 +73,7 @@ module.exports = {
   },
   requestPayment: async function (req, res) {
     try {
+      const { fees, additional_charges, description } = req.body;
       const bookingData = await Bookings.findOne({
         where: { id: req.params.booking_id },
         include: [
@@ -92,6 +94,13 @@ module.exports = {
           : `www.wishhealth.in/patient/dashboard/myAppointment/${req.params.booking_id}`;
       const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${booking.wh_patient_detail.phone}&from=WishPL&templatename=PaymentRequest&var1=${booking.wh_user.name}&var2=${booking.date}&var3=${booking.time}&var4=${paymenturl}`;
       const session = await commonController.sendOtp(url);
+      await BookingPayments.create({
+        booking_id: req.params.booking_id,
+        fees,
+        additional_charges,
+        amount: additional_charges + fees,
+        description,
+      });
       return res.status(200).json({
         data: paymenturl,
       });
