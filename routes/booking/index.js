@@ -7,4 +7,5 @@ router.post("/deletePrescription", controller.deletePrescription);
 router.post("/update", controller.updateBooking);
 router.get("/:id", controller.getBookingDetails);
 router.get("/getPrescription/:booking_id", controller.getPrescription);
+router.post("/requestPayment/:booking_id", controller.requestPayment);
 module.exports = router;

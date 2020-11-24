@@ -66,6 +66,31 @@ module.exports = {
       });
     }
   },
+  requestPayment: async function (req, res) {
+    try {
+      const booking = await Bookings.findOne({
+        where: { booking_id: req.params.booking_id },
+        include: [
+          {
+            model: Users,
+            required: true,
+          },
+          {
+            model: PatientDetails,
+            required: true,
+          },
+        ],
+      });
+      return res.status(200).json({
+        data: booking,
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
   getBookingDetails: async function (req, res) {
     try {
       const bookingData = await Bookings.findOne({
