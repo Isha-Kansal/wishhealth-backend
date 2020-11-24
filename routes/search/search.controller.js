@@ -25,6 +25,7 @@ const States = require("../../models/wh_states");
 const { Op } = Sequelize;
 const CouncilRegistration = require("../../models/wh_medical_council_registration");
 const Council = require("../../models/wh_medical_council");
+const ClinicServices = require("../../models/wh_clinic_services");
 
 const getLiveDoctorData = async function (req) {
   try {
@@ -1105,7 +1106,7 @@ module.exports = {
             include: [
               {
                 model: Services,
-                attributes: ["name", 'image', 'priority'],
+                attributes: ["name", "image", "priority"],
               },
             ],
           },
@@ -1199,6 +1200,11 @@ module.exports = {
                 },
               },
               { model: ClinicImages, required: false },
+              {
+                model: ClinicServices,
+                required: false,
+                include: [{ model: Services, required: true }],
+              },
               {
                 model: Bookings,
                 required: false,
