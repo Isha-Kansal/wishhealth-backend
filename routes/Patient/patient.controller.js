@@ -148,18 +148,17 @@ module.exports = {
   },
   updateProfile: async function (req, res) {
     try {
-      let obj = {};
       if (req.body.name) {
-        obj.name = req.body.name;
+        await PatientDetails.update(
+          { name: req.body.name },
+          {
+            where: {
+              id: req.body.id,
+            },
+          }
+        );
       }
-      if (req.body.phone) {
-        obj.phone = req.body.phone;
-      }
-      await PatientDetails.update(obj, {
-        where: {
-          id: req.body.id,
-        },
-      });
+
       const patientData = await PatientDetails.findOne({
         where: {
           id: req.body.id,
@@ -198,6 +197,14 @@ module.exports = {
       console.log("verifyOtp-verify", verify);
       if (verify) {
         message = "otp valid";
+        await PatientDetails.update(
+          { phone: req.body.phone },
+          {
+            where: {
+              id: req.body.id,
+            },
+          }
+        );
       }
       return res.status(200).json({
         message: message,
