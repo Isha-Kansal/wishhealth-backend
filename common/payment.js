@@ -62,7 +62,7 @@ const createQuickBlox = async function (obj) {
 				console.log('createQuickBlox-data', data);
 				const token = (data && data.session && data.session.token) || '';
 				console.log('createQuickBlox-token', token);
-
+				let QBDetail = (data.session && { ...data.session }) || '';
 				return request(
 					{
 						method: 'POST',
@@ -93,46 +93,48 @@ const createQuickBlox = async function (obj) {
 						);
 						let data = JSON.parse(body);
 						console.log('createQuickBlox-data', data);
-						const QBDetail =
-							(data.user && { ...data.user }) ||
-							(data.session && { ...data.session });
+						if (data && data.user) {
+							QBDetail = { ...data.user };
+						}
 						console.log('createQuickBlox-QBDetail', QBDetail);
-						if (obj.type === 'doctor') {
-							await Doctordetails.update(
-								{
-									quickblox_id: QBDetail.id,
-									quickblox_login: QBDetail.login,
-								},
-								{
-									where: {
-										user_id: obj.user_id,
+						if (QBDetail) {
+							if (obj.type === 'doctor') {
+								await Doctordetails.update(
+									{
+										quickblox_id: QBDetail.id,
+										quickblox_login: QBDetail.login,
 									},
-								}
-							)
-								.then((result) => {
-									console.log('createQuickBlox-result', result);
-								})
-								.catch((err) => {
-									console.log('createQuickBlox-api-err', err);
-								});
-						} else {
-							await PatientDetails.update(
-								{
-									quickblox_id: QBDetail.id,
-									quickblox_login: QBDetail.login,
-								},
-								{
-									where: {
-										id: obj.user_id,
+									{
+										where: {
+											user_id: obj.user_id,
+										},
+									}
+								)
+									.then((result) => {
+										console.log('createQuickBlox-result', result);
+									})
+									.catch((err) => {
+										console.log('createQuickBlox-api-err', err);
+									});
+							} else {
+								await PatientDetails.update(
+									{
+										quickblox_id: QBDetail.id,
+										quickblox_login: QBDetail.login,
 									},
-								}
-							)
-								.then((result) => {
-									console.log('createQuickBlox-result', result);
-								})
-								.catch((err) => {
-									console.log('createQuickBlox-api-err', err);
-								});
+									{
+										where: {
+											id: obj.user_id,
+										},
+									}
+								)
+									.then((result) => {
+										console.log('createQuickBlox-result', result);
+									})
+									.catch((err) => {
+										console.log('createQuickBlox-api-err', err);
+									});
+							}
 						}
 						return { message: 'Success' };
 					}
