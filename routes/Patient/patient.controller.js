@@ -148,12 +148,13 @@ module.exports = {
   },
   updateProfile: async function (req, res) {
     try {
-      let obj = {
-        ...req.body,
-      };
-      delete obj.id;
-      console.log(obj, "objobj", req.body);
-
+      let obj = {};
+      if (req.body.name) {
+        obj.name = req.body.name;
+      }
+      if (req.body.phone) {
+        obj.phone = req.body.phone;
+      }
       await PatientDetails.update(obj, {
         where: {
           id: req.body.id,
