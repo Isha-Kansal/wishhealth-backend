@@ -26,7 +26,7 @@ const BookingPayments = db.define(
     },
     description: {
       type: "TEXT",
-      allowNull: false,
+      allowNull: true,
       defaultValue: null,
       primaryKey: false,
     },
