@@ -211,7 +211,6 @@ module.exports = {
           occupation: "",
           address: "",
           email2: "",
-          phone: "",
           age: "",
           age_conf: "",
           quickblox_login: "",
