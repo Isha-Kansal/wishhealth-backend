@@ -226,14 +226,14 @@ module.exports = {
         });
       }
       let patient = JSON.parse(JSON.stringify(patientData));
-      // if (req.body.name) {
-      //   const quickblox = commonController.createQuickBlox({
-      //     username: req.body.name,
-      //     user_id: patient.id,
-      //     type: "patient",
-      //     qbLogin: req.body.name,
-      //   });
-      // }
+      if (req.body.name) {
+        const quickblox = commonController.createQuickBlox({
+          username: req.body.name,
+          user_id: patient.id,
+          type: "patient",
+          qbLogin: req.body.name,
+        });
+      }
       const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
       const url = `https://2factor.in/API/R1/?module=TRANS_SMS&apikey=257e040b-f32f-11e8-a895-0200cd936042&to=${req.body.phone}&from=WishPL&templatename=otp2&var1=${otp}`;
       const session = commonController.sendOtp(url, {
