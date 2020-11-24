@@ -155,18 +155,12 @@ module.exports = {
       if (req.body.phone) {
         obj.phone = req.body.phone;
       }
-      let patientData = PatientDetails.findOne({
-        where: {
-          id: req.body.id,
-        },
-      });
-      console.log(patientData, "patientDatapatientDatapatientData");
       await PatientDetails.update(obj, {
         where: {
           id: req.body.id,
         },
       });
-      patientData = PatientDetails.findOne({
+      const patientData = await PatientDetails.findOne({
         where: {
           id: req.body.id,
         },
