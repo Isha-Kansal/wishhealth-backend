@@ -10,9 +10,9 @@ const Doctorspecialities = require('../../models/wh_doctor_specialities');
 const Specialities = require('../../models/wh_specialities');
 const Prescription = require('../../models/wh_booking_prescriptions');
 const BookingPayments = require('../../models/wh_booking_payments');
-const Clinics = require("../../models/wh_clinic");
 const { Op } = Sequelize;
 const { SERVER_ENVIRONMENT } = process.env;
+
 module.exports = {
 	deleteBooking: async function (req, res) {
 		try {
