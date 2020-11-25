@@ -19,9 +19,9 @@ const Prescription = db.define(
       primaryKey: false,
     },
     prescription_date: {
-      type: "TIMESTAMP",
+      type: "DATETIME",
       allowNull: false,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      defaultValue: null,
       primaryKey: false,
     },
     prescription: {
