@@ -169,8 +169,8 @@ module.exports = {
             ],
           },
           { model: Clinics, required: false },
-          { model: BookingPayments, required: false },
-          { model: Prescription, required: false },
+          { model: BookingPayments, required: false, as: "payment" },
+          { model: Prescription, required: false, as: "prescriptions" },
         ],
       });
 

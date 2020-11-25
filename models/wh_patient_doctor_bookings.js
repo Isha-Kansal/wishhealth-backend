@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/mysql");
+const BookingPayments = require("./wh_booking_payments");
 const Prescription = require("./wh_booking_prescriptions");
 const PatientDetails = require("./wh_patient_details");
 const PatientUsers = require("./wh_patient_users");
@@ -149,6 +150,14 @@ Bookings.hasMany(Prescription, {
   as: "prescriptions",
 });
 Prescription.belongsTo(Bookings, {
+  foreignKey: "booking_id",
+});
+Bookings.hasOne(BookingPayments, {
+  foreignKey: "booking_id",
+  sourceKey: "id",
+  as: "payment",
+});
+BookingPayments.belongsTo(Bookings, {
   foreignKey: "booking_id",
 });
 module.exports = Bookings;
