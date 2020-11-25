@@ -26,6 +26,7 @@ const { Op } = Sequelize;
 const CouncilRegistration = require("../../models/wh_medical_council_registration");
 const Council = require("../../models/wh_medical_council");
 const ClinicServices = require("../../models/wh_clinic_services");
+const PatientDoctorBookings = require("../../models/wh_patient_doctor_bookings");
 
 const getLiveDoctorData = async function (req) {
   try {
@@ -1368,6 +1369,49 @@ module.exports = {
       });
       return res.status(200).json({
         data: { count: clinics.count, listing: clinics.rows || [] },
+      });
+    } catch (err) {
+      console.log(err, "err");
+      return res.status(500).json({
+        message: "Something Went Wrong",
+      });
+    }
+  },
+  searchPatients: async (req, res) => {
+    try {
+      const { clinic_id, type } = req.body;
+      console.log("searchClinics-req.body", req.body);
+      let cond = {};
+      const date = moment();
+      let bookings = [];
+      if (type) {
+        switch (type) {
+          case "past":
+            cond.created_at = {
+              [Op.lte]: date.toDate(),
+            };
+            break;
+          case "today":
+            cond.created_at = {
+              [Op.gte]: date.startOf("day").toDate(),
+              [Op.lte]: date.endOf("day").toDate(),
+            };
+            break;
+          case "future":
+            cond.created_at = {
+              [Op.gte]: date.toDate(),
+            };
+        }
+      }
+      if (clinic_id) cond.clinic_id = clinic_id;
+      console.log("searchClinics-cond", cond);
+      if (cond) {
+        bookings = await PatientDoctorBookings.findAll({
+          where: cond,
+        });
+      }
+      return res.status(200).json({
+        data: bookings,
       });
     } catch (err) {
       console.log(err, "err");

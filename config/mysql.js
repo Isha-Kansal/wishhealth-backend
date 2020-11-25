@@ -1,6 +1,8 @@
-const mysql = require("mysql");
+// const mysql = require('mysql');
 require("dotenv").config();
 const Sequelize = require("sequelize");
+const SequelizeAuto = require("sequelize-auto-models");
+
 const {
   SERVER_ENVIRONMENT,
   LOCAL_DATABASE_HOST,
@@ -45,6 +47,7 @@ const sequelize = new Sequelize(config.database, config.user, config.password, {
     idle: 10000,
   },
 });
+
 sequelize
   .authenticate()
   .then(() => {
@@ -58,6 +61,7 @@ sequelize
     console.error(`Unable to connect to the ${config.database}:`, err);
     return err;
   });
+
 let auto = new SequelizeAuto(config.database, config.user, config.password, {
   host: config.host,
   dialect: "mysql",
@@ -65,16 +69,13 @@ let auto = new SequelizeAuto(config.database, config.user, config.password, {
   port: config.port,
   additional: {
     timestamps: false,
-    //...
   },
-  tables: ["wh_patient_users"],
-  //...
+  tables: [],
 });
-auto.run(function (err) {
+auto.run((err) => {
   if (err) throw err;
-
-  console.log(auto.tables, "dhasugdghfgdsgfhs"); // table list
-  console.log(auto.foreignKeys); // foreign key list
+  console.log("mysql-tables", auto.tables); // table list
+  console.log("mysql-tables.foreignKeys", auto.foreignKeys); // foreign key list
 });
 
 module.exports = sequelize;

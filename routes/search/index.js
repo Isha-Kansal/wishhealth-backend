@@ -7,4 +7,5 @@ router.get("/getDoctorDetails/:user_id", controller.getDoctorDetails);
 router.get("/getDoctorClinics/:user_id", controller.getDoctorClinics);
 router.post("/suggestions", controller.suggestions);
 router.post("/searchClinics", controller.searchClinics);
+router.get("/searchPatients", controller.searchPatients);
 module.exports = router;

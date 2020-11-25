@@ -155,25 +155,27 @@ const sendOtp = async function (url, obj) {
         url,
       },
       async function (err, response, body) {
-        console.log(err, response, body, "err, response, body");
+        console.log("sendOtp-response", response);
+        console.log("sendOtp-body", body);
         if (err) {
+          console.log("sendOtp-err", err);
           return {
             message: "Something Went Wrong",
           };
         }
 
         let data = JSON.parse(body);
-        console.log(data, "datadatadatadata");
+        console.log("sendOtp-data", data);
         if (obj) {
           otpData.push(obj);
-          console.log(otpData, "otpDataotpDataotpData");
+          console.log("sendOtp-otpData", otpData);
         }
 
         return data.Details;
       }
     );
   } catch (err) {
-    console.log(err, "err");
+    console.log("sendOtp-try-catch-err", err);
   }
 };
 const verify = async function (obj) {
