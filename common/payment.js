@@ -267,7 +267,7 @@ module.exports = {
             let obj = {
               amount: req.params.amount,
               payment_id: req.params.paymentId,
-              booking_id: req.body.booking_id,
+              booking_id: req.params.booking_id,
               description: "",
             };
             await BookingPayments.create(obj)
