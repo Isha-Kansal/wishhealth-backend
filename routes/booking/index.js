@@ -10,4 +10,5 @@ router.get("/getPrescription/:booking_id", controller.getPrescription);
 router.post("/requestPayment/:booking_id", controller.requestPayment);
 router.get("/paymentDetails/:booking_id", controller.paymentDetails);
 router.get("/appointmentDetail/:id", controller.appointmentDetail);
+router.post("/cashPayment", controller.cashPayment);
 module.exports = router;
