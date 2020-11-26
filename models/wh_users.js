@@ -124,6 +124,10 @@ Users.hasOne(VideoConsultation, {
   sourceKey: "user_id",
   as: "video_timings",
 });
+VideoConsultation.belongsTo(Users, {
+  foreignKey: "doctor_id",
+});
+
 Users.hasMany(DoctorServices, { foreignKey: "user_id" });
 Users.hasMany(Bookings, {
   foreignKey: "doctor_id",
