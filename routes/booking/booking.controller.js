@@ -178,6 +178,7 @@ module.exports = {
           { model: Clinics },
           { model: Prescription, as: "prescriptions" },
           { model: BookingPayments, as: "payment" },
+          { model: PatientDetails },
         ],
       });
 
