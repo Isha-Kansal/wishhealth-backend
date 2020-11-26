@@ -1,5 +1,4 @@
 const Sequelize = require("sequelize");
-const PatientDetails = require("../../models/wh_patient_details");
 const Users = require("../../models/wh_users");
 const Doctordetails = require("../../models/wh_doctor_details");
 const Doctorlanguages = require("../../models/wh_doctor_languages");
@@ -27,6 +26,7 @@ const CouncilRegistration = require("../../models/wh_medical_council_registratio
 const Council = require("../../models/wh_medical_council");
 const ClinicServices = require("../../models/wh_clinic_services");
 const PatientDoctorBookings = require("../../models/wh_patient_doctor_bookings");
+const { SERVER_ENVIRONMENT } = process.env;
 
 const getLiveDoctorData = async function (req) {
   try {
@@ -171,6 +171,9 @@ const recommendationsData = async function (req, arr) {
             video_consultation: {
               [Op.in]: [1],
             },
+            is_verified: {
+              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
+            },
           },
         },
         {
@@ -221,7 +224,7 @@ const recommendationsData = async function (req, arr) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                  [Op.like]: `%${req.searchString}%`,
                 },
               },
             },
@@ -251,7 +254,7 @@ const getLocationData = async function (req) {
     let userArr = [
       {
         name: {
-          [Op.like]: `%${req.body.doctorParams.trim()}%`,
+          [Op.like]: `%${req.searchString}%`,
         },
       },
       { role: "doctor" },
@@ -274,6 +277,9 @@ const getLocationData = async function (req) {
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
+            },
+            is_verified: {
+              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
             },
           },
           include: [
@@ -351,7 +357,7 @@ const getLocationData = async function (req) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                  [Op.like]: `%${req.searchString}%`,
                 },
               },
             },
@@ -475,7 +481,7 @@ const getDoctorData = async function (req) {
     let userArr = [
       {
         name: {
-          [Op.like]: `%${req.body.doctorParams.trim()}%`,
+          [Op.like]: `%${req.searchString}%`,
         },
       },
       { role: "doctor" },
@@ -513,6 +519,9 @@ const getDoctorData = async function (req) {
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
+            },
+            is_verified: {
+              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
             },
           },
           include: [
@@ -619,6 +628,9 @@ const getLocationSpecialityData = async function (req, arr) {
                 video_consultation: {
                   [Op.in]: req.body.type === "video" ? [1] : [0, 1],
                 },
+                is_verified: {
+                  [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
+                },
               },
             },
           ],
@@ -637,6 +649,9 @@ const getLocationSpecialityData = async function (req, arr) {
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
+            },
+            is_verified: {
+              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
             },
           },
         },
@@ -711,7 +726,7 @@ const getLocationSpecialityData = async function (req, arr) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                  [Op.like]: `%${req.searchString}%`,
                 },
               },
             },
@@ -862,6 +877,9 @@ const getSpecialityData = async function (req, arr) {
                 video_consultation: {
                   [Op.in]: req.body.type === "video" ? [1] : [0, 1],
                 },
+                is_verified: {
+                  [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
+                },
               },
             },
           ],
@@ -881,6 +899,9 @@ const getSpecialityData = async function (req, arr) {
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
+            },
+            is_verified: {
+              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
             },
           },
         },
@@ -946,7 +967,7 @@ const getSpecialityData = async function (req, arr) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                  [Op.like]: `%${req.searchString}%`,
                 },
               },
             },
@@ -973,12 +994,20 @@ module.exports = {
       console.log(req.body, "dgsyhgfshgdh");
       let specialityExist = [];
       let array = [];
+      let search = req.body.doctorParams.toLowerCase().trim();
+      let search1 = search.replace(/[^a-zA-Z]/g, "");
+      let searchString = search1.replace("dr", "");
+      console.log(searchString, "searchStringsearchString");
+      let searchObj = {
+        body: req.body,
+        searchString,
+      };
       if (!req.body.consult) {
         if (req.body.doctorParams !== "") {
           specialityExist = await Specialities.findAll({
             where: {
               title: {
-                [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                [Op.like]: `%${searchString}%`,
               },
             },
             attributes: ["speciality_id"],
@@ -994,12 +1023,15 @@ module.exports = {
         }
         if (specialityExist.length > 0) {
           if (req.body.latitude && req.body.longitude) {
-            const locationData = await getLocationSpecialityData(req, array);
+            const locationData = await getLocationSpecialityData(
+              searchObj,
+              array
+            );
             arr = [...locationData.data];
 
             count = locationData.count;
           } else {
-            const specialityData = await getSpecialityData(req, array);
+            const specialityData = await getSpecialityData(searchObj, array);
             arr = [...specialityData.data];
 
             count = specialityData.count;
@@ -1007,22 +1039,22 @@ module.exports = {
         }
         if (specialityExist.length === 0 || arr.length === 0) {
           if (req.body.latitude && req.body.longitude) {
-            const locationData = await getLocationData(req, array);
+            const locationData = await getLocationData(searchObj, array);
             arr = [...locationData.data];
 
             count = locationData.count;
           } else {
-            const doctorData = await getDoctorData(req);
+            const doctorData = await getDoctorData(searchObj);
             arr = [...doctorData.data];
             count = doctorData.count;
           }
         }
         console.log(arr, "arrarrarrarrarrarr", arr.length);
         if (arr.length === 0) {
-          recommendations = await recommendationsData(req, array);
+          recommendations = await recommendationsData(searchObj, array);
         }
       } else {
-        const livedoctorData = await getLiveDoctorData(req);
+        const livedoctorData = await getLiveDoctorData(searchObj);
         arr = [...livedoctorData.data];
         count = livedoctorData.count;
       }
