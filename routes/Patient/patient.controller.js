@@ -85,6 +85,7 @@ module.exports = {
                   {
                     model: VideoConsultation,
                     required: false,
+                    as: "video_timings",
                   },
                 ],
               },
