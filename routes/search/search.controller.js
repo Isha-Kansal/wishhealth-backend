@@ -221,7 +221,7 @@ const recommendationsData = async function (req, arr) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                  [Op.like]: `%${req.searchString}%`,
                 },
               },
             },
@@ -251,7 +251,7 @@ const getLocationData = async function (req) {
     let userArr = [
       {
         name: {
-          [Op.like]: `%${req.body.doctorParams.trim()}%`,
+          [Op.like]: `%${req.searchString}%`,
         },
       },
       { role: "doctor" },
@@ -351,7 +351,7 @@ const getLocationData = async function (req) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                  [Op.like]: `%${req.searchString}%`,
                 },
               },
             },
@@ -475,7 +475,7 @@ const getDoctorData = async function (req) {
     let userArr = [
       {
         name: {
-          [Op.like]: `%${req.body.doctorParams.trim()}%`,
+          [Op.like]: `%${req.searchString}%`,
         },
       },
       { role: "doctor" },
@@ -711,7 +711,7 @@ const getLocationSpecialityData = async function (req, arr) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                  [Op.like]: `%${req.searchString}%`,
                 },
               },
             },
@@ -946,7 +946,7 @@ const getSpecialityData = async function (req, arr) {
               attributes: ["title"],
               where: {
                 title: {
-                  [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                  [Op.like]: `%${req.searchString}%`,
                 },
               },
             },
@@ -973,12 +973,19 @@ module.exports = {
       console.log(req.body, "dgsyhgfshgdh");
       let specialityExist = [];
       let array = [];
+      let searchString = req.body.doctorParams.toLowerCase().trim();
+      searchString.replace("dr", "");
+      console.log(searchString, "searchStringsearchString");
+      let searchObj = {
+        body: req.body,
+        searchString,
+      };
       if (!req.body.consult) {
         if (req.body.doctorParams !== "") {
           specialityExist = await Specialities.findAll({
             where: {
               title: {
-                [Op.like]: `%${req.body.doctorParams.trim()}%`,
+                [Op.like]: `%${searchString}%`,
               },
             },
             attributes: ["speciality_id"],
@@ -994,12 +1001,15 @@ module.exports = {
         }
         if (specialityExist.length > 0) {
           if (req.body.latitude && req.body.longitude) {
-            const locationData = await getLocationSpecialityData(req, array);
+            const locationData = await getLocationSpecialityData(
+              searchObj,
+              array
+            );
             arr = [...locationData.data];
 
             count = locationData.count;
           } else {
-            const specialityData = await getSpecialityData(req, array);
+            const specialityData = await getSpecialityData(searchObj, array);
             arr = [...specialityData.data];
 
             count = specialityData.count;
@@ -1007,22 +1017,22 @@ module.exports = {
         }
         if (specialityExist.length === 0 || arr.length === 0) {
           if (req.body.latitude && req.body.longitude) {
-            const locationData = await getLocationData(req, array);
+            const locationData = await getLocationData(searchObj, array);
             arr = [...locationData.data];
 
             count = locationData.count;
           } else {
-            const doctorData = await getDoctorData(req);
+            const doctorData = await getDoctorData(searchObj);
             arr = [...doctorData.data];
             count = doctorData.count;
           }
         }
         console.log(arr, "arrarrarrarrarrarr", arr.length);
         if (arr.length === 0) {
-          recommendations = await recommendationsData(req, array);
+          recommendations = await recommendationsData(searchObj, array);
         }
       } else {
-        const livedoctorData = await getLiveDoctorData(req);
+        const livedoctorData = await getLiveDoctorData(searchObj);
         arr = [...livedoctorData.data];
         count = livedoctorData.count;
       }
