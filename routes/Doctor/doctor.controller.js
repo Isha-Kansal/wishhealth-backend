@@ -321,6 +321,7 @@ module.exports = {
           doctor_id: doctorId,
         },
       });
+      console.log("video_timings-video_timings", video_timings);
       return res.status(200).json({
         data: { data, account_details, clinic_fee, video_timings },
       });
