@@ -995,12 +995,12 @@ module.exports = {
       let specialityExist = [];
       let array = [];
       let search = req.body.doctorParams.toLowerCase().trim();
-      let search1 = search.replace(/[^a-zA-Z]/g, "");
+      let search1 = search.replace(/[^a-zA-Z ]/g, "");
       let searchString = search1.replace("dr", "");
       console.log(searchString, "searchStringsearchString");
       let searchObj = {
         body: req.body,
-        searchString,
+        searchString: searchString.trim(),
       };
       if (!req.body.consult) {
         if (req.body.doctorParams !== "") {
