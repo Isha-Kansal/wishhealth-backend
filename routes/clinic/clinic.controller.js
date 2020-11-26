@@ -15,12 +15,12 @@ module.exports = {
 				attributes: ['doc_fees', 'doc_advance_fees', 'video_consultation'],
 			});
 			doctorFees = (doctorFees && JSON.parse(JSON.stringify(doctorFees))) || {};
-			let videoConsultation = {};
+			let videoConsultation = [];
 			if (['1', 1].includes(doctorFees.video_consultation)) {
-				const data = await VideoConsultation.findOne({
+				const data = await VideoConsultation.findAll({
 					where: { doctor_id: id },
 				});
-				videoConsultation = (data && JSON.parse(JSON.stringify(data))) || {};
+				videoConsultation = (data && JSON.parse(JSON.stringify(data))) || [];
 			}
 			let joinedClinics = await DoctorClinics.findAll({
 				where: { user_id: id },
