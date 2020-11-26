@@ -93,7 +93,7 @@ module.exports = {
               {
                 model: Clinics,
               },
-              { model: BookingPayments, as: "payment" },
+              // { model: BookingPayments, as: "payment" },
             ],
           },
         ],
