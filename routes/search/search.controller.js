@@ -1167,10 +1167,13 @@ module.exports = {
     try {
       let arr = [];
       console.log(req.body, "dgsyhgfshgdh");
+      let search = req.body.search.toLowerCase().trim();
+      let search1 = search.replace(/[^a-zA-Z ]/g, "");
+      let searchString = search1.replace("dr", "");
       let doctorData = await Users.findAll({
         where: {
           name: {
-            [Op.like]: `%${req.body.search.trim()}%`,
+            [Op.like]: `%${searchString.trim()}%`,
           },
         },
         attributes: ["name"],
@@ -1183,7 +1186,7 @@ module.exports = {
       let specialityData = await Specialities.findAll({
         where: {
           title: {
-            [Op.like]: `%${req.body.search.trim()}%`,
+            [Op.like]: `%${searchString.trim()}%`,
           },
         },
         attributes: ["title"],
