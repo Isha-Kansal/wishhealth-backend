@@ -87,30 +87,5 @@ module.exports = {
         message: "Something Went Wrong",
       });
     }
-  },
-  doctorsAllClinics1: async (req, res) => {
-    try {
-      const { id } = req.params;
-
-      const clinics = await DoctorClinics.findAll({
-        where: { user_id: id },
-        // include: [
-        // 	{ model: ClinicImages },
-        // 	{ model: DoctorClinicTimings },
-        // 	{
-        // 		model: patientDoctorBookings,
-        // 	},
-        // ],
-      });
-
-      return res.status(200).json({
-        data: { response: clinics },
-      });
-    } catch (err) {
-      console.log("doctorClinics-err", err);
-      return res.status(500).json({
-        message: "Something Went Wrong",
-      });
-    }
-  },
+  }
 };
