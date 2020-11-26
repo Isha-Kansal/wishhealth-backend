@@ -306,6 +306,7 @@ module.exports = {
   cashPayment: async (req, res) => {
     try {
       const { payment_id, booking_id } = req.body;
+      console.log(req.body, "cashPaymentcashPayment");
       await BookingPayments.update(
         { payment_id },
         {
