@@ -4,6 +4,7 @@ const DoctorClinics = require('../../models/wh_doctor_clinics');
 const DoctorClinicTimings = require('../../models/wh_doctor_clinic_timings');
 const DoctorDetails = require('../../models/wh_doctor_details');
 const patientDoctorBookings = require('../../models/wh_patient_doctor_bookings');
+const VideoConsultation = require('../../models/wh_video_consultation_times');
 
 module.exports = {
 	doctorsAllClinics: async (req, res) => {
@@ -11,9 +12,16 @@ module.exports = {
 			const { id } = req.params;
 			let doctorFees = await DoctorDetails.findOne({
 				where: { user_id: id },
-				attributes: ['doc_fees', 'doc_advance_fees'],
+				attributes: ['doc_fees', 'doc_advance_fees', 'video_consultation'],
 			});
 			doctorFees = (doctorFees && JSON.parse(JSON.stringify(doctorFees))) || {};
+			let videoConsultation = {};
+			if (['1', 1].includes(doctorFees.video_consultation)) {
+				const data = await VideoConsultation.findOne({
+					where: { doctor_id: id },
+				});
+				videoConsultation = (data && JSON.parse(JSON.stringify(data))) || {};
+			}
 			let joinedClinics = await DoctorClinics.findAll({
 				where: { user_id: id },
 				include: [
@@ -67,7 +75,11 @@ module.exports = {
 			// 	delete clinic.wh_clinic_images;
 			// }
 			return res.status(200).json({
-				data: { clinics: [...clinics, ...joinedClinics], doctorFees },
+				data: {
+					clinics: [...clinics, ...joinedClinics],
+					doctorFees,
+					videoConsultation,
+				},
 			});
 		} catch (err) {
 			console.log('doctorClinics-err', err);
