@@ -11,6 +11,7 @@ const PatientUsers = require("../../models/wh_patient_users");
 const Clinics = require("../../models/wh_clinic");
 const commonController = require("../../common/payment");
 const Prescription = require("../../models/wh_booking_prescriptions");
+const VideoConsultation = require("../../models/wh_video_consultation_times");
 const { Op } = Sequelize;
 module.exports = {
   getPatientExistence: async function (req, res) {
@@ -80,6 +81,10 @@ module.exports = {
                         attributes: ["title"],
                       },
                     ],
+                  },
+                  {
+                    model: VideoConsultation,
+                    required: false,
                   },
                 ],
               },

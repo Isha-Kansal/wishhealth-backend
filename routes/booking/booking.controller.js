@@ -167,6 +167,10 @@ module.exports = {
                   },
                 ],
               },
+              {
+                model: VideoConsultation,
+                required: false,
+              },
             ],
           },
           { model: Clinics },
