@@ -1285,7 +1285,7 @@ module.exports = {
           clinic_id: 1,
         },
       });
-      const video_timings = await VideoConsultation.findOne({
+      const video_timings = await VideoConsultation.findAll({
         where: {
           doctor_id: req.params.user_id,
         },

@@ -119,7 +119,7 @@ Doctorspecialities.belongsTo(Users, {
   foreignKey: "user_id",
 });
 
-Users.hasOne(VideoConsultation, {
+Users.hasMany(VideoConsultation, {
   foreignKey: "doctor_id",
   sourceKey: "user_id",
   as: "video_timings",

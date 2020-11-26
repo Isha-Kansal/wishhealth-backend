@@ -218,7 +218,7 @@ module.exports = {
             include: [
               {
                 model: Services,
-                attributes: ["name", 'image', 'priority'],
+                attributes: ["name", "image", "priority"],
               },
             ],
           },
@@ -316,7 +316,7 @@ module.exports = {
         },
         attributes: ["doc_fees", "doc_advance_fees"],
       });
-      const video_timings = await VideoConsultation.findOne({
+      const video_timings = await VideoConsultation.findAll({
         where: {
           doctor_id: doctorId,
         },
