@@ -12,6 +12,7 @@ const Clinics = require("../../models/wh_clinic");
 const commonController = require("../../common/payment");
 const Prescription = require("../../models/wh_booking_prescriptions");
 const VideoConsultation = require("../../models/wh_video_consultation_times");
+const BookingPayments = require("../../models/wh_booking_payments");
 const { Op } = Sequelize;
 module.exports = {
   getPatientExistence: async function (req, res) {
@@ -92,6 +93,7 @@ module.exports = {
               {
                 model: Clinics,
               },
+              { model: BookingPayments, as: "payment" },
             ],
           },
         ],
