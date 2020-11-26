@@ -973,9 +973,9 @@ module.exports = {
       console.log(req.body, "dgsyhgfshgdh");
       let specialityExist = [];
       let array = [];
-      let searchString = req.body.doctorParams.toLowerCase().trim();
-      searchString.replace(/[^a-zA-Z]/g, "");
-      searchString.replace("dr", "");
+      let search = req.body.doctorParams.toLowerCase().trim();
+      let search1 = search.replace(/[^a-zA-Z]/g, "");
+      let searchString = search1.replace("dr", "");
       console.log(searchString, "searchStringsearchString");
       let searchObj = {
         body: req.body,
