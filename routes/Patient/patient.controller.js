@@ -281,6 +281,7 @@ module.exports = {
         ],
       });
       let patient = JSON.parse(JSON.stringify(patientData));
+      console.log(patient, "patientpatientpatient");
       if (req.body.name) {
         const quickblox = commonController.createQuickBlox({
           username: req.body.name,
