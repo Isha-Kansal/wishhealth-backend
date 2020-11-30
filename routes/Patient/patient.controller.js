@@ -245,7 +245,7 @@ module.exports = {
       console.log(req.body, "reqreqreqreq");
       let patientData;
       if (req.body.name) {
-        await PatientUsers.create({
+        const data = await PatientUsers.create({
           name: req.body.name,
           phone: req.body.phone,
           quickblox_login: "",
@@ -256,7 +256,7 @@ module.exports = {
           name: req.body.name,
           phone: req.body.phone,
           email: "",
-          user_id: patientData.user_id,
+          user_id: data.user_id,
           occupation: "",
           address: "",
           email2: "",
