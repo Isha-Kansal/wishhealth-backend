@@ -173,7 +173,7 @@ module.exports = {
   updateProfile: async function (req, res) {
     try {
       if (req.body.name) {
-        await PatientDetails.update(
+        await PatientUsers.update(
           { name: req.body.name },
           {
             where: {
@@ -183,7 +183,7 @@ module.exports = {
         );
       }
 
-      const patientData = await PatientDetails.findOne({
+      const patientData = await PatientUsers.findOne({
         where: {
           id: req.body.id,
         },
