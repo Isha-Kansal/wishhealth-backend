@@ -127,7 +127,7 @@ const createQuickBlox = async function (obj) {
                   },
                   {
                     where: {
-                      id: obj.user_id,
+                      user_id: obj.user_id,
                     },
                   }
                 )
