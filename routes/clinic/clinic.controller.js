@@ -17,7 +17,7 @@ module.exports = {
       doctorFees = (doctorFees && JSON.parse(JSON.stringify(doctorFees))) || {};
       let videoConsultation = [];
       if (["1", 1].includes(doctorFees.video_consultation)) {
-        const data = await VideoConsultation.findOne({
+        const data = await VideoConsultation.findAll({
           where: { doctor_id: id },
         });
         videoConsultation = (data && JSON.parse(JSON.stringify(data))) || [];
@@ -87,5 +87,5 @@ module.exports = {
         message: "Something Went Wrong",
       });
     }
-  }
+  },
 };
