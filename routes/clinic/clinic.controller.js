@@ -95,6 +95,7 @@ module.exports = {
 
 	clinicAvailibilityTimings: (req, res) => {
 		try {
+			console.log('clinicAvailibilityTimings-req.body', req.body);
 			const {
 				user_id,
 				availability,
@@ -107,25 +108,27 @@ module.exports = {
 				bank_acct_holder_name,
 			} = req.body;
 
+			const availabilityArr = JSON.parse(availability);
+
 			const videoConsultationTimings = [],
 				doctorClinicTimings = [],
 				clinicIds = [];
-			availability.forEach((timing) => {
-				const { break_start_time, break_end_time, clinics, day } = timing;
-				const doctorClinics = [];
+			availabilityArr.forEach((timing) => {
+				const { break_start_time, break_end_time, clinics, day } = timing,
+					doctorClinics = [];
 				clinics.forEach((clinic) => {
 					const { start_time, end_time, clinic_id } = clinic;
 					if (clinic_id === 1) {
-						const isPresent = videoConsultationTimings.findIndex(
+						const index = videoConsultationTimings.findIndex(
 							(vcClinic) =>
 								start_time === vcClinic.start_time &&
 								end_time === vcClinic.end_time &&
 								break_start_time === vcClinic.break_start_time &&
 								break_end_time === vcClinic.break_end_time
 						);
-						if (isPresent >= 0) {
-							videoConsultationTimings[isPresent].days =
-								videoConsultationTimings[isPresent].days + ',' + weekDay(day);
+						if (index >= 0) {
+							videoConsultationTimings[index].days =
+								videoConsultationTimings[index].days + ',' + weekDay(day);
 						} else {
 							videoConsultationTimings.push({
 								...clinic,
@@ -154,7 +157,15 @@ module.exports = {
 						});
 					});
 			});
-
+			console.log(
+				'clinicAvailibilityTimings-videoConsultationTimings',
+				videoConsultationTimings
+			);
+			console.log(
+				'clinicAvailibilityTimings-doctorClinicTimings',
+				doctorClinicTimings
+			);
+			console.log('clinicAvailibilityTimings-clinicIds', clinicIds);
 			Promise.all([
 				VideoConsultation.destroy({ where: { doctor_id: user_id } }),
 				VideoConsultation.bulkCreate(videoConsultationTimings),
@@ -183,15 +194,6 @@ module.exports = {
 					),
 			])
 				.then((result) => {
-					console.log(
-						'clinicAvailibilityTimings-videoConsultationTimings',
-						videoConsultationTimings
-					);
-					console.log(
-						'clinicAvailibilityTimings-doctorClinicTimings',
-						doctorClinicTimings
-					);
-					console.log('clinicAvailibilityTimings-clinicIds', clinicIds);
 					if (result) {
 						return res.status(200).json({
 							status: 'success',
