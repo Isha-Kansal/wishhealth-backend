@@ -245,7 +245,7 @@ module.exports = {
       console.log(req.body, "reqreqreqreq");
       let patientData;
       if (req.body.name) {
-        patientData = await PatientUsers.create({
+        await PatientUsers.create({
           name: req.body.name,
           phone: req.body.phone,
           quickblox_login: "",
@@ -266,13 +266,13 @@ module.exports = {
           quickblox_id: 0,
           phone2: "",
         });
-      } else {
-        patientData = await PatientUsers.findOne({
-          where: {
-            phone: req.body.phone,
-          },
-        });
       }
+      patientData = await PatientUsers.findOne({
+        where: {
+          phone: req.body.phone,
+        },
+        include: [{ model: PatientDetails }],
+      });
       let patient = JSON.parse(JSON.stringify(patientData));
       if (req.body.name) {
         const quickblox = commonController.createQuickBlox({
