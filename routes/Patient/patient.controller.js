@@ -194,7 +194,7 @@ module.exports = {
           { name: req.body.name },
           {
             where: {
-              user_id: req.body.id,
+              user_id: req.body.id.toString(),
               phone: patient.phone,
             },
           }
