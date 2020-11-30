@@ -271,7 +271,14 @@ module.exports = {
         where: {
           phone: req.body.phone,
         },
-        include: [{ model: PatientDetails }],
+        include: [
+          {
+            model: PatientDetails,
+            where: {
+              phone: req.body.phone,
+            },
+          },
+        ],
       });
       let patient = JSON.parse(JSON.stringify(patientData));
       if (req.body.name) {
