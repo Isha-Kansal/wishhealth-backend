@@ -117,9 +117,23 @@ module.exports = {
   },
   getLastBookedDoctors: async function (req, res) {
     try {
+      const patientsData = await PatientDetails.findAll({
+        where: {
+          user_id: req.params.patient_id,
+        },
+      });
+      const patient = JSON.parse(JSON.stringify(patientsData));
+      let arr = [];
+      patient &&
+        patient.length > 0 &&
+        patient.map((item) => {
+          arr.push(item.id);
+        });
       const doctors = await Bookings.findAll({
         where: {
-          patient_id: req.params.patient_id,
+          patient_id: {
+            [Op.in]: arr,
+          },
         },
         distinct: true,
         attributes: ["id", "doctor_id"],
