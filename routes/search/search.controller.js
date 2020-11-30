@@ -1344,19 +1344,27 @@ module.exports = {
           data[found] = obj;
         }
       }
-      if (
-        data.length === 0 &&
-        doctorDetails &&
-        doctorDetails.video_consultation === 1
-      ) {
-        let obj = doctorDetails;
-        obj.videobookings = videobookings;
-        obj.video_timings = video_timings;
-        data.push(obj);
-      }
+      // if (
+      //   data.length === 0 &&
+      //   doctorDetails &&
+      //   doctorDetails.video_consultation === 1
+      // ) {
+      //   let obj = doctorDetails;
+      //   obj.videobookings = videobookings;
+      //   obj.video_timings = video_timings;
+      //   data.push(obj);
+      // }
 
       return res.status(200).json({
-        data: data,
+        data:
+          data && data.length > 0
+            ? data
+            : doctorDetails && doctorDetails.video_consultation === 1
+            ? {
+                videobookings,
+                video_timings,
+              }
+            : [],
       });
     } catch (err) {
       console.log(err, "err");
