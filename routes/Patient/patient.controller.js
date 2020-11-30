@@ -230,6 +230,7 @@ module.exports = {
           phone: req.body.phone,
           quickblox_login: "",
           quickblox_id: 0,
+          role: "patient",
         });
         // await PatientDetails.create({
         //   name: req.body.name,
