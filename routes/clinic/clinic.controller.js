@@ -2,6 +2,7 @@ const moment = require('moment');
 const Sequelize = require('sequelize');
 const Clinics = require('../../models/wh_clinic');
 const ClinicImages = require('../../models/wh_clinic_images');
+const DoctorBankDetails = require('../../models/wh_doctor_bank_details');
 const DoctorClinics = require('../../models/wh_doctor_clinics');
 const DoctorClinicTimings = require('../../models/wh_doctor_clinic_timings');
 const DoctorDetails = require('../../models/wh_doctor_details');
@@ -155,13 +156,6 @@ module.exports = {
 			});
 
 			Promise.all([
-				DoctorDetails.update(
-					{
-						doc_fees: parseInt(fees),
-						doc_advance_fees: parseInt(advance_fees),
-					},
-					{ where: { user_id } }
-				),
 				VideoConsultation.destroy({ where: { doctor_id: user_id } }),
 				VideoConsultation.bulkCreate(videoConsultationTimings),
 				DoctorClinicTimings.destroy({
@@ -173,6 +167,20 @@ module.exports = {
 					},
 				}),
 				DoctorClinicTimings.bulkCreate(doctorClinicTimings),
+				DoctorDetails.update(
+					{
+						doc_fees: parseInt(fees),
+						doc_advance_fees: parseInt(advance_fees),
+					},
+					{ where: { user_id } }
+				),
+				account_number &&
+					ifsc &&
+					bank_acct_holder_name &&
+					DoctorBankDetails.update(
+						{ account_number, ifsc, bank_acct_holder_name },
+						{ where: { doctor_id: user_id } }
+					),
 			])
 				.then((result) => {
 					console.log(
