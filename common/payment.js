@@ -9,6 +9,7 @@ const BookingPayments = require("../models/wh_booking_payments");
 const CryptoJS = require("crypto-js");
 const Doctordetails = require("../models/wh_doctor_details");
 const PatientDetails = require("../models/wh_patient_details");
+const PatientUsers = require("../models/wh_patient_users");
 const { SERVER_ENVIRONMENT } = process.env;
 const instance = new Razorpay({
   key_id:
@@ -118,7 +119,7 @@ const createQuickBlox = async function (obj) {
                     console.log("createQuickBlox-api-err", err);
                   });
               } else {
-                await PatientDetails.update(
+                await PatientUsers.update(
                   {
                     quickblox_id: QBDetail.id,
                     // quickblox_login: QBDetail.login,

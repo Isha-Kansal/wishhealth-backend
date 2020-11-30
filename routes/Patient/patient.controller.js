@@ -18,7 +18,7 @@ module.exports = {
   getPatientExistence: async function (req, res) {
     try {
       console.log(req.body, "reqreqreqreq");
-      const patient = await PatientDetails.findOne({
+      const patient = await PatientUsers.findOne({
         where: {
           phone: req.body.phone,
         },
@@ -225,21 +225,28 @@ module.exports = {
       console.log(req.body, "reqreqreqreq");
       let patientData;
       if (req.body.name) {
-        patientData = await PatientDetails.create({
+        patientData = await PatientUsers.create({
           name: req.body.name,
           phone: req.body.phone,
-          email: "",
-          occupation: "",
-          address: "",
-          email2: "",
-          age: "",
-          age_conf: "",
           quickblox_login: "",
           quickblox_id: 0,
-          phone2: "",
         });
+        // await PatientDetails.create({
+        //   name: req.body.name,
+        //   phone: req.body.phone,
+        //   email: "",
+        //   user_id: patientData.user_id,
+        //   occupation: "",
+        //   address: "",
+        //   email2: "",
+        //   age: "",
+        //   age_conf: "",
+        //   quickblox_login: "",
+        //   quickblox_id: 0,
+        //   phone2: "",
+        // });
       } else {
-        patientData = await PatientDetails.findOne({
+        patientData = await PatientUsers.findOne({
           where: {
             phone: req.body.phone,
           },
@@ -249,7 +256,7 @@ module.exports = {
       if (req.body.name) {
         const quickblox = commonController.createQuickBlox({
           username: req.body.name,
-          user_id: patient.id,
+          user_id: patient.user_id,
           type: "patient",
           qbLogin: req.body.name,
         });

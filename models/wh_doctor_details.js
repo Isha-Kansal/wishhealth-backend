@@ -261,6 +261,9 @@ Doctordetails.belongsTo(States, {
   foreignKey: "state_id",
 });
 Users.hasOne(Doctordetails, { foreignKey: "user_id" });
+Doctordetails.belongsTo(Users, {
+  foreignKey: "user_id",
+});
 Cities.hasMany(Doctordetails, { foreignKey: "city_id" });
 
 Doctordetails.belongsTo(Cities, {

@@ -14,7 +14,7 @@ const PatientUsers = db.define(
     },
     email: {
       type: "VARCHAR(50)",
-      allowNull: false,
+      allowNull: true,
       defaultValue: null,
       primaryKey: false,
     },
@@ -26,7 +26,7 @@ const PatientUsers = db.define(
     },
     password: {
       type: "VARCHAR(50)",
-      allowNull: false,
+      allowNull: true,
       defaultValue: null,
       primaryKey: false,
     },
