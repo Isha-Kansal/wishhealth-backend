@@ -235,7 +235,7 @@ module.exports = {
           { phone: req.body.phone },
           {
             where: {
-              id: req.body.id,
+              user_id: req.body.id,
             },
           }
         );
