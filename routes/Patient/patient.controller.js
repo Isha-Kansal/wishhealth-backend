@@ -39,61 +39,67 @@ module.exports = {
     try {
       console.log("getPatientBookings-req.body", req.body);
       console.log("getPatientBookings-req.params", req.params);
-      const patient = await PatientDetails.findOne({
+      const patient = await PatientUsers.findOne({
         where: {
-          id: parseInt(req.params.patient_id),
+          user_id: parseInt(req.params.patient_id),
         },
         include: [
           {
-            model: Bookings,
-            as: "patient_bookings",
-            required: false,
+            model: PatientDetails,
+            required: true,
             include: [
               {
-                model: Users,
+                model: Bookings,
+                as: "patient_bookings",
+                required: false,
                 include: [
                   {
-                    model: Doctordetails,
-                    required: false,
-                  },
-                  {
-                    model: Doctorqualifications,
-                    required: false,
+                    model: Users,
                     include: [
                       {
-                        model: Qualifications,
+                        model: Doctordetails,
                         required: false,
-                        attributes: ["degree"],
-                        where: {
-                          degree: {
-                            [Op.ne]: null,
-                          },
-                        },
                       },
-                    ],
-                  },
-                  {
-                    model: Doctorspecialities,
-                    required: false,
-                    include: [
                       {
-                        model: Specialities,
-                        required: true,
-                        attributes: ["title"],
+                        model: Doctorqualifications,
+                        required: false,
+                        include: [
+                          {
+                            model: Qualifications,
+                            required: false,
+                            attributes: ["degree"],
+                            where: {
+                              degree: {
+                                [Op.ne]: null,
+                              },
+                            },
+                          },
+                        ],
+                      },
+                      {
+                        model: Doctorspecialities,
+                        required: false,
+                        include: [
+                          {
+                            model: Specialities,
+                            required: true,
+                            attributes: ["title"],
+                          },
+                        ],
+                      },
+                      {
+                        model: VideoConsultation,
+                        required: false,
+                        as: "video_timings",
                       },
                     ],
                   },
                   {
-                    model: VideoConsultation,
-                    required: false,
-                    as: "video_timings",
+                    model: Clinics,
                   },
+                  { model: BookingPayments, as: "payment" },
                 ],
               },
-              {
-                model: Clinics,
-              },
-              { model: BookingPayments, as: "payment" },
             ],
           },
         ],
