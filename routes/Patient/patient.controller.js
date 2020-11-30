@@ -177,7 +177,7 @@ module.exports = {
           { name: req.body.name },
           {
             where: {
-              id: req.body.id,
+              user_id: req.body.id,
             },
           }
         );
@@ -185,7 +185,7 @@ module.exports = {
 
       const patientData = await PatientUsers.findOne({
         where: {
-          id: req.body.id,
+          user_id: req.body.id,
         },
       });
       let patient = JSON.parse(JSON.stringify(patientData));
