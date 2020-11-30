@@ -189,6 +189,17 @@ module.exports = {
         },
       });
       let patient = JSON.parse(JSON.stringify(patientData));
+      if (req.body.name) {
+        await PatientDetails.update(
+          { name: req.body.name },
+          {
+            where: {
+              user_id: req.body.id,
+              phone: patient.phone,
+            },
+          }
+        );
+      }
       console.log(patient, "patientpatientpatient");
       if (req.body.phone) {
         const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
@@ -221,11 +232,19 @@ module.exports = {
       console.log("verifyOtp-verify", verify);
       if (verify) {
         message = "otp valid";
-        await PatientDetails.update(
+        await PatientUsers.update(
           { phone: req.body.phone },
           {
             where: {
               id: req.body.id,
+            },
+          }
+        );
+        await PatientDetails.update(
+          { phone: req.body.phone },
+          {
+            where: {
+              user_id: req.body.id,
             },
           }
         );
