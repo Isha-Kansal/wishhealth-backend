@@ -252,20 +252,20 @@ module.exports = {
           quickblox_id: 0,
           role: "patient",
         });
-        // await PatientDetails.create({
-        //   name: req.body.name,
-        //   phone: req.body.phone,
-        //   email: "",
-        //   user_id: patientData.user_id,
-        //   occupation: "",
-        //   address: "",
-        //   email2: "",
-        //   age: "",
-        //   age_conf: "",
-        //   quickblox_login: "",
-        //   quickblox_id: 0,
-        //   phone2: "",
-        // });
+        await PatientDetails.create({
+          name: req.body.name,
+          phone: req.body.phone,
+          email: "",
+          user_id: patientData.user_id,
+          occupation: "",
+          address: "",
+          email2: "",
+          age: "",
+          age_conf: "",
+          quickblox_login: "",
+          quickblox_id: 0,
+          phone2: "",
+        });
       } else {
         patientData = await PatientUsers.findOne({
           where: {
