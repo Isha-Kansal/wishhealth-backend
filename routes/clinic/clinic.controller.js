@@ -108,14 +108,16 @@ module.exports = {
 				bank_acct_holder_name,
 			} = req.body;
 
-			const clinicTimingList = availability && JSON.parse(availability) || [];
-
+			// const clinicTimingList = (availability && JSON.parse(availability)) || [];
+			const clinicTimingList = availability || [];
 			const videoConsultationTimings = [],
 				doctorClinicTimings = [],
 				clinicIds = [];
 			clinicTimingList.forEach((timing) => {
 				const { break_start_time, break_end_time, clinics, day } = timing,
 					doctorClinics = [];
+				console.log('clinicAvailibilityTimings-clinics', clinics);
+				console.log('clinicAvailibilityTimings-timing', timing);
 				clinics.forEach((clinic) => {
 					const { start_time, end_time, clinic_id } = clinic;
 					if (clinic_id === 1) {
@@ -127,8 +129,12 @@ module.exports = {
 								break_end_time === vcClinic.break_end_time
 						);
 						if (index >= 0) {
-							videoConsultationTimings[index].days =
-								videoConsultationTimings[index].days + ',' + weekDay(day);
+							const clinicDay = weekDay(day);
+							const beforeDays = videoConsultationTimings[index].days;
+							if (!beforeDays.includes(clinicDay)) {
+								videoConsultationTimings[index].days =
+									beforeDays + ',' + clinicDay;
+							}
 						} else {
 							videoConsultationTimings.push({
 								...clinic,
@@ -149,12 +155,14 @@ module.exports = {
 				doctorClinics &&
 					doctorClinics.length > 0 &&
 					doctorClinics.forEach((clinic) => {
-						doctorClinicTimings.push({
-							doctor_id: user_id,
-							day: timing.day,
-							clinic_id: clinic.clinic_id,
-							...doctorTime({ ...clinic, ...timing }),
-						});
+						const timings = doctorTime({ ...clinic, ...timing });
+						timings &&
+							doctorClinicTimings.push({
+								doctor_id: user_id,
+								day: timing.day,
+								clinic_id: clinic.clinic_id,
+								...timings,
+							});
 					});
 			});
 			console.log(
@@ -166,51 +174,55 @@ module.exports = {
 				doctorClinicTimings
 			);
 			console.log('clinicAvailibilityTimings-clinicIds', clinicIds);
-			Promise.all([
-				VideoConsultation.destroy({ where: { doctor_id: user_id } }),
-				VideoConsultation.bulkCreate(videoConsultationTimings),
-				DoctorClinicTimings.destroy({
-					where: {
-						[Op.and]: [
-							{ clinic_id: { [Op.in]: clinicIds } },
-							{ doctor_id: user_id },
-						],
-					},
-				}),
-				DoctorClinicTimings.bulkCreate(doctorClinicTimings),
-				DoctorDetails.update(
-					{
-						doc_fees: parseInt(fees),
-						doc_advance_fees: parseInt(advance_fees),
-					},
-					{ where: { user_id } }
-				),
-				account_number &&
-					ifsc &&
-					bank_acct_holder_name &&
-					DoctorBankDetails.update(
-						{ account_number, ifsc, bank_acct_holder_name },
-						{ where: { doctor_id: user_id } }
-					),
-			])
-				.then((result) => {
-					if (result) {
-						return res.status(200).json({
-							status: 'success',
-							message: 'Timings added successfully.',
-						});
-					} else {
-						return res.status(500).json({
-							message: 'Something Went Wrong',
-						});
-					}
-				})
-				.catch((err) => {
-					console.log('clinicAvailibilityTimings-api-catch-err', err);
-					return res.status(500).json({
-						message: 'Something Went Wrong',
-					});
-				});
+			// Promise.all([
+			// 	VideoConsultation.destroy({ where: { doctor_id: user_id } }),
+			// 	VideoConsultation.bulkCreate(videoConsultationTimings),
+			// 	DoctorClinicTimings.destroy({
+			// 		where: {
+			// 			[Op.and]: [
+			// 				{ clinic_id: { [Op.in]: clinicIds } },
+			// 				{ doctor_id: user_id },
+			// 			],
+			// 		},
+			// 	}),
+			// 	DoctorClinicTimings.bulkCreate(doctorClinicTimings),
+			// 	DoctorDetails.update(
+			// 		{
+			// 			doc_fees: parseInt(fees),
+			// 			doc_advance_fees: parseInt(advance_fees),
+			// 		},
+			// 		{ where: { user_id } }
+			// 	),
+			// 	account_number &&
+			// 		ifsc &&
+			// 		bank_acct_holder_name &&
+			// 		DoctorBankDetails.update(
+			// 			{ account_number, ifsc, bank_acct_holder_name },
+			// 			{ where: { doctor_id: user_id } }
+			// 		),
+			// ])
+			// 	.then((result) => {
+			// 		if (result) {
+			// 			return res.status(200).json({
+			// 				status: 'success',
+			// 				message: 'Timings added successfully.',
+			// 			});
+			// 		} else {
+			// 			return res.status(500).json({
+			// 				message: 'Something Went Wrong',
+			// 			});
+			// 		}
+			// 	})
+			// 	.catch((err) => {
+			// 		console.log('clinicAvailibilityTimings-api-catch-err', err);
+			// 		return res.status(500).json({
+			// 			message: 'Something Went Wrong',
+			// 		});
+			// 	});
+			return res.status(200).json({
+				status: 'success',
+				message: 'Timings added successfully.',
+			});
 		} catch (err) {
 			console.log('clinicAvailibilityTimings-try-catch-err', err);
 			return res.status(500).json({
@@ -241,6 +253,85 @@ function weekDay(day) {
 	}
 }
 
+function checkTime1(data) {
+	const {
+		start_time,
+		end_time,
+		break_start_time,
+		break_end_time,
+		slot_start_time,
+		slot_end_time,
+	} = data;
+
+	// const slotStartTime = moment(slot_start_time, 'hh:mm A').format();
+	// const slotEndTime = moment(slot_end_time, 'hh:mm A').format();
+	// const startTime = moment(start_time, 'h:mma').format();
+	// const endTime = moment(end_time, 'h:mma').format();
+	// const breakStartTime = moment(break_start_time, 'hh:mm a').format();
+	// const breakEndTime = moment(break_end_time, 'hh:mm a').format();
+	const slotStartTime = moment(slot_start_time, 'hh:mm A');
+	const slotEndTime = moment(slot_end_time, 'hh:mm A');
+	const startTime = moment(start_time, 'h:mma');
+	const endTime = moment(end_time, 'h:mma');
+	const breakStartTime = moment(break_start_time, 'hh:mm a');
+	const breakEndTime = moment(break_end_time, 'hh:mm a');
+	// console.log('break_start_time', break_start_time, breakStartTime);
+	// console.log('break_end_time', break_end_time, breakEndTime);
+	// console.log('slot_start_time', slot_start_time);
+	// console.log('slot_end_time', slot_end_time);
+
+	const isBeakExist =
+		(breakStartTime.isBetween(startTime, endTime) &&
+			breakEndTime.isBetween(startTime, endTime)) ||
+		break_start_time === startTime.format('hh:mm a') ||
+		break_end_time === endTime.format('hh:mm a');
+	// console.log('isBeakExist', isBeakExist);
+
+	if (isBeakExist) {
+		const isSlotExist =
+			(slotStartTime.isBetween(startTime, breakStartTime) &&
+				slotEndTime.isBetween(startTime, breakStartTime)) ||
+			slot_start_time === startTime.format('hh:mm A') ||
+			slot_end_time === breakStartTime.format('hh:mm A') ||
+			(slotStartTime.isBetween(breakEndTime, endTime) &&
+				slotEndTime.isBetween(breakEndTime, endTime)) ||
+			slot_start_time === breakEndTime.format('hh:mm A') ||
+			slot_end_time === endTime.format('hh:mm A');
+		console.log(
+			'isSlotExist-isBeakExist',
+			slot_start_time,
+			slot_end_time,
+			isSlotExist
+		);
+		if (isSlotExist) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		const isSlotExist =
+			(slotStartTime.isBetween(startTime, endTime) &&
+				slotEndTime.isBetween(startTime, endTime)) ||
+			slot_start_time === startTime.format('hh:mm A') ||
+			slot_end_time === endTime.format('hh:mm A');
+		// console.log('isSlotExist', slot_start_time, slot_end_time, isSlotExist);
+		if (isSlotExist) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// if (
+	// 	(startTime <= slotStartTime && slotEndTime <= breakStartTime) ||
+	// 	(breakEndTime <= slotStartTime && slotEndTime <= endTime)
+	// ) {
+	// 	return true;
+	// } else {
+	// 	return false;
+	// }
+}
+
 function checkTime(data) {
 	const {
 		start_time,
@@ -250,90 +341,262 @@ function checkTime(data) {
 		slot_start_time,
 		slot_end_time,
 	} = data;
-	if (!slot_end_time) {
-		console.log('slot_start_time', slot_start_time);
-		console.log('slot_end_time', slot_end_time);
-	}
-	const slotStartTime = moment(slot_start_time, 'hh:mm A').format();
-	const slotEndTime = moment(slot_end_time, 'hh:mm A').format();
-	const startTime = moment(start_time, 'h:mma').format();
-	const endTime = moment(end_time, 'h:mma').format();
-	const breakStartTime = moment(break_start_time, 'hh:mm a').format();
-	const breakEndTime = moment(break_end_time, 'hh:mm a').format();
-	if (
-		(startTime <= slotStartTime && slotEndTime <= breakStartTime) ||
-		(breakEndTime <= slotStartTime && slotEndTime <= endTime)
-	) {
-		return true;
+	console.log('start_time', start_time);
+	console.log('end_time', end_time);
+	console.log('break_start_time', break_start_time);
+	console.log('break_end_time', break_end_time);
+	console.log('slot_start_time', slot_start_time);
+	console.log('slot_end_time', slot_end_time);
+
+	const slotStartTime = moment(slot_start_time, 'hh:mm A');
+	const slotEndTime = moment(slot_end_time, 'hh:mm A');
+	const startTime = moment(start_time, 'h:mma');
+	const endTime = moment(end_time, 'h:mma');
+	const breakStartTime = moment(break_start_time, 'hh:mm a');
+	const breakEndTime = moment(break_end_time, 'hh:mm a');
+}
+
+const timeSlots = [
+	'00:00 AM',
+	'00:30 AM',
+	'01:00 AM',
+	'01:30 AM',
+	'02:00 AM',
+	'02:30 AM',
+	'03:00 AM',
+	'03:30 AM',
+	'04:00 AM',
+	'04:30 AM',
+	'05:00 AM',
+	'05:30 AM',
+	'06:00 AM',
+	'06:30 AM',
+	'07:00 AM',
+	'07:30 AM',
+	'08:00 AM',
+	'08:30 AM',
+	'09:00 AM',
+	'09:30 AM',
+	'10:00 AM',
+	'10:30 AM',
+	'11:00 AM',
+	'11:30 AM',
+	'12:00 PM',
+	'12:30 PM',
+	'01:00 PM',
+	'01:30 PM',
+	'02:00 PM',
+	'02:30 PM',
+	'03:00 PM',
+	'03:30 PM',
+	'04:00 PM',
+	'04:30 PM',
+	'05:00 PM',
+	'05:30 PM',
+	'06:00 PM',
+	'06:30 PM',
+	'07:00 PM',
+	'07:30 PM',
+	'08:00 PM',
+	'08:30 PM',
+	'09:00 PM',
+	'09:30 PM',
+	'10:00 PM',
+	'10:30 PM',
+	'11:00 PM',
+	'11:30 PM',
+];
+
+function breakTimeChecker(date, type) {
+	const minutes = date.format('mm');
+	const isValid = ['00', '30'].includes(minutes);
+	if (isValid) return date;
+	if (type === 'start') {
+		if (!isValid) {
+			if (minutes > 30) {
+				date.subtract(minutes - 30, 'minutes');
+			} else {
+				date.subtract(minutes, 'minutes');
+			}
+		}
 	} else {
-		return false;
+		if (!isValid) {
+			if (minutes > 30) {
+				date.add(60 - minutes, 'minutes');
+			} else {
+				date.add(30 - minutes, 'minutes');
+			}
+		}
 	}
+	return date;
+}
+
+function doctorTimeChecker(date, type) {
+	const minutes = date.format('mm');
+	const isValid = ['00', '30'].includes(minutes);
+	if (isValid) return date;
+	if (type === 'start') {
+		if (!isValid) {
+			if (minutes > 30) {
+				date.add(60 - minutes, 'minutes');
+			} else {
+				date.add(30 - minutes, 'minutes');
+			}
+		}
+	} else {
+		if (!isValid) {
+			if (minutes > 30) {
+				date.subtract(minutes - 30, 'minutes');
+			} else {
+				date.subtract(minutes, 'minutes');
+			}
+		}
+	}
+	return date;
+}
+
+function slotGenerator(data) {
+	const { startTime, endTime } = data;
+	const slots = [];
+	const j = moment(endTime).format();
+	// console.log('slotGenerator=between-startTime', startTime);
+	// console.log('slotGenerator=between-endTime', endTime);
+	for (let i = moment(startTime); i.format() <= j; i = i.add(30, 'minutes')) {
+		slots.push(i.format('hh:mm A'));
+	}
+	return slots;
 }
 
 function doctorTime(data) {
-	const timeSlots = [
-		'00:00 AM',
-		'00:30 AM',
-		'01:00 AM',
-		'01:30 AM',
-		'02:00 AM',
-		'02:30 AM',
-		'03:00 AM',
-		'03:30 AM',
-		'04:00 AM',
-		'04:30 AM',
-		'05:00 AM',
-		'05:30 AM',
-		'06:00 AM',
-		'06:30 AM',
-		'07:00 AM',
-		'07:30 AM',
-		'08:00 AM',
-		'08:30 AM',
-		'09:00 AM',
-		'09:30 AM',
-		'10:00 AM',
-		'10:30 AM',
-		'11:00 AM',
-		'11:30 AM',
-		'12:00 PM',
-		'12:30 PM',
-		'01:00 PM',
-		'01:30 PM',
-		'02:00 PM',
-		'02:30 PM',
-		'03:00 PM',
-		'03:30 PM',
-		'04:00 PM',
-		'04:30 PM',
-		'05:00 PM',
-		'05:30 PM',
-		'06:00 PM',
-		'06:30 PM',
-		'07:00 PM',
-		'07:30 PM',
-		'08:00 PM',
-		'08:30 PM',
-		'09:00 PM',
-		'09:30 PM',
-		'10:00 PM',
-		'10:30 PM',
-		'11:00 PM',
-		'11:30 PM',
-	];
-	const obj = {};
-	timeSlots.forEach((slot, index) => {
-		if (
-			checkTime({
-				...data,
-				slot_start_time: slot,
-				slot_end_time: timeSlots[index + 1],
-			})
-		) {
-			obj[slot] = '1';
-		} else {
-			obj[slot] = '0';
+	const { start_time, end_time, break_start_time, break_end_time } = data;
+	// const slotStartTime = moment(slot_start_time, 'hh:mm A');
+	// const slotEndTime = moment(slot_end_time, 'hh:mm A');
+	const startTime = doctorTimeChecker(moment(start_time, 'h:mma'), 'start');
+	const endTime = doctorTimeChecker(moment(end_time, 'h:mma'), 'end');
+	const breakStartTime = breakTimeChecker(
+		moment(break_start_time, 'hh:mm a'),
+		'start'
+	);
+	const breakEndTime = breakTimeChecker(
+		moment(break_end_time, 'hh:mm a'),
+		'end'
+	);
+	console.log('doctorTime-startTime', startTime);
+	console.log('doctorTime-endTime', endTime);
+	console.log('doctorTime-breakStartTime', breakStartTime);
+	console.log('doctorTime-breakEndTime', breakEndTime);
+	// const isBeakExist =
+	// 	(breakStartTime.isBetween(startTime, endTime) &&
+	// 		breakEndTime.isBetween(startTime, endTime)) ||
+	// 	break_start_time === startTime.format('hh:mm a') ||
+	// 	break_end_time === endTime.format('hh:mm a');
+	// console.log('doctorTime-isBeakExist', isBeakExist);
+	if (breakStartTime.format() > breakEndTime.format()) return false;
+
+	const isBeakExist =
+		breakStartTime.isBetween(startTime, endTime) &&
+		breakEndTime.isBetween(startTime, endTime);
+	console.log('doctorTime-isBeakExist', isBeakExist);
+	const availableSlots = [];
+	if (isBeakExist) {
+		availableSlots.push(
+			...slotGenerator({ startTime, endTime: breakStartTime }),
+			...slotGenerator({ startTime: breakEndTime, endTime })
+		);
+		availableSlots.push(...slotGenerator({ startTime: breakEndTime, endTime }));
+	} else {
+		const breakAtStart = break_start_time === startTime.format('hh:mm a');
+		const breakAtEnd = break_end_time === endTime.format('hh:mm a');
+		const i = moment(startTime);
+		const j = moment(endTime);
+		if (breakAtStart) {
+			const minutes = minuteCalculator(
+				new Date(breakStartTime.format()),
+				new Date(breakEndTime.format())
+			);
+			i.add(minutes, 'minutes');
 		}
+		if (breakAtEnd) {
+			const minutes = minuteCalculator(
+				new Date(breakStartTime.format()),
+				new Date(breakEndTime.format())
+			);
+			j.subtract(minutes, 'minutes');
+		}
+		const isBreakStartTimeBeforeStartTime = breakStartTime.isBefore(startTime);
+		const isBreakEndTimeAfterEndTime = breakEndTime.isAfter(endTime);
+		console.log(
+			'doctorTime-isBreakStartTimeBeforeStartTime',
+			isBreakStartTimeBeforeStartTime
+		);
+		console.log(
+			'doctorTime-isBreakEndTimeAfterEndTime',
+			isBreakEndTimeAfterEndTime
+		);
+		if (isBreakStartTimeBeforeStartTime && isBreakEndTimeAfterEndTime) {
+			return false;
+			console.log('doctorTime-both-true');
+		} else if (isBreakStartTimeBeforeStartTime) {
+			const minutes = minuteCalculator(
+				new Date(startTime.format()),
+				new Date(breakEndTime.format())
+			);
+			console.log('doctorTime-start-true', minutes);
+			i.add(minutes, 'minutes');
+		} else if (isBreakEndTimeAfterEndTime) {
+			const minutes = minuteCalculator(
+				new Date(breakStartTime.format()),
+				new Date(endTime.format())
+			);
+			console.log('doctorTime-end-true', minutes);
+			j.subtract(minutes, 'minutes');
+		}
+		// if (breakEndTime.isAfter(endTime)) {
+		// 	console.log('doctorTime-isBeakExist', isBeakExist);
+		// }
+		// if (breakEndTime.isAfter(endTime)) {
+		// 	console.log('doctorTime-isAfter');
+		// }
+		availableSlots.push(...slotGenerator({ startTime: i, endTime: j }));
+	}
+	const obj = {};
+	timeSlots.forEach((slot) => {
+		if (availableSlots.includes(slot)) obj[slot] = '1';
+		else obj[slot] = '0';
 	});
+
+	// timeSlots.forEach((slot, index) => {
+	// 	const isAvailable = checkTime({
+	// 		...data,
+	// 		slot_start_time: slot,
+	// 		slot_end_time: timeSlots[index + 1] || timeSlots[0],
+	// 	});
+	// 	if (isAvailable) obj[slot] = '1';
+	// 	else obj[slot] = '0';
+	// });
+	// const slotsLen = timeSlots.length;
+	// for (let i = 0; i < slotsLen; i++) {
+	// 	const slot_start_time = timeSlots[i];
+	// 	const slot_end_time = timeSlots[i + 1] || timeSlots[0];
+	// 	const isAvailable = checkTime({
+	// 		...data,
+	// 		slot_start_time,
+	// 		slot_end_time,
+	// 	});
+	// 	if (isAvailable) {
+	// 		obj[slot_start_time] = '1';
+	// 		obj[slot_end_time] = '1';
+	// 	} else {
+	// 		obj[slot_start_time] = '0';
+	// 		obj[slot_end_time] = '0';
+	// 	}
+	// }
 	return obj;
+}
+
+function minuteCalculator(startDate, endDate) {
+	const ticks = (endDate - startDate) / 1000;
+	const seconds = Math.abs(ticks);
+	const minutes = seconds / 60;
+	return minutes;
 }
