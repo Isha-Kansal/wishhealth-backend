@@ -253,94 +253,6 @@ function weekDay(day) {
 	}
 }
 
-function checkTime1(data) {
-	const {
-		start_time,
-		end_time,
-		break_start_time,
-		break_end_time,
-		slot_start_time,
-		slot_end_time,
-	} = data;
-
-	// const slotStartTime = moment(slot_start_time, 'hh:mm A').format();
-	// const slotEndTime = moment(slot_end_time, 'hh:mm A').format();
-	// const startTime = moment(start_time, 'h:mma').format();
-	// const endTime = moment(end_time, 'h:mma').format();
-	// const breakStartTime = moment(break_start_time, 'hh:mm a').format();
-	// const breakEndTime = moment(break_end_time, 'hh:mm a').format();
-	const slotStartTime = moment(slot_start_time, 'hh:mm A');
-	const slotEndTime = moment(slot_end_time, 'hh:mm A');
-	const startTime = moment(start_time, 'h:mma');
-	const endTime = moment(end_time, 'h:mma');
-	const breakStartTime = moment(break_start_time, 'hh:mm a');
-	const breakEndTime = moment(break_end_time, 'hh:mm a');
-
-	const isBeakExist =
-		(breakStartTime.isBetween(startTime, endTime) &&
-			breakEndTime.isBetween(startTime, endTime)) ||
-		break_start_time === startTime.format('hh:mm a') ||
-		break_end_time === endTime.format('hh:mm a');
-
-	if (isBeakExist) {
-		const isSlotExist =
-			(slotStartTime.isBetween(startTime, breakStartTime) &&
-				slotEndTime.isBetween(startTime, breakStartTime)) ||
-			slot_start_time === startTime.format('hh:mm A') ||
-			slot_end_time === breakStartTime.format('hh:mm A') ||
-			(slotStartTime.isBetween(breakEndTime, endTime) &&
-				slotEndTime.isBetween(breakEndTime, endTime)) ||
-			slot_start_time === breakEndTime.format('hh:mm A') ||
-			slot_end_time === endTime.format('hh:mm A');
-		console.log(
-			'isSlotExist-isBeakExist',
-			slot_start_time,
-			slot_end_time,
-			isSlotExist
-		);
-		if (isSlotExist) {
-			return true;
-		} else {
-			return false;
-		}
-	} else {
-		const isSlotExist =
-			(slotStartTime.isBetween(startTime, endTime) &&
-				slotEndTime.isBetween(startTime, endTime)) ||
-			slot_start_time === startTime.format('hh:mm A') ||
-			slot_end_time === endTime.format('hh:mm A');
-		if (isSlotExist) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
-
-function checkTime(data) {
-	const {
-		start_time,
-		end_time,
-		break_start_time,
-		break_end_time,
-		slot_start_time,
-		slot_end_time,
-	} = data;
-	console.log('start_time', start_time);
-	console.log('end_time', end_time);
-	console.log('break_start_time', break_start_time);
-	console.log('break_end_time', break_end_time);
-	console.log('slot_start_time', slot_start_time);
-	console.log('slot_end_time', slot_end_time);
-
-	const slotStartTime = moment(slot_start_time, 'hh:mm A');
-	const slotEndTime = moment(slot_end_time, 'hh:mm A');
-	const startTime = moment(start_time, 'h:mma');
-	const endTime = moment(end_time, 'h:mma');
-	const breakStartTime = moment(break_start_time, 'hh:mm a');
-	const breakEndTime = moment(break_end_time, 'hh:mm a');
-}
-
 const timeSlots = [
 	'00:00 AM',
 	'00:30 AM',
@@ -462,11 +374,16 @@ function doctorTime(data) {
 		moment(break_end_time, 'hh:mm a'),
 		'end'
 	);
+	console.log('startTime', startTime);
+	console.log('endTime', endTime);
+	console.log('breakStartTime', breakStartTime);
+	console.log('breakEndTime', breakEndTime);
 	if (breakStartTime.format() > breakEndTime.format()) return false;
 
 	const isBeakExist =
 		breakStartTime.isBetween(startTime, endTime) &&
 		breakEndTime.isBetween(startTime, endTime);
+	console.log('isBeakExist', isBeakExist);
 	const availableSlots = [];
 	if (isBeakExist) {
 		availableSlots.push(
@@ -476,7 +393,9 @@ function doctorTime(data) {
 		availableSlots.push(...slotGenerator({ startTime: breakEndTime, endTime }));
 	} else {
 		const breakAtStart = break_start_time === startTime.format('hh:mm a');
+		console.log('breakAtStart', breakAtStart, break_start_time);
 		const breakAtEnd = break_end_time === endTime.format('hh:mm a');
+		console.log('breakAtEnd', breakAtEnd, break_end_time);
 		const i = moment(startTime);
 		const j = moment(endTime);
 		if (breakAtStart) {
