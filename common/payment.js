@@ -137,6 +137,24 @@ const createQuickBlox = async function (obj) {
                   .catch((err) => {
                     console.log("createQuickBlox-api-err", err);
                   });
+                await PatientDetails.update(
+                  {
+                    quickblox_id: QBDetail.id,
+                    // quickblox_login: QBDetail.login,
+                    quickblox_login: obj.qbLogin,
+                  },
+                  {
+                    where: {
+                      user_id: obj.user_id,
+                    },
+                  }
+                )
+                  .then((result) => {
+                    console.log("createQuickBlox-result", result);
+                  })
+                  .catch((err) => {
+                    console.log("createQuickBlox-api-err", err);
+                  });
               }
             }
             return { message: "Success" };
