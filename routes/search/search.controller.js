@@ -170,9 +170,6 @@ const recommendationsData = async function (req, arr) {
             video_consultation: {
               [Op.in]: [1],
             },
-            is_verified: {
-              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
-            },
           },
         },
         {
@@ -275,9 +272,6 @@ const getLocationData = async function (req) {
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
-            },
-            is_verified: {
-              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
             },
           },
           include: [
@@ -517,9 +511,6 @@ const getDoctorData = async function (req) {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
             },
-            is_verified: {
-              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
-            },
           },
           include: [
             {
@@ -625,9 +616,6 @@ const getLocationSpecialityData = async function (req, arr) {
                 video_consultation: {
                   [Op.in]: req.body.type === "video" ? [1] : [0, 1],
                 },
-                is_verified: {
-                  [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
-                },
               },
             },
           ],
@@ -646,9 +634,6 @@ const getLocationSpecialityData = async function (req, arr) {
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
-            },
-            is_verified: {
-              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
             },
           },
         },
@@ -873,9 +858,6 @@ const getSpecialityData = async function (req, arr) {
                 video_consultation: {
                   [Op.in]: req.body.type === "video" ? [1] : [0, 1],
                 },
-                is_verified: {
-                  [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
-                },
               },
             },
           ],
@@ -893,9 +875,6 @@ const getSpecialityData = async function (req, arr) {
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
-            },
-            is_verified: {
-              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
             },
           },
         },
