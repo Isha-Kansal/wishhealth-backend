@@ -130,7 +130,13 @@ const createQuickBlox = async function (obj) {
                       user_id: obj.user_id,
                     },
                   }
-                );
+                )
+                  .then((result) => {
+                    console.log("createQuickBlox-result", result);
+                  })
+                  .catch((err) => {
+                    console.log("createQuickBlox-api-err", err);
+                  });
 
                 await PatientDetails.update(
                   {
@@ -144,7 +150,13 @@ const createQuickBlox = async function (obj) {
                       phone: obj.phone,
                     },
                   }
-                );
+                )
+                  .then((result) => {
+                    console.log("createQuickBlox-result", result);
+                  })
+                  .catch((err) => {
+                    console.log("createQuickBlox-api-err", err);
+                  });
               }
             }
             return { message: "Success" };
