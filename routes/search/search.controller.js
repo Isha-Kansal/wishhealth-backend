@@ -165,7 +165,7 @@ const recommendationsData = async function (req, arr) {
       include: [
         {
           model: Doctordetails,
-          required: true,
+
           where: {
             video_consultation: {
               [Op.in]: [1],
@@ -271,7 +271,7 @@ const getLocationData = async function (req) {
       include: [
         {
           model: Doctordetails,
-          required: true,
+
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
@@ -512,7 +512,7 @@ const getDoctorData = async function (req) {
       include: [
         {
           model: Doctordetails,
-          required: true,
+
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
@@ -620,7 +620,7 @@ const getLocationSpecialityData = async function (req, arr) {
           include: [
             {
               model: Doctordetails,
-              required: true,
+
               where: {
                 video_consultation: {
                   [Op.in]: req.body.type === "video" ? [1] : [0, 1],
@@ -642,7 +642,7 @@ const getLocationSpecialityData = async function (req, arr) {
       include: [
         {
           model: Doctordetails,
-          required: true,
+
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
@@ -868,7 +868,7 @@ const getSpecialityData = async function (req, arr) {
           include: [
             {
               model: Doctordetails,
-              required: true,
+
               where: {
                 video_consultation: {
                   [Op.in]: req.body.type === "video" ? [1] : [0, 1],
@@ -890,7 +890,6 @@ const getSpecialityData = async function (req, arr) {
       include: [
         {
           model: Doctordetails,
-          required: true,
           where: {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
