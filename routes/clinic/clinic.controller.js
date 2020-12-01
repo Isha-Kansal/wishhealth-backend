@@ -275,17 +275,12 @@ function checkTime1(data) {
 	const endTime = moment(end_time, 'h:mma');
 	const breakStartTime = moment(break_start_time, 'hh:mm a');
 	const breakEndTime = moment(break_end_time, 'hh:mm a');
-	// console.log('break_start_time', break_start_time, breakStartTime);
-	// console.log('break_end_time', break_end_time, breakEndTime);
-	// console.log('slot_start_time', slot_start_time);
-	// console.log('slot_end_time', slot_end_time);
 
 	const isBeakExist =
 		(breakStartTime.isBetween(startTime, endTime) &&
 			breakEndTime.isBetween(startTime, endTime)) ||
 		break_start_time === startTime.format('hh:mm a') ||
 		break_end_time === endTime.format('hh:mm a');
-	// console.log('isBeakExist', isBeakExist);
 
 	if (isBeakExist) {
 		const isSlotExist =
@@ -314,22 +309,12 @@ function checkTime1(data) {
 				slotEndTime.isBetween(startTime, endTime)) ||
 			slot_start_time === startTime.format('hh:mm A') ||
 			slot_end_time === endTime.format('hh:mm A');
-		// console.log('isSlotExist', slot_start_time, slot_end_time, isSlotExist);
 		if (isSlotExist) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
-	// if (
-	// 	(startTime <= slotStartTime && slotEndTime <= breakStartTime) ||
-	// 	(breakEndTime <= slotStartTime && slotEndTime <= endTime)
-	// ) {
-	// 	return true;
-	// } else {
-	// 	return false;
-	// }
 }
 
 function checkTime(data) {
@@ -459,8 +444,6 @@ function slotGenerator(data) {
 	const { startTime, endTime } = data;
 	const slots = [];
 	const j = moment(endTime).format();
-	// console.log('slotGenerator=between-startTime', startTime);
-	// console.log('slotGenerator=between-endTime', endTime);
 	for (let i = moment(startTime); i.format() <= j; i = i.add(30, 'minutes')) {
 		slots.push(i.format('hh:mm A'));
 	}
@@ -469,8 +452,6 @@ function slotGenerator(data) {
 
 function doctorTime(data) {
 	const { start_time, end_time, break_start_time, break_end_time } = data;
-	// const slotStartTime = moment(slot_start_time, 'hh:mm A');
-	// const slotEndTime = moment(slot_end_time, 'hh:mm A');
 	const startTime = doctorTimeChecker(moment(start_time, 'h:mma'), 'start');
 	const endTime = doctorTimeChecker(moment(end_time, 'h:mma'), 'end');
 	const breakStartTime = breakTimeChecker(
@@ -481,22 +462,11 @@ function doctorTime(data) {
 		moment(break_end_time, 'hh:mm a'),
 		'end'
 	);
-	console.log('doctorTime-startTime', startTime);
-	console.log('doctorTime-endTime', endTime);
-	console.log('doctorTime-breakStartTime', breakStartTime);
-	console.log('doctorTime-breakEndTime', breakEndTime);
-	// const isBeakExist =
-	// 	(breakStartTime.isBetween(startTime, endTime) &&
-	// 		breakEndTime.isBetween(startTime, endTime)) ||
-	// 	break_start_time === startTime.format('hh:mm a') ||
-	// 	break_end_time === endTime.format('hh:mm a');
-	// console.log('doctorTime-isBeakExist', isBeakExist);
 	if (breakStartTime.format() > breakEndTime.format()) return false;
 
 	const isBeakExist =
 		breakStartTime.isBetween(startTime, endTime) &&
 		breakEndTime.isBetween(startTime, endTime);
-	console.log('doctorTime-isBeakExist', isBeakExist);
 	const availableSlots = [];
 	if (isBeakExist) {
 		availableSlots.push(
@@ -525,38 +495,21 @@ function doctorTime(data) {
 		}
 		const isBreakStartTimeBeforeStartTime = breakStartTime.isBefore(startTime);
 		const isBreakEndTimeAfterEndTime = breakEndTime.isAfter(endTime);
-		console.log(
-			'doctorTime-isBreakStartTimeBeforeStartTime',
-			isBreakStartTimeBeforeStartTime
-		);
-		console.log(
-			'doctorTime-isBreakEndTimeAfterEndTime',
-			isBreakEndTimeAfterEndTime
-		);
 		if (isBreakStartTimeBeforeStartTime && isBreakEndTimeAfterEndTime) {
 			return false;
-			console.log('doctorTime-both-true');
 		} else if (isBreakStartTimeBeforeStartTime) {
 			const minutes = minuteCalculator(
 				new Date(startTime.format()),
 				new Date(breakEndTime.format())
 			);
-			console.log('doctorTime-start-true', minutes);
 			i.add(minutes, 'minutes');
 		} else if (isBreakEndTimeAfterEndTime) {
 			const minutes = minuteCalculator(
 				new Date(breakStartTime.format()),
 				new Date(endTime.format())
 			);
-			console.log('doctorTime-end-true', minutes);
 			j.subtract(minutes, 'minutes');
 		}
-		// if (breakEndTime.isAfter(endTime)) {
-		// 	console.log('doctorTime-isBeakExist', isBeakExist);
-		// }
-		// if (breakEndTime.isAfter(endTime)) {
-		// 	console.log('doctorTime-isAfter');
-		// }
 		availableSlots.push(...slotGenerator({ startTime: i, endTime: j }));
 	}
 	const obj = {};
@@ -564,33 +517,6 @@ function doctorTime(data) {
 		if (availableSlots.includes(slot)) obj[slot] = '1';
 		else obj[slot] = '0';
 	});
-
-	// timeSlots.forEach((slot, index) => {
-	// 	const isAvailable = checkTime({
-	// 		...data,
-	// 		slot_start_time: slot,
-	// 		slot_end_time: timeSlots[index + 1] || timeSlots[0],
-	// 	});
-	// 	if (isAvailable) obj[slot] = '1';
-	// 	else obj[slot] = '0';
-	// });
-	// const slotsLen = timeSlots.length;
-	// for (let i = 0; i < slotsLen; i++) {
-	// 	const slot_start_time = timeSlots[i];
-	// 	const slot_end_time = timeSlots[i + 1] || timeSlots[0];
-	// 	const isAvailable = checkTime({
-	// 		...data,
-	// 		slot_start_time,
-	// 		slot_end_time,
-	// 	});
-	// 	if (isAvailable) {
-	// 		obj[slot_start_time] = '1';
-	// 		obj[slot_end_time] = '1';
-	// 	} else {
-	// 		obj[slot_start_time] = '0';
-	// 		obj[slot_end_time] = '0';
-	// 	}
-	// }
 	return obj;
 }
 
