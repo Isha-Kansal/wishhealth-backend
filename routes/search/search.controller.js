@@ -276,9 +276,9 @@ const getLocationData = async function (req) {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
             },
-            is_verified: {
-              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
-            },
+            // is_verified: {
+            //   [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
+            // },
           },
           include: [
             {
@@ -517,9 +517,9 @@ const getDoctorData = async function (req) {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
             },
-            is_verified: {
-              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
-            },
+            // is_verified: {
+            //   [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
+            // },
           },
           include: [
             {
@@ -625,9 +625,9 @@ const getLocationSpecialityData = async function (req, arr) {
                 video_consultation: {
                   [Op.in]: req.body.type === "video" ? [1] : [0, 1],
                 },
-                is_verified: {
-                  [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
-                },
+                // is_verified: {
+                //   [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
+                // },
               },
             },
           ],
@@ -647,9 +647,9 @@ const getLocationSpecialityData = async function (req, arr) {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
             },
-            is_verified: {
-              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
-            },
+            // is_verified: {
+            //   [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
+            // },
           },
         },
         {
@@ -873,9 +873,9 @@ const getSpecialityData = async function (req, arr) {
                 video_consultation: {
                   [Op.in]: req.body.type === "video" ? [1] : [0, 1],
                 },
-                is_verified: {
-                  [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
-                },
+                // is_verified: {
+                //   [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
+                // },
               },
             },
           ],
@@ -894,9 +894,9 @@ const getSpecialityData = async function (req, arr) {
             video_consultation: {
               [Op.in]: req.body.type === "video" ? [1] : [0, 1],
             },
-            is_verified: {
-              [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
-            },
+            // is_verified: {
+            //   [Op.in]: SERVER_ENVIRONMENT === "local" ? [0, 1] : [1],
+            // },
           },
         },
         {
