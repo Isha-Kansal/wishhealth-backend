@@ -108,12 +108,12 @@ module.exports = {
 				bank_acct_holder_name,
 			} = req.body;
 
-			const availabilityArr = JSON.parse(availability);
+			const clinicTimingList = availability && JSON.parse(availability) || [];
 
 			const videoConsultationTimings = [],
 				doctorClinicTimings = [],
 				clinicIds = [];
-			availabilityArr.forEach((timing) => {
+			clinicTimingList.forEach((timing) => {
 				const { break_start_time, break_end_time, clinics, day } = timing,
 					doctorClinics = [];
 				clinics.forEach((clinic) => {
