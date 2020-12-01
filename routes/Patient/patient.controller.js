@@ -303,10 +303,10 @@ module.exports = {
         console.log(patient, "patientpatientpatient");
         if (req.body.name) {
           const quickblox = commonController.createQuickBlox({
-            username: req.body.name.replace(" ", ""),
+            username: `${req.body.name.replace(" ", "")}${req.body.phone}`,
             user_id: patient.user_id,
             type: "patient",
-            qbLogin: req.body.name,
+            qbLogin: `${req.body.name.replace(" ", "")}${req.body.phone}`,
             phone: req.body.phone,
           });
         }
