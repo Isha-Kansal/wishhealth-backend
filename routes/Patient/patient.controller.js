@@ -303,10 +303,11 @@ module.exports = {
         console.log(patient, "patientpatientpatient");
         if (req.body.name) {
           const quickblox = commonController.createQuickBlox({
-            username: req.body.name,
+            username: req.body.name.replace(" ", ""),
             user_id: patient.user_id,
             type: "patient",
             qbLogin: req.body.name,
+            phone: req.body.phone,
           });
         }
         const otp = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000);
