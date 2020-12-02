@@ -108,15 +108,14 @@ module.exports = {
 				bank_acct_holder_name,
 			} = req.body;
 
-			// const clinicTimingList = (availability && JSON.parse(availability)) || [];
-			const clinicTimingList = availability || [];
+			const clinicTimingList = (availability && JSON.parse(availability)) || [];
+			// const clinicTimingList = availability || [];
 			const videoConsultationTimings = [],
 				doctorClinicTimings = [],
 				clinicIds = [];
 			clinicTimingList.forEach((timing) => {
 				const { break_start_time, break_end_time, clinics, day } = timing,
 					doctorClinics = [];
-				console.log('clinicAvailibilityTimings-clinics', clinics);
 				console.log('clinicAvailibilityTimings-timing', timing);
 				clinics.forEach((clinic) => {
 					const { start_time, end_time, clinic_id } = clinic;
@@ -174,51 +173,51 @@ module.exports = {
 				doctorClinicTimings
 			);
 			console.log('clinicAvailibilityTimings-clinicIds', clinicIds);
-			// Promise.all([
-			// 	VideoConsultation.destroy({ where: { doctor_id: user_id } }),
-			// 	VideoConsultation.bulkCreate(videoConsultationTimings),
-			// 	DoctorClinicTimings.destroy({
-			// 		where: {
-			// 			[Op.and]: [
-			// 				{ clinic_id: { [Op.in]: clinicIds } },
-			// 				{ doctor_id: user_id },
-			// 			],
-			// 		},
-			// 	}),
-			// 	DoctorClinicTimings.bulkCreate(doctorClinicTimings),
-			// 	DoctorDetails.update(
-			// 		{
-			// 			doc_fees: parseInt(fees),
-			// 			doc_advance_fees: parseInt(advance_fees),
-			// 		},
-			// 		{ where: { user_id } }
-			// 	),
-			// 	account_number &&
-			// 		ifsc &&
-			// 		bank_acct_holder_name &&
-			// 		DoctorBankDetails.update(
-			// 			{ account_number, ifsc, bank_acct_holder_name },
-			// 			{ where: { doctor_id: user_id } }
-			// 		),
-			// ])
-			// 	.then((result) => {
-			// 		if (result) {
-			// 			return res.status(200).json({
-			// 				status: 'success',
-			// 				message: 'Timings added successfully.',
-			// 			});
-			// 		} else {
-			// 			return res.status(500).json({
-			// 				message: 'Something Went Wrong',
-			// 			});
-			// 		}
-			// 	})
-			// 	.catch((err) => {
-			// 		console.log('clinicAvailibilityTimings-api-catch-err', err);
-			// 		return res.status(500).json({
-			// 			message: 'Something Went Wrong',
-			// 		});
-			// 	});
+			Promise.all([
+				VideoConsultation.destroy({ where: { doctor_id: user_id } }),
+				VideoConsultation.bulkCreate(videoConsultationTimings),
+				DoctorClinicTimings.destroy({
+					where: {
+						[Op.and]: [
+							{ clinic_id: { [Op.in]: clinicIds } },
+							{ doctor_id: user_id },
+						],
+					},
+				}),
+				DoctorClinicTimings.bulkCreate(doctorClinicTimings),
+				DoctorDetails.update(
+					{
+						doc_fees: parseInt(fees),
+						doc_advance_fees: parseInt(advance_fees),
+					},
+					{ where: { user_id } }
+				),
+				account_number &&
+					ifsc &&
+					bank_acct_holder_name &&
+					DoctorBankDetails.update(
+						{ account_number, ifsc, bank_acct_holder_name },
+						{ where: { doctor_id: user_id } }
+					),
+			])
+				.then((result) => {
+					if (result) {
+						return res.status(200).json({
+							status: 'success',
+							message: 'Timings added successfully.',
+						});
+					} else {
+						return res.status(500).json({
+							message: 'Something Went Wrong',
+						});
+					}
+				})
+				.catch((err) => {
+					console.log('clinicAvailibilityTimings-api-catch-err', err);
+					return res.status(500).json({
+						message: 'Something Went Wrong',
+					});
+				});
 			return res.status(200).json({
 				status: 'success',
 				message: 'Timings added successfully.',
@@ -363,7 +362,8 @@ function slotGenerator(data) {
 }
 
 function doctorTime(data) {
-	const { start_time, end_time, break_start_time, break_end_time } = data;
+	const { start_time, end_time } = data;
+	let { break_start_time, break_end_time } = data;
 	const startTime = doctorTimeChecker(moment(start_time, 'h:mma'), 'start');
 	const endTime = doctorTimeChecker(moment(end_time, 'h:mma'), 'end');
 	const breakStartTime = breakTimeChecker(
@@ -374,16 +374,13 @@ function doctorTime(data) {
 		moment(break_end_time, 'hh:mm a'),
 		'end'
 	);
-	console.log('startTime', startTime);
-	console.log('endTime', endTime);
-	console.log('breakStartTime', breakStartTime);
-	console.log('breakEndTime', breakEndTime);
+	break_start_time = breakStartTime.format('hh:mm a');
+	break_end_time = breakEndTime.format('hh:mm a');
 	if (breakStartTime.format() > breakEndTime.format()) return false;
 
 	const isBeakExist =
 		breakStartTime.isBetween(startTime, endTime) &&
 		breakEndTime.isBetween(startTime, endTime);
-	console.log('isBeakExist', isBeakExist);
 	const availableSlots = [];
 	if (isBeakExist) {
 		availableSlots.push(
@@ -393,9 +390,7 @@ function doctorTime(data) {
 		availableSlots.push(...slotGenerator({ startTime: breakEndTime, endTime }));
 	} else {
 		const breakAtStart = break_start_time === startTime.format('hh:mm a');
-		console.log('breakAtStart', breakAtStart, break_start_time);
 		const breakAtEnd = break_end_time === endTime.format('hh:mm a');
-		console.log('breakAtEnd', breakAtEnd, break_end_time);
 		const i = moment(startTime);
 		const j = moment(endTime);
 		if (breakAtStart) {
