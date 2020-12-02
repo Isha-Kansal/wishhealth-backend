@@ -1423,7 +1423,7 @@ module.exports = {
                 videobookings,
                 video_timings,
               }
-              ? own.lenth > 0 || join.length > 0
+              ? own.length > 0 || join.length > 0
               : {
                   clinics: {
                     own,
