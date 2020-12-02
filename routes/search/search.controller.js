@@ -1251,12 +1251,67 @@ module.exports = {
         ],
         order: [["clinic_id", "ASC"]],
       });
+      const joinClinicData = await DoctorClinics.findAll({
+        where: {
+          user_id: req.params.user_id,
+        },
+        include: [
+          {
+            model: Clinics,
+            required: true,
+
+            include: [
+              {
+                model: Cities,
+                required: false,
+                where: {
+                  state_id: {
+                    [Op.col]: "wh_clinic.state_id",
+                  },
+                },
+              },
+              { model: ClinicImages, required: false },
+              {
+                model: ClinicServices,
+                required: false,
+                include: [{ model: Services, required: true }],
+              },
+              {
+                model: Bookings,
+                required: false,
+                where: {
+                  doctor_id: req.params.user_id,
+                  date2: {
+                    [Op.gte]: new Date(new Date().setHours(0, 0, 0)),
+                  },
+                },
+              },
+              { model: ClinicTimings, required: false },
+            ],
+          },
+        ],
+        order: [["clinic_id", "ASC"]],
+      });
       const ownClinicData = await Clinics.findAll({
         where: {
           admin_id: req.params.user_id,
         },
         include: [
+          {
+            model: Cities,
+            required: false,
+            where: {
+              state_id: {
+                [Op.col]: "wh_clinic.state_id",
+              },
+            },
+          },
           { model: ClinicImages, required: false },
+          {
+            model: ClinicServices,
+            required: false,
+            include: [{ model: Services, required: true }],
+          },
           {
             model: Bookings,
             required: false,
@@ -1274,6 +1329,7 @@ module.exports = {
 
       let clinics = JSON.parse(JSON.stringify(doctorClinicData));
       let own = JSON.parse(JSON.stringify(ownClinicData));
+      let join = JSON.parse(JSON.stringify(joinClinicData));
       let data = [];
       let obj = {};
       const videobookings = await Bookings.findAll({
@@ -1360,9 +1416,20 @@ module.exports = {
             ? data
             : doctorDetails && doctorDetails.video_consultation === 1
             ? {
+                clinics: {
+                  own,
+                  join,
+                },
                 videobookings,
                 video_timings,
               }
+              ? own.lenth > 0 || join.length > 0
+              : {
+                  clinics: {
+                    own,
+                    join,
+                  },
+                }
             : [],
       });
     } catch (err) {
