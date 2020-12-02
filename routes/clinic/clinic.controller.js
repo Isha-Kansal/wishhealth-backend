@@ -218,10 +218,10 @@ module.exports = {
 						message: 'Something Went Wrong',
 					});
 				});
-			return res.status(200).json({
-				status: 'success',
-				message: 'Timings added successfully.',
-			});
+			// return res.status(200).json({
+			// 	status: 'success',
+			// 	message: 'Timings added successfully.',
+			// });
 		} catch (err) {
 			console.log('clinicAvailibilityTimings-try-catch-err', err);
 			return res.status(500).json({
