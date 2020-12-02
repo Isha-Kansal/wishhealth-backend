@@ -1423,13 +1423,13 @@ module.exports = {
                 videobookings,
                 video_timings,
               }
-              ? own.lenth > 0 || join.length > 0
-              : {
-                  clinics: {
-                    own,
-                    join,
-                  },
-                }
+            : own.length > 0 || join.length > 0
+            ? {
+                clinics: {
+                  own,
+                  join,
+                },
+              }
             : [],
       });
     } catch (err) {
